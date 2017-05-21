@@ -39,9 +39,9 @@ public class Extract {
 	/**
 	 * Constructeur, ne prend pas d'arguement, initialise first et translator.
 	 */
-	public Extract(final String inputFile, final String prefix, final String metadata, final String separator, final boolean candidates) {
+	public Extract(final String inputFile, final String prefix, final String metadata, final String separator, final boolean candidates, String file) {
 		this.first = true;
-		this.translator = new StringTranslate(prefix, metadata, separator, candidates);
+		this.translator = new StringTranslate(prefix, metadata, separator, candidates, file);
 		this.inputFile = inputFile;
 		this.prefix = prefix;
 	}

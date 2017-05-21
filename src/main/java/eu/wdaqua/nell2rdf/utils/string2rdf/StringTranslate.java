@@ -13,6 +13,9 @@ import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.log4j.Logger;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -32,6 +35,7 @@ public class StringTranslate {
 
     private final String		metadata;
     private final boolean       candidates;
+    private OutputStream outputStream = null;
 
     private Map<String,Integer> numberSequences = new HashMap<>();
 
@@ -80,7 +84,7 @@ public class StringTranslate {
 	/**
 	 * Constructeur, initialise le model et les prefixes.
 	 */
-	public StringTranslate(final String prefix, final String metadata, String separator, boolean candidates) {
+	public StringTranslate(final String prefix, final String metadata, String separator, boolean candidates, String file) {
 		this.model = ModelFactory.createDefaultModel();
 		this.base = prefix;
 		this.metadata = metadata;
@@ -103,7 +107,14 @@ public class StringTranslate {
 		this.fail = new LinkedList<>();
 		this.good = new LinkedList<>();
 		this.statementNumber = 0;
-	}
+
+		// workaround to reduce memory consumption
+        try {
+            outputStream = new FileOutputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
 	/**
 	 * Prend un tableau de chaines de caracteres et les traduits en model Jena.
@@ -133,6 +144,10 @@ public class StringTranslate {
 				stringToRDFWithSingletoProperty(nellData);
 				break;
 		}
+
+		//workaround to reduce memory consumption
+		this.model.write(this.outputStream,"N-TRIPLE");
+		this.model.removeAll();
 	}
 
 	private void stringToRDFWithSingletoProperty(final String[] nellData) {

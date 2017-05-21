@@ -25,9 +25,9 @@ public class ExtractNell {
 	/**
 	 * Constructeur, ne prend pas d'arguement, initialise first et translator.
 	 */
-	public ExtractNell(final String prefix, final String metadata, String separator, boolean candidates) {
+	public ExtractNell(final String prefix, final String metadata, String separator, boolean candidates, String file) {
 		this.first = true;
-		this.translator = new StringTranslate(prefix, metadata, separator, candidates);
+		this.translator = new StringTranslate(prefix, metadata, separator, candidates, file);
 	}
 
 	/**

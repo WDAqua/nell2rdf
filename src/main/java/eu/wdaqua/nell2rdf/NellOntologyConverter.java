@@ -224,12 +224,13 @@ public class NellOntologyConverter {
 				break;
 		}
 
-		final ExtractNell extract = new ExtractNell(prefix, this.metadata, separator, candidates);
+		// workaround to use less memory
+		final ExtractNell extract = new ExtractNell(prefix, this.metadata, separator, candidates, rdfInstanceFile);
 		WriteNell write;
 		extract.extraction(nellInstanceFile);
-		System.out.println("Model extraction Done.");
-		write = new WriteNell(extract.getTranslator().getModel(),rdf,turtle,n3, rdfInstanceFile, this.metadata);
-		write.write();
+		//System.out.println("Model extraction Done.");
+//		write = new WriteNell(extract.getTranslator().getModel(),rdf,turtle,n3, rdfInstanceFile, this.metadata);
+//		write.write();
 		System.out.println("Serialisation complete to "+rdfInstanceFile);
 		
 //		Extract extractor = new Extract(nellInstanceFile, prefix);
