@@ -38,7 +38,7 @@ public class Utility {
 
     //private static final String REGEX_TOKEN = "(?<=(<token=))(([A-Za-z_0-9]*)(,){0,1}([A-Za-z_0-9]*))";
     //private static final String REGEX_TOKEN = "(?<=(<token=))(.?)*(?=>)"; Très recursive! Faire attention au java!
-    private static final String REGEX_TOKEN = "((?<=(<token=))(([A-Za-z_0-9\\/\\:\\.%]*)(,){0,1})([A-Za-z_0-9\\/\\:\\.%]*))";
+    private static final String REGEX_TOKEN = "((?<=(<token=))(([A-Za-z_0-9'!\"#$%&\\'()*+,-\\.\\/@:;\\[\\]\\\\]*)(,){0,1})([A-Za-z_0-9'!\"#$%&\\'()*+,-\\.\\/@:;\\]\\[\\\\]*))";
     private static final String REGEX_TOKEN_LATLONG = "(?<=(<token=))((([a-z_0-9\\.\\-]*)(,)([a-z_0-9\\.\\-]*)(,)[a-z_0-9\\.\\-]*))";
     private static final String REGEX_LATLONG_VALUES = "(?<=(>-))(.*)";
     private static final String REGEX_LATLONGTT_GEONAMES = "((?<=(>-)|(-geonames:))(.*))";
@@ -77,8 +77,12 @@ public class Utility {
         Matcher matcher = pattern.matcher(str);
 
         String temp = "";
-        if (matcher.find()) {
-            temp = matcher.group();
+        try {
+            if (matcher.find()) {
+                temp = matcher.group();
+            }
+        } catch (Exception e) {
+            System.out.println("sentence: " + str + "\nREGEX: " + regex + "\nLine: " + LineInstanceJOIN.completeLine);
         }
         return temp.trim();
     }
