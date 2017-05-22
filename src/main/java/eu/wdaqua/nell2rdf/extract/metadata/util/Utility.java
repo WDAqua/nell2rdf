@@ -36,7 +36,8 @@ public class Utility {
     public static final String REGEX_COMPONENTS_NAME = "([A-Z]+)(\\([a-z_]*),([a-z_]*)\\)";
     //private static final String REGEX_ITERATION = "(Iter:)[0-9]+"; //It's not getting a list, so we are not using this
 
-    private static final String REGEX_TOKEN = "(?<=(<token=))(([A-Za-z_0-9]*)(,){0,1}([A-Za-z_0-9]*))";
+    //private static final String REGEX_TOKEN = "(?<=(<token=))(([A-Za-z_0-9]*)(,){0,1}([A-Za-z_0-9]*))";
+    private static final String REGEX_TOKEN = "(?<=(<token=))(.?)*(?=>)";
     private static final String REGEX_TOKEN_LATLONG = "(?<=(<token=))((([a-z_0-9\\.\\-]*)(,)([a-z_0-9\\.\\-]*)(,)[a-z_0-9\\.\\-]*))";
     private static final String REGEX_LATLONG_VALUES = "(?<=(>-))(.*)";
     private static final String REGEX_LATLONGTT_GEONAMES = "((?<=(>-)|(-geonames:))(.*))";
@@ -44,7 +45,6 @@ public class Utility {
     private static final String REGEX_ONTOLOGYMODIFIER = "(?<=((\\d{2}\\:\\d{2}\\:\\d{2}))[-<])";
     private static final String REGEX_ITERATION_COMPONENT = "(?<=(Iter:))([0-9])*(?=-)";
 
-    //private static final String REGEX_TOKEN = "(?<=(<token=))(([a-z_0-9]+),([a-z_0-9]+))";
     private static final String REGEX_FROM = "(From:)+([^ ])*";
     //get the column SOURCE
     private static final String REGEX_SOURCE = "(MBL-Iter:)(.+?(?=(\\[)))";
@@ -61,7 +61,7 @@ public class Utility {
     private static final String REGEX_ALIAS_MATCHER = "(?<=(\\[))(.)*(?=(\\]))";
     private static final String REGEX_ALIAS_MATCHER_FREEBASE = "(?<=(>-))(.)*";
 
-    public static final String REGEX_CML_SOURCE = "(([a-zA-Z\\, ]+( \\_\\t))[0-9]+)";
+    public static final String REGEX_CML_SOURCE = "(\\_)(([a-zA-Z\\, ]+(\\t))[0-9]+)|(([a-zA-Z\\, ]+(\\_\\t))[0-9]+)";
     public static final String REGEX_CPL_SOURCE = "(arg[12] [a-zA-Z\\, ]+arg[12])\\t([0-9]+)";
     public static final String REGEX_SEAL_SOURCE = "(?<=(-using-KB))([^\\,])*";
     public static final String REGEX_OE_SOURCE = "(?<=(>-))(.)*";
