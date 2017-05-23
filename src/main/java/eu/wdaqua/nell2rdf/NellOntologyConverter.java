@@ -234,7 +234,7 @@ public class NellOntologyConverter {
                 && format != TURTLE
                 && format != TTL
                 && format != N3) {
-            format = null;
+            format = NTRIPLES;
         }
 
 		// workaround to use less memory
