@@ -91,13 +91,18 @@ public abstract class Header {
     }
 
     public void setToken(String str) {
+        // str = "SpreadsheetEdits-Iter:924-2015/05/13-13:58:04-<token=angelina_county_airport,//en.wikipedia.org/wiki/angelina%20county%20airport>-bkisiel: \"angelina_county_airport haswikipediaurl //en.wikipedia.org/wiki/angelina%20county%20airport\", Action=(+haswikipediaurl) (from NELL.08m.924.SSFeedback.csv)";
         String temp = Utility.getToken(str);
         if (!temp.isEmpty()) {
             String tempSlip[] = temp.split(",");
-            try {
-                mapToken.put("token", new String[]{tempSlip[0], tempSlip[1]});
-            } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println("Pera " + e + "\n" + str);
+            if (tempSlip.length == 2) {
+                try {
+                    mapToken.put("token", new String[]{tempSlip[0], tempSlip[1]});
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    System.out.println("Pera " + e + "\n" + str + "\nCompleteLine: " + LineInstanceJOIN.completeLine);
+                }
+            } else {
+                mapToken.put("token", new String[]{tempSlip[0], ""});
             }
         } else {
             mapToken.put("token", new String[]{"", ""});
