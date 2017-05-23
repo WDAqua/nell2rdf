@@ -56,6 +56,8 @@ public class StringTranslate {
 	private String ontologyBase;
 	private String provenanceOntologyBase;
 	private String provenanceResourceBase;
+
+	private String lang;
 	
 	/**
 	 * URI pour le prefixe SKOS.
@@ -84,11 +86,12 @@ public class StringTranslate {
 	/**
 	 * Constructeur, initialise le model et les prefixes.
 	 */
-	public StringTranslate(final String prefix, final String metadata, String separator, boolean candidates, String file) {
+	public StringTranslate(final String prefix, final String metadata, String separator, String lang, boolean candidates, String file) {
 		this.model = ModelFactory.createDefaultModel();
 		this.base = prefix;
 		this.metadata = metadata;
 		this.candidates = candidates;
+		this.lang = lang;
 		this.resourceBase = this.base + ConstantList.NAMESPACE_RESOURCE + separator;
 		this.ontologyBase = this.base + ConstantList.NAMESPACE_ONTOLOGY + separator;
 		this.provenanceOntologyBase = this.base + ConstantList.NAMESPACE_PROVENANCE_ONTOLOGY + separator;
@@ -143,10 +146,14 @@ public class StringTranslate {
                 log.debug("Converting string to RDF using singleton property to attach metadata");
 				stringToRDFWithSingletoProperty(nellData);
 				break;
+            default:
+                log.debug("Metadata model not recognized. Converting string to RDF without metadata");
+                stringToRDFWithoutMetadata(nellData);
+                break;
 		}
 
 		//workaround to reduce memory consumption
-		this.model.write(this.outputStream,"N-TRIPLE");
+		this.model.write(this.outputStream, this.lang);
 		this.model.removeAll();
 	}
 

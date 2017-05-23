@@ -20,15 +20,18 @@ import eu.wdaqua.nell2rdf.utils.NellMapper;
  */
 public class NellOntologyConverter {
 
-	public static final String	N3					= "n3";
-	public static final String	TURTLE				= "turtle";
-	public static final String	RDF					= "rdf";
+    public static final String  XML                 = "RDF/XML";
+    public static final String  XML_ABBREV          = "RDF/XML-ABBREV";
+    public static final String  NTRIPLES            = "N-TRIPLE";
+	public static final String	TURTLE				= "TURTLE";
+	public static final String  TTL                 = "TTL";
+    public static final String	N3					= "N3";
 
-	public static final String	NONE				= "none";
-	public static final String	REIFICATION			= "reification";
-	public static final String	N_ARY				= "n-ary";
-	public static final String	QUADS				= "quads";
-	public static final String	SINGLETON_PROPERTY	= "singleton-property";
+	public static final String	NONE				= "NONE";
+	public static final String	REIFICATION			= "REIFICATION";
+	public static final String	N_ARY				= "N-ARY";
+	public static final String	QUADS				= "QUADS";
+	public static final String	SINGLETON_PROPERTY	= "SINGLETON-PROPERTY";
 
 	public static Logger		log					= Logger.getLogger(NellOntologyConverter.class);
 
@@ -38,14 +41,14 @@ public class NellOntologyConverter {
 	private String ontologyFile;
 
 	/**
-	 * Prefix to use when creating new triples in Nell RDF model.
+	 * Prefix to use when creating new triples in Nell XML model.
 	 */
 	private String prefix;
 
 	/**
 	 * Output serialization format.
 	 */
-	private final String		format;
+	private String		format;
 
 	/**
 	 * Model to represent meta-data.
@@ -100,7 +103,7 @@ public class NellOntologyConverter {
 		StringBuffer sb = new StringBuffer();
 		sb.append("--------------------------------------------------------\n" + "This is Nell to RDF converter program.\n\n" + "-----------------------------------------------------------\n"
 				+ "You should call this program with the following arguments :\n");
-		sb.append("1- Desired serialization format: \"n3\", \"turtle\", \"rdf\"\n");
+		sb.append("1- Desired serialization format: \"RDF/XML\", \"RDF/XML-ABBREV\", \"N-TRIPLE\", \"TURTLE\", \"TTL\", \"N3\" \n");
 		sb.append("2- Desired model to represent meta-data: \"none\", \"reification\", \"n-ary\", \"quads\", \"singleton-property\"\n");
 		sb.append("3- Desired prefix for the ontology to create. E.g. \"http://ste-lod-crew.fr/nell/\"\n");
         sb.append("4- Desired separator after the namespace (i.e., # for hash-style or / for slash-style)\"\n");
@@ -148,8 +151,8 @@ public class NellOntologyConverter {
 			System.exit(0);
 		}
 
-		final String format = args[0];
-		final String metadata = args[1];
+		final String format = args[0].toUpperCase();
+		final String metadata = args[1].toUpperCase();
 		final String prefix = args[2];
 		final String separator = args[3];
 		final String ontologyFile = args[4];
@@ -208,24 +211,34 @@ public class NellOntologyConverter {
      */
 	private void translateNellInstancesToRDF(final String nellInstanceFile, final String rdfInstanceFile, final String prefix, String separator, boolean candidates) {
 
-		boolean n3 = false;
-		boolean turtle = false;
-		boolean rdf = false;
+//		boolean n3 = false;
+//		boolean turtle = false;
+//		boolean rdf = false;
 
-		switch (this.format) {
-			case RDF:
-				rdf = true;
-				break;
-			case TURTLE:
-				turtle = true;
-				break;
-			case N3:
-				n3 = true;
-				break;
-		}
+//		switch (this.format) {
+//			case XML:
+//				rdf = true;
+//                break;
+//			case TURTLE:
+//				turtle = true;
+//				break;
+//			case N3:
+//				n3 = true;
+//				break;
+//            case NT:case NTRIPLES:
+//		}
+
+        if (format != XML
+                && format != XML_ABBREV
+                && format != NTRIPLES
+                && format != TURTLE
+                && format != TTL
+                && format != N3) {
+            format = null;
+        }
 
 		// workaround to use less memory
-		final ExtractNell extract = new ExtractNell(prefix, this.metadata, separator, candidates, rdfInstanceFile);
+		final ExtractNell extract = new ExtractNell(prefix, this.metadata, separator, format, candidates, rdfInstanceFile);
 		WriteNell write;
 		extract.extraction(nellInstanceFile);
 		//System.out.println("Model extraction Done.");
