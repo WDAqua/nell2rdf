@@ -228,14 +228,16 @@ public class NellOntologyConverter {
 //            case NT:case NTRIPLES:
 //		}
 
-        if (format != XML
-                && format != XML_ABBREV
-                && format != NTRIPLES
-                && format != TURTLE
-                && format != TTL
-                && format != N3) {
+        if (!format.equals(XML)
+                && !format.equals(XML_ABBREV)
+                && !format.equals(NTRIPLES)
+                && !format.equals(TURTLE)
+                && !format.equals(TTL)
+                && !format.equals(N3)) {
             format = NTRIPLES;
         }
+
+        log.info("Exporting triples using " + format);
 
 		// workaround to use less memory
 		final ExtractNell extract = new ExtractNell(prefix, this.metadata, separator, format, candidates, rdfInstanceFile);
