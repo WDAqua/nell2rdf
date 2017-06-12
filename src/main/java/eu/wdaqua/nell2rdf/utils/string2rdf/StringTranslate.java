@@ -177,7 +177,19 @@ public class StringTranslate {
 	}
 
 	private void stringToRDFWithNAry(final String[] nellData) {
-		// TODO Auto-generated method stub
+
+	    // Create normal triple without metadata
+        final Statement triple = stringToRDFWithoutMetadata(nellData);
+
+        // Create N-Ary triples
+        Property predicate1 = this.model.getProperty(triple.getPredicate().toString() + "_statement");
+        Property predicate2 = this.model.getProperty(triple.getPredicate().toString() + "_value");
+        RDFNode statement = createSequentialProvenanceResource(ConstantList.RESOURCE_BELIEF, ConstantList.CLASS_BELIEF);
+        triple.getSubject().addProperty(predicate1,statement);
+        statement.asResource().addProperty(predicate2,triple.getObject());
+
+        // Attach metadata to reification statement
+        attachMetadata(statement.asResource(), nellData);
 
 	}
 
