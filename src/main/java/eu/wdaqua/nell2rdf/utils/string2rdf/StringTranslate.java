@@ -158,7 +158,15 @@ public class StringTranslate {
 	}
 
 	private void stringToRDFWithSingletoProperty(final String[] nellData) {
-		// TODO Auto-generated method stub
+
+        // Create normal triple without metadata
+        final Statement triple = stringToRDFWithoutMetadata(nellData);
+
+        // Create the Singleton Property
+        Property singletonProperty = createSingletonPropertyOf(triple.getPredicate());
+
+        // Attach metadata to reification statement
+        attachMetadata(singletonProperty, nellData);
 
 	}
 
@@ -454,6 +462,12 @@ public class StringTranslate {
 		}
 		return resource;
 	}
+
+	private Property createSingletonPropertyOf(final Property generalProperty) {
+	    final Property singletonProperty = model.getProperty(createSequentialProvenanceResourceUri(generalProperty.getLocalName()));
+        singletonProperty.addProperty(RDF.type, model.getResource("http://www.w3.org/2000/01/rdf-schema#rdf:singletonPropertyOf"));
+	    return singletonProperty;
+    }
 
 //	private Property getOrCreateProvenanceProperty(String string) {
 //	    Property property;
