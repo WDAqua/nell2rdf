@@ -26,6 +26,7 @@ public class NellOntologyConverter {
 	public static final String	TURTLE				= "TURTLE";
 	public static final String  TTL                 = "TTL";
     public static final String	N3					= "N3";
+    public static final String  NDFLUENTS           = "NDFLUENTS";
 
 	public static final String	NONE				= "NONE";
 	public static final String	REIFICATION			= "REIFICATION";

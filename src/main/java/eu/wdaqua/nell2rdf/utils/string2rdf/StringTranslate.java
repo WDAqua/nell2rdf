@@ -92,10 +92,10 @@ public class StringTranslate {
 		this.metadata = metadata;
 		this.candidates = candidates;
 		this.lang = lang;
-		this.resourceBase = this.base + ConstantList.NAMESPACE_RESOURCE + separator;
-		this.ontologyBase = this.base + ConstantList.NAMESPACE_ONTOLOGY + separator;
-		this.provenanceOntologyBase = this.base + ConstantList.NAMESPACE_PROVENANCE_ONTOLOGY + separator;
-		this.provenanceResourceBase = this.base + ConstantList.NAMESPACE_PROVENANCE_RESOURCE + separator;
+		this.resourceBase = this.base + ConstantList.NAMESPACE_END_RESOURCE + separator;
+		this.ontologyBase = this.base + ConstantList.NAMESPACE_END_ONTOLOGY + separator;
+		this.provenanceOntologyBase = this.base + ConstantList.NAMESPACE_END_PROVENANCE_ONTOLOGY + separator;
+		this.provenanceResourceBase = this.base + ConstantList.NAMESPACE_END_PROVENANCE_RESOURCE + separator;
 		this.skos = "http://www.w3.org/2004/02/skos/core#";
 		this.rdfs = "http://www.w3.org/2000/01/rdf-schema#";
 		this.xsd = "http://www.w3.org/2001/XMLSchema#";
@@ -146,6 +146,10 @@ public class StringTranslate {
                 log.debug("Converting string to RDF using singleton property to attach metadata");
 				stringToRDFWithSingletoProperty(nellData);
 				break;
+            case NellOntologyConverter.NDFLUENTS:
+                log.debug("Converting string to RDF using NdFluents to attach metadata");
+                stringToRDFWithNdFluents(nellData);
+                break;
             default:
                 log.debug("Metadata model not recognized. Converting string to RDF without metadata");
                 stringToRDFWithoutMetadata(nellData);
@@ -156,6 +160,32 @@ public class StringTranslate {
 		this.model.write(this.outputStream, this.lang);
 		this.model.removeAll();
 	}
+
+	private void stringToRDFWithNdFluents(final String[] nellData) {
+        // Create normal triple without metadata
+        final Statement triple = stringToRDFWithoutMetadata(nellData);
+
+        // Create NdFluents triples
+        Property property;
+        Resource resource;
+        property = model.getProperty(ConstantList.PREFIX_NDFLUENTS, ConstantList.PROPERTY_PROVENANCE_PART_OF);
+        resource =  createSequentialProvenanceResource(triple.getSubject().getLocalName(),ConstantList.NAMESPACE_NDFLUENTS + ConstantList.CLASS_PROVENANCE_PART);
+        resource.addProperty(property, triple.getSubject());
+        if (triple.getObject().isResource()) {
+            resource = createSequentialProvenanceResource(triple.getObject().asResource().getLocalName(), ConstantList.NAMESPACE_NDFLUENTS + ConstantList.CLASS_PROVENANCE_PART);
+            resource.addProperty(property, triple.getObject());
+        }
+
+        property = model.getProperty(ConstantList.PREFIX_NDFLUENTS, ConstantList.PROPERTY_PROVENANCE_EXTENT);
+        resource = createSequentialProvenanceResource(ConstantList.RESOURCE_BELIEF, ConstantList.CLASS_BELIEF);
+        triple.getSubject().addProperty(property, resource);
+        if (triple.getObject().isResource()) {
+            triple.getObject().asResource().addProperty(property, resource);
+        }
+
+        // Attach metadata to reification statement
+        attachMetadata(resource, nellData);
+    }
 
 	private void stringToRDFWithSingletoProperty(final String[] nellData) {
 
@@ -240,6 +270,10 @@ public class StringTranslate {
         this.model.createResource(this.provenanceOntologyBase + ConstantList.CLASS_TOKEN_RELATION);
         this.model.createResource(this.provenanceOntologyBase + ConstantList.CLASS_TOKEN_GENERALIZATION);
         this.model.createResource(this.provenanceOntologyBase + ConstantList.CLASS_TOKEN_GEO);
+
+        if (this.metadata == NellOntologyConverter.NDFLUENTS) {
+            this.model.setNsPrefix(ConstantList.PREFIX_NDFLUENTS, ConstantList.NAMESPACE_NDFLUENTS);
+        }
     }
 
     private void createComponents() {

@@ -51,11 +51,12 @@ public abstract class ConstantList {
     public static final String  PREFIX_ONTOLOGY = "nell.onto";
     public static final String  PREFIX_PROVENANCE_RESOURCE = "nell.prov";
     public static final String  PREFIX_PROVENANCE_ONTOLOGY = "nell.prov.onto";
+    public static final String  PREFIX_NDFLUENTS = "nd";
 
-    public static final String NAMESPACE_RESOURCE = "/resource";
-    public static final String NAMESPACE_ONTOLOGY = "/ontology";
-    public static final String NAMESPACE_PROVENANCE_ONTOLOGY = "/provenance/ontology";
-    public static final String NAMESPACE_PROVENANCE_RESOURCE = "/provenance/resource";
+    public static final String NAMESPACE_END_RESOURCE = "/resource";
+    public static final String NAMESPACE_END_ONTOLOGY = "/ontology";
+    public static final String NAMESPACE_END_PROVENANCE_ONTOLOGY = "/provenance/ontology";
+    public static final String NAMESPACE_END_PROVENANCE_RESOURCE = "/provenance/resource";
 
     public static final String PROPERTY_ASSOCIATED_WITH = "associatedWith";
     public static final String PROPERTY_GENERATED_BY = "generatedBy";
@@ -90,4 +91,11 @@ public abstract class ConstantList {
 
     public static final String SUFFIX_PROMOTED = "Promoted";
     public static final String SUFFIX_CANDIDATE = "Candidate";
+
+    public static final String NAMESPACE_NDFLUENTS = "http://www.emse.fr/~zimmermann/Ontologies/ndfluents.ttl#";
+    public static final String CLASS_PROVENANCE_PART = "ContextualPart";
+    public static final String PROPERTY_PROVENANCE_EXTENT = "provenanceExtent";
+    public static final String PROPERTY_PROVENANCE_PART_OF = "provenancePartOf";
+    public static final String PROPERTY_PROVENANCE = "provenanceProperty";
+    public static final String PROPERTY_PROVENANCE_DATATYPE = "provenanceDatatypeProperty";
 }
