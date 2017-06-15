@@ -160,7 +160,8 @@ public class NellOntologyConverter {
 		final String outputFile = args[5];
 		final String nellFile = args[6];
 		final String outputNellToRDF = args[7];
-		final String candidates = args.length == 9 ? args[8] : "false";
+		final String candidates = args[8];
+        final String deleteOriginalTriples = args.length == 10 ? args[9] : "true";
 
 		// create an in-memory model of the NELL csv file.
 		log.info("Build an in-memory model of Nell ontology as a CSV file...");
@@ -188,7 +189,7 @@ public class NellOntologyConverter {
 		log.info("Done, Jena model dumped to " + outputFile);
 
 		log.info("Start converting Nell instances into Jena Model");
-		converter.translateNellInstancesToRDF(nellFile, outputNellToRDF, prefix, separator, Boolean.parseBoolean(candidates));
+		converter.translateNellInstancesToRDF(nellFile, outputNellToRDF, prefix, separator, Boolean.parseBoolean(candidates), Boolean.parseBoolean(deleteOriginalTriples));
 		
 	}
 
@@ -210,7 +211,7 @@ public class NellOntologyConverter {
      * @param prefix Prefix to use when creating new IRIs.
      * @param separator
      */
-	private void translateNellInstancesToRDF(final String nellInstanceFile, final String rdfInstanceFile, final String prefix, String separator, boolean candidates) {
+	private void translateNellInstancesToRDF(final String nellInstanceFile, final String rdfInstanceFile, final String prefix, String separator, boolean candidates, boolean deleteOriginalTriples) {
 
 //		boolean n3 = false;
 //		boolean turtle = false;
@@ -241,7 +242,7 @@ public class NellOntologyConverter {
         log.info("Exporting triples using " + format);
 
 		// workaround to use less memory
-		final ExtractNell extract = new ExtractNell(prefix, this.metadata, separator, format, candidates, rdfInstanceFile);
+		final ExtractNell extract = new ExtractNell(prefix, this.metadata, separator, format, candidates, rdfInstanceFile, deleteOriginalTriples);
 		WriteNell write;
 		extract.extraction(nellInstanceFile);
 		//System.out.println("Model extraction Done.");

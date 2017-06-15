@@ -35,6 +35,7 @@ public class StringTranslate {
 
     private final String		metadata;
     private final boolean       candidates;
+    private final boolean deleteOriginalTriples;
     private OutputStream outputStream = null;
 
     private Map<String,Integer> numberSequences = new HashMap<>();
@@ -86,10 +87,11 @@ public class StringTranslate {
 	/**
 	 * Constructeur, initialise le model et les prefixes.
 	 */
-	public StringTranslate(final String prefix, final String metadata, String separator, String lang, boolean candidates, String file) {
+	public StringTranslate(final String prefix, final String metadata, String separator, String lang, boolean candidates, String file, boolean deleteOriginalTriples) {
 		this.model = ModelFactory.createDefaultModel();
 		this.base = prefix;
 		this.metadata = metadata;
+		this.deleteOriginalTriples = deleteOriginalTriples;
 		this.candidates = candidates;
 		this.lang = lang;
 		this.resourceBase = this.base + ConstantList.NAMESPACE_END_RESOURCE + separator;
@@ -126,26 +128,26 @@ public class StringTranslate {
 
 	public void stringToRDF(final String[] nellData) {
 		switch (this.metadata) {
-			case NellOntologyConverter.NONE:
-			    log.debug("Converting string to RDF without metadata");
-				stringToRDFWithoutMetadata(nellData);
-				break;
-			case NellOntologyConverter.REIFICATION:
+            case NellOntologyConverter.NONE:
+                log.debug("Converting string to RDF without metadata");
+                stringToRDFWithoutMetadata(nellData);
+                break;
+            case NellOntologyConverter.REIFICATION:
                 log.debug("Converting string to RDF using reification to attach metadata");
-				stringToRDFWithReification(nellData);
-				break;
-			case NellOntologyConverter.N_ARY:
+                stringToRDFWithReification(nellData);
+                break;
+            case NellOntologyConverter.N_ARY:
                 log.debug("Converting string to RDF using n-ary relations to attach metadata");
-				stringToRDFWithNAry(nellData);
-				break;
-			case NellOntologyConverter.QUADS:
+                stringToRDFWithNAry(nellData);
+                break;
+            case NellOntologyConverter.QUADS:
                 log.debug("Converting string to RDF using quads to attach metadata");
-				stringToRDFWithQuads(nellData);
-				break;
-			case NellOntologyConverter.SINGLETON_PROPERTY:
+                stringToRDFWithQuads(nellData);
+                break;
+            case NellOntologyConverter.SINGLETON_PROPERTY:
                 log.debug("Converting string to RDF using singleton property to attach metadata");
-				stringToRDFWithSingletoProperty(nellData);
-				break;
+                stringToRDFWithSingletoProperty(nellData);
+                break;
             case NellOntologyConverter.NDFLUENTS:
                 log.debug("Converting string to RDF using NdFluents to attach metadata");
                 stringToRDFWithNdFluents(nellData);
@@ -154,7 +156,7 @@ public class StringTranslate {
                 log.debug("Metadata model not recognized. Converting string to RDF without metadata");
                 stringToRDFWithoutMetadata(nellData);
                 break;
-		}
+        }
 
 		//workaround to reduce memory consumption
 		this.model.write(this.outputStream, this.lang);
@@ -198,6 +200,11 @@ public class StringTranslate {
         // Attach metadata to reification statement
         attachMetadata(singletonProperty, nellData);
 
+        // Delete original triples if requested
+        if (deleteOriginalTriples) {
+            triple.remove();
+        }
+
 	}
 
 	private void stringToRDFWithQuads(final String[] nellData) {
@@ -229,6 +236,11 @@ public class StringTranslate {
         // Attach metadata to reification statement
         attachMetadata(statement.asResource(), nellData);
 
+        // Delete original triples if requested
+        if (deleteOriginalTriples) {
+            triple.remove();
+        }
+
 	}
 
 	private void stringToRDFWithReification(final String[] nellData) {
@@ -241,6 +253,11 @@ public class StringTranslate {
 
 		// Attach metadata to reification statement
 		attachMetadata(statement, nellData);
+
+        // Delete original triples if requested
+        if (deleteOriginalTriples) {
+            triple.remove();
+        }
 	}
 
     private void createProvenanceOntology() {
