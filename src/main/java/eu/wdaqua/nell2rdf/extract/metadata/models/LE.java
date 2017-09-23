@@ -26,4 +26,8 @@ public class LE extends Header {
         return null;
     }
 
+    public String getMetadata_StringSource() {
+        return getStringSource();
+    }
+
 }

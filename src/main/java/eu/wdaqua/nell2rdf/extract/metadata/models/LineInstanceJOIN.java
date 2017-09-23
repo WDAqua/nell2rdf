@@ -46,7 +46,7 @@ public final class LineInstanceJOIN {
     private List<String> categoriesForValue;
 
     private final String candidateSource;
-    private Map<String, Header> listComponents;
+    private Map<String, Object> listComponents;
 
     public void inicilizeObjets() {
         this.entityLiteralStrings = new ArrayList<>();
@@ -120,7 +120,7 @@ public final class LineInstanceJOIN {
         this.categoriesForEntity.addAll(Arrays.asList(organizeStringsExtraction(CategoriesForEntity).split(",")));
         this.categoriesForValue.addAll(Arrays.asList(organizeStringsExtraction(CategoriesForValue).split(",")));
 
-        this.completeLine = CompleteLine;
+        LineInstanceJOIN.completeLine = CompleteLine;
 
         this.candidateSource = CandidatSource;
 
@@ -128,7 +128,7 @@ public final class LineInstanceJOIN {
 
     }
 
-    public Map<String, Header> getListComponents() {
+    public Map<String, Object> getListComponents() {
         return listComponents;
     }
 
@@ -257,4 +257,38 @@ public final class LineInstanceJOIN {
             }
         }
     }
+ /*   
+     public JSONObject setColumnsJSON() {
+        JSONObject joColumns = new JSONObject();
+        joColumns.put(ConstantList.ENTITY_CSV, this.entity);
+        joColumns.put(ConstantList.RELATION_CSV, this.relation);
+        joColumns.put(ConstantList.VALUE_CSV, this.value);
+        if (!candidate) {
+            joColumns.put(ConstantList.ITERATION_CSV, this.nrIterationsInt);
+            joColumns.put(ConstantList.PROBABILITY_CSV, this.probabilityDouble);
+        } else {
+            JSONArray jArrayTempIteration = new JSONArray();
+
+            for (int i = 0; i < this.nrIterations.size(); i++) {
+                jArrayTempIteration.add(this.nrIterations.get(i));
+            }
+            joColumns.put(ConstantList.ITERATION_CSV, jArrayTempIteration);
+
+            JSONArray jArrayTempProbabilty = new JSONArray();
+            for (int i = 0; i < this.probability.size(); i++) {
+                jArrayTempProbabilty.add(this.probability.get(i));
+            }
+            joColumns.put(ConstantList.PROBABILITY_CSV, jArrayTempProbabilty);
+        }
+
+        joColumns.put(ConstantList.SOURCE_CSV, this.source);
+        joColumns.put(ConstantList.ENTITY_LS_CSV, this.entityLiteralStrings);
+        joColumns.put(ConstantList.VALUE_LS_CSV, this.valueLiteralStrings);
+        joColumns.put(ConstantList.BEST_ENTITY_CSV, this.bestEntityLiteralString);
+        joColumns.put(ConstantList.BEST_VALUE_CVS, this.bestValueLiteralString);
+        joColumns.put(ConstantList.CATEGORIES_ENTITY_CSV, this.categoriesForEntity);
+        joColumns.put(ConstantList.CATEGORIES_VALUE_CSV, this.categoriesForValue);
+
+        return joColumns;
+    }*/
 }

@@ -20,7 +20,7 @@ public class OntologyModifier extends Header {
         super(str, ONTOLOGYMODIFIER, Probability);
     }
 
-    public String getFrom() {
+    public String getMetadata_From() {
         return this.from;
     }
 

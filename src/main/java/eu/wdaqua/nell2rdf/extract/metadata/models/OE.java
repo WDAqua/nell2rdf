@@ -19,13 +19,13 @@ import static eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList.*;
  */
 public class OE extends Header {
 
-  private Map<String, URL> mapTextURL;
+    private Map<String, URL> mapTextURL;
 
     public OE(String str, double Probability) {
         super(str, OE, Probability);
     }
 
-    public Map<String, URL> getMapTextURL() {
+    public Map<String, URL> getMetadata_mapTextURL() {
         return mapTextURL;
     }
 

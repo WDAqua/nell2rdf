@@ -17,14 +17,13 @@ public class Main {
    //public static String fileNELLcsv = "D:\\Google-Drive\\PG\\RDF_NELL\\Teste_NELL.08m.1045.esv.csv";
     //public static String fileNELLcsv = "D:\\Google-Drive\\PG\\NELL2RDF\\NELL.08m.1050.esv.csv";
     //public static String fileNELLcsv = "D:\\NELL.08m.1050.cesv.csv";
-    public static String fileNELLcsv = "D:\\NELL.08m.990.cesv.csv";
-    //public static String fileNELLcsv = "D:\\teste.txt";
-    public static String fileOut = "D:\\Google-Drive\\PG\\NELL2RDF\\";
-    public static String fileOutToString = "D:\\fileOutToString";
-
+    //public static String fileNELLcsv = "D:\\NELL.08m.990.cesv.csv";
+    public static String fileNELLcsv = "C:\\Users\\Maisa\\Desktop\\Temp para NELL\\NELL.08m.1065.esv.csv";
+    //public static String fileOut = "C:\\Users\\Maisa\\Desktop\\Temp para NELL\\teste_2407";
+    public static String fileOutToString = "D:\\fileOutToString_2407";
     public static void main(String[] args) throws IOException, ParseException {
 
         ManipulationExecution KBManip = new ManipulationExecution();
-        KBManip.readNELLcsv(fileNELLcsv, fileOut);
+        KBManip.readNELLcsv(fileNELLcsv);
     }
 }

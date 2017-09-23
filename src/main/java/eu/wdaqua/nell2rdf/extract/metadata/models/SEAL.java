@@ -49,7 +49,7 @@ public class SEAL extends Header {
         this.fromComplete = Utility.getFromComplete(str);
     }
 
-    public List<String> getListURL() {
+    public List<String> getMedatadata_URLList() {
         return this.listURL;
     }
 

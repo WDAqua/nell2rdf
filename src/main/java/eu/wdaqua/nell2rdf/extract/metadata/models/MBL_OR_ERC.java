@@ -5,7 +5,6 @@
  */
 package eu.wdaqua.nell2rdf.extract.metadata.models;
 
-
 import static eu.wdaqua.nell2rdf.extract.metadata.util.Utility.REGEX_COMPONENTS_NAME;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -58,6 +57,6 @@ public class MBL_OR_ERC extends Header {
 
     @Override
     public String getStringSource() {
-       return null;
+        return null;
     }
 }

@@ -19,9 +19,10 @@ public class KbManipulation extends Header {
 
     public KbManipulation(String str, double Probability) {
         super(str, KBMANIPULATION, Probability);
+        //System.out.println(LineInstanceJOIN.completeLine);
     }
 
-    public String getOldBug() {
+    public String getMetadata_oldBug() {
         return oldBug;
     }
 

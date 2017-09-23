@@ -3,7 +3,6 @@
  */
 package eu.wdaqua.nell2rdf.extract.metadata.models;
 
-
 import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +16,7 @@ import static eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList.*;
  */
 public class CPL extends Header {
 
-       private Map<String, Integer> mapMD;
+    private Map<String, Integer> mapMD;
     //Category or Relation?
     private String from;
 
@@ -29,7 +28,7 @@ public class CPL extends Header {
         return from;
     }
 
-    public Map<String, Integer> getMapTPOccurence() {
+    public Map<String, Integer> getMetadata_MapTPOccurence() {
         return mapMD;
     }
 
@@ -90,5 +89,4 @@ public class CPL extends Header {
         }
     }
 
-    
 }
