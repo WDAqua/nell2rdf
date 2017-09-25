@@ -65,7 +65,7 @@ public class ManipulationExecution {
 
             //System.out.println(line);
             setFeatures(line, theresCandidate);
-            Map<String, Object> p = LI.getListComponents();
+            Map<String, Header> p = LI.getListComponents();
 
             temp.append("START: \t");
             p.entrySet().forEach((pair) -> {
