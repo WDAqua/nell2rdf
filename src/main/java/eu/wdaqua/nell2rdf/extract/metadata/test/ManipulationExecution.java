@@ -41,13 +41,13 @@ public class ManipulationExecution {
 
     private LineInstanceJOIN LI;
 
-    public void setFeatures(String line, boolean theresCandidate) {
+    public void setFeatures(String line) {
 
         String[] split = line.split("\t");
         LI = new LineInstanceJOIN(split[0], split[1], split[2], split[3], split[4],
                 Utility.DecodeURL(split[5]), split[6], split[7],
                 split[8], split[9], split[10],
-                split[11], Utility.DecodeURL(split[12]), line, theresCandidate);
+                split[11], Utility.DecodeURL(split[12]), line);
     }
 
     public void readNELLcsv(String pathIN) throws FileNotFoundException, IOException {
@@ -64,7 +64,7 @@ public class ManipulationExecution {
         while ((line = reader.readLine()) != null) {
 
             //System.out.println(line);
-            setFeatures(line, theresCandidate);
+            setFeatures(line);
             Map<String, Header> p = LI.getListComponents();
 
             temp.append("START: \t");

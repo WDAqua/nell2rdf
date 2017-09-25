@@ -10,13 +10,9 @@ package eu.wdaqua.nell2rdf.extract.metadata.models;
  * @author Maisa
  */
 import eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList;
-import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
-import java.text.ParseException;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class FormatHeader {
 
