@@ -8,8 +8,6 @@ package eu.wdaqua.nell2rdf.extract.metadata.models;
 import static eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList.*;
 import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
 
-
-
 /**
  *
  * @author Maisa
@@ -49,20 +47,45 @@ public class MBL extends Header {
 
     public MBL(String str, double Probability) {
         super(str, MBL, Probability);
-        System.out.println(LineInstanceJOIN.completeLine);
     }
 
     @Override
     public void processStringText(String str) {
         this.promotionOfConcept = Utility.getMBLCandidateSource(str);
-        String temp[] = this.promotionOfConcept.substring(this.promotionOfConcept.indexOf(":") + 1)
-                .replace("concept", "").replace("\"", "").replace(" ", "").split(":");
-        this.entityCategory = temp[0];
-        this.entity = temp[1];
-        this.relation = temp[2];
-        this.valueCategory = temp[3];
-        this.value = temp[4];
+        String temp[];
 
+        try {
+            if (this.promotionOfConcept.split("concept:").length == 4) {
+                temp = this.promotionOfConcept.substring(this.promotionOfConcept.indexOf(":") + 1)
+                        .replace(" concept", "").replace("\"", "").split(":");
+
+                this.entityCategory = temp[0];
+                this.entity = temp[1];
+                this.relation = temp[2];
+                this.valueCategory = temp[3];
+                this.value = temp[4];
+
+            } else if (this.promotionOfConcept.split("concept:").length == 3) {
+                temp = this.promotionOfConcept.substring(this.promotionOfConcept.indexOf(":") + 1)
+                        .replace(" concept", "").replace("\"", "").replace(" ", ":").trim().split(":");
+
+                this.entityCategory = temp[0];
+                this.entity = temp[1];
+                this.relation = temp[2];
+                this.value = temp[3];
+
+            } else {
+                System.out.println("Check the MBL parameters. Something is not being processed");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println(str);
+            System.out.println("EC = " + this.entityCategory);
+            System.out.println("E = " + this.entity);
+            System.out.println("R = " + this.relation);
+            System.out.println("VC = " + this.valueCategory);
+            System.out.println("V = " + this.value);
+        }
     }
 
     @Override
