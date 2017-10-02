@@ -41,7 +41,7 @@ public class Extract {
 	 */
 	public Extract(final String inputFile, final String prefix, final String metadata, final String separator, final String lang, final boolean candidates, String file, boolean deleteOriginalTriples) {
 		this.first = true;
-		this.translator = new StringTranslate(prefix, metadata, separator, lang, candidates, file, deleteOriginalTriples);
+		this.translator = new StringTranslate(metadata, lang, file, deleteOriginalTriples);
 		this.inputFile = inputFile;
 		this.prefix = prefix;
 	}
@@ -59,14 +59,15 @@ public class Extract {
 				if (this.first) {
 					this.first = false;
 				} else {
-					String[] lineSplit = line.split("\t");
-					if (lineSplit.length >= 12) {
-					String[] lineRDF = { lineSplit[0], lineSplit[1], lineSplit[2], lineSplit[6], lineSplit[7], lineSplit[8], lineSplit[9], lineSplit[10], lineSplit[11] };
-					this.clean(lineRDF);
-					this.translator.stringToRDF(lineRDF);}
-					else {
-						log.info("Cannot process line :"+line+" : insufficient number of column values ! (<12)");
-					}
+//					String[] lineSplit = line.split("\t");
+//					if (lineSplit.length >= 12) {
+//					String[] lineRDF = { lineSplit[0], lineSplit[1], lineSplit[2], lineSplit[6], lineSplit[7], lineSplit[8], lineSplit[9], lineSplit[10], lineSplit[11] };
+//					this.clean(lineRDF);
+					this.translator.stringToRDF(line);
+//					}
+//					else {
+//						log.info("Cannot process line :"+line+" : insufficient number of column values ! (<12)");
+//					}
 				}
 			}
 			br.close();

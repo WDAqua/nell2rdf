@@ -73,7 +73,7 @@ public final class LineInstanceJOIN {
         return str;
     }
 
-    public LineInstanceJOIN(String Entity, String Relation, String Value, String Iteration,
+	public LineInstanceJOIN(String Entity, String Relation, String Value, String Iteration,
             String probabilityPROMOTION, String Source, String EntityLiteralStrings,
             String ValueLiteralStrings, String BestEntityLiteralString, String BestValueLiteralString,
             String CategoriesForEntity, String CategoriesForValue, String CandidatSource, String CompleteLine) {
@@ -155,6 +155,10 @@ public final class LineInstanceJOIN {
 
     public void IsCandidate(String temp) {
         candidate = temp.contains("[");
+    }
+    
+    public boolean isCandidate() {
+    	return candidate;
     }
 
     public int getNrIterationsInt() {

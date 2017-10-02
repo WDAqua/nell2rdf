@@ -47,16 +47,16 @@ public abstract class ConstantList {
     public final static String TEXT_LATLONG = "LatLong-Iter:";
     public final static String TEXT_LATLONGTT = "LatLongTT-Iter:";
 
+    public static final String	PREFIX = "https://w3id.org/nellrdf/";
     public static final String  PREFIX_RESOURCE = "nell";
     public static final String  PREFIX_ONTOLOGY = "nell.onto";
     public static final String  PREFIX_PROVENANCE_RESOURCE = "nell.prov";
     public static final String  PREFIX_PROVENANCE_ONTOLOGY = "nell.prov.onto";
     public static final String  PREFIX_NDFLUENTS = "nd";
 
-    public static final String NAMESPACE_END_RESOURCE = "/resource";
-    public static final String NAMESPACE_END_ONTOLOGY = "/ontology";
-    public static final String NAMESPACE_END_PROVENANCE_ONTOLOGY = "/provenance/ontology";
-    public static final String NAMESPACE_END_PROVENANCE_RESOURCE = "/provenance/resource";
+    public static final String NAMESPACE_END_RESOURCE = "/resource/";
+    public static final String NAMESPACE_END_ONTOLOGY = "/ontology/";
+    public static final String NAMESPACE_END_METADATA = "/metadata/";
 
     public static final String PROPERTY_ASSOCIATED_WITH = "associatedWith";
     public static final String PROPERTY_GENERATED_BY = "generatedBy";

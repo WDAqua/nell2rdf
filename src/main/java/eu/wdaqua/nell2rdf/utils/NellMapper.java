@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import eu.wdaqua.nell2rdf.beans.PredicatePair;
+import eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.rdf.model.Model;
@@ -125,7 +127,7 @@ public class NellMapper {
 	 * @param nell a Nell ontology as parsed from CSV file using the {@link NellModel#createModel(String)} method.
 	 * @param prefix prepend this prefix to any generated IRI by the program
 	 */
-	public static void displayStats(Model nellRdf, NellModel nell, String prefix) {
+	public static void displayStats(Model nellRdf, NellModel nell) {
 
 		Selector selectorClass = new SimpleSelector(null, RDF.type, RDFS.Class);
 		Selector selectorProperty = new SimpleSelector(null, RDF.type, RDF.Property);
@@ -155,22 +157,22 @@ public class NellMapper {
 		Selector selectorPosSymm = new SimpleSelector(null, RDF.type, OWL2.AsymmetricProperty);
 		Selector selectorNegSymm = new SimpleSelector(null, OWL2.propertyDisjointWith, OWL2.AsymmetricProperty);
 
-		Property propInstanceType = nellRdf.getProperty(prefix + RdfModelUtils.nellNS + "instancetype");
+		Property propInstanceType = nellRdf.getProperty(ConstantList.PREFIX + RdfModelUtils.nellNS + "instancetype");
 		Selector selectorInstanceType = new SimpleSelector(null, propInstanceType, (RDFNode) null);
 
-		Property propDomInRange = nellRdf.getProperty(prefix + RdfModelUtils.nellNS + "domainwithinrange");
+		Property propDomInRange = nellRdf.getProperty(ConstantList.PREFIX + RdfModelUtils.nellNS + "domainwithinrange");
 		Selector selectorDomainRange = new SimpleSelector(null, propDomInRange, (RDFNode) null);
 
-		Property propRangeInDom = nellRdf.getProperty(prefix + RdfModelUtils.nellNS + "rangewithindomain");
+		Property propRangeInDom = nellRdf.getProperty(ConstantList.PREFIX + RdfModelUtils.nellNS + "rangewithindomain");
 		Selector selectorRangeDomain = new SimpleSelector(null, propRangeInDom, (RDFNode) null);
 
-		Property propPopulate = nellRdf.getProperty(prefix + RdfModelUtils.nellNS + "populate");
+		Property propPopulate = nellRdf.getProperty(ConstantList.PREFIX + RdfModelUtils.nellNS + "populate");
 		Selector selectorPopulate = new SimpleSelector(null, propPopulate, (RDFNode) null);
 
-		Property propVisible = nellRdf.getProperty(prefix + RdfModelUtils.nellNS + "visible");
+		Property propVisible = nellRdf.getProperty(ConstantList.PREFIX + RdfModelUtils.nellNS + "visible");
 		Selector selectorVisible = new SimpleSelector(null, propVisible, (RDFNode) null);
 
-		Property propHumanformat = nellRdf.getProperty(prefix + RdfModelUtils.nellNS + "humanformat");
+		Property propHumanformat = nellRdf.getProperty(ConstantList.PREFIX + RdfModelUtils.nellNS + "humanformat");
 		Selector selectorHumanFormat = new SimpleSelector(null, propHumanformat, (RDFNode) null);
 
 		int disclass = classDisjunction.toList().size();
