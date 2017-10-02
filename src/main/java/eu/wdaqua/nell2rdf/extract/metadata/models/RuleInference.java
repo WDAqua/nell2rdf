@@ -22,7 +22,7 @@ public class RuleInference extends Header {
     private String rules;
     private Rule cRules;
 
-    public RuleInference(String str, double Probability) {
+    public RuleInference(String str, Double Probability) {
         super(str, RULEINFERENCE, Probability);
         cRules = new Rule(str);
     }

@@ -26,7 +26,7 @@ public class LatLong extends Header {
         return lrules;
     }
 
-    public LatLong(String str, String ComponentName, double Probability) {
+    public LatLong(String str, String ComponentName, Double Probability) {
         super(str, ComponentName, Probability);
     }
 

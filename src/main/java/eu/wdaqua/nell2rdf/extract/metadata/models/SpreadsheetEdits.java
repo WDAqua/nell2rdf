@@ -11,8 +11,7 @@ import static eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList.*;
 /**
  *
  * @author Maisa
- */
-public class SpreadsheetEdits extends Header {
+ */public class SpreadsheetEdits extends Header {
 
     private String userFeedback;
     private String entity;
@@ -21,7 +20,7 @@ public class SpreadsheetEdits extends Header {
     private String action;
     private String fromIteration;
 
-    public SpreadsheetEdits(String str, double Probability) {
+    public SpreadsheetEdits(String str, Double Probability) {
         super(str, SPREADSHEETEDITS, Probability);
     }
 

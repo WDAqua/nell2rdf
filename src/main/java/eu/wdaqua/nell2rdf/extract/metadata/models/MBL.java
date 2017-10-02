@@ -45,7 +45,7 @@ public class MBL extends Header {
         return promotionOfConcept;
     }
 
-    public MBL(String str, double Probability) {
+    public MBL(String str, Double Probability) {
         super(str, MBL, Probability);
     }
 
@@ -68,7 +68,7 @@ public class MBL extends Header {
             } else if (this.promotionOfConcept.split("concept:").length == 3) {
                 temp = this.promotionOfConcept.substring(this.promotionOfConcept.indexOf(":") + 1)
                         .replace(" concept", "").replace("\"", "").replace(" ", ":").trim().split(":");
-
+               
                 this.entityCategory = temp[0];
                 this.entity = temp[1];
                 this.relation = temp[2];

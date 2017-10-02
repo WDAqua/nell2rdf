@@ -19,7 +19,7 @@ public class AliasMatcher extends Header {
     //[Freebase 7/9/2012] mudando para 9/7/2012
     private LocalDate FreebaseDate;
 
-    public AliasMatcher(String str, double Probability) {
+    public AliasMatcher(String str, Double Probability) {
         super(str, ALIASMATCHER, Probability);
     }
 

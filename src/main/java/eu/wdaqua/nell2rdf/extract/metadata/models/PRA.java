@@ -14,12 +14,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 public class PRA extends Header {
 
     private List<Rule> LRules;
 
-    public PRA(String str, double Probability) {
+    public PRA(String str, Double Probability) {
         super(str, PRA, Probability);
     }
 

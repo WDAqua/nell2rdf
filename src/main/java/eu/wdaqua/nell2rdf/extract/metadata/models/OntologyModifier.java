@@ -16,7 +16,7 @@ public class OntologyModifier extends Header {
 
     private String from;
 
-    public OntologyModifier(String str, double Probability) {
+    public OntologyModifier(String str, Double Probability) {
         super(str, ONTOLOGYMODIFIER, Probability);
     }
 

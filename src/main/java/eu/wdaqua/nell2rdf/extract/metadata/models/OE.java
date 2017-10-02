@@ -21,7 +21,7 @@ public class OE extends Header {
 
     private Map<String, URL> mapTextURL;
 
-    public OE(String str, double Probability) {
+    public OE(String str, Double Probability) {
         super(str, OE, Probability);
     }
 
@@ -62,7 +62,7 @@ public class OE extends Header {
                     mapTextURL.put(temp[i], new URL(temp[i + 1]));
                 } catch (MalformedURLException ex) {
                     System.out.println("Problema com URL " + ex);
-                    System.out.println(LineInstanceJOIN.completeLine);                    
+                    System.out.println(LineInstanceJOIN.completeLine);
                 }
             }
             i += 2;

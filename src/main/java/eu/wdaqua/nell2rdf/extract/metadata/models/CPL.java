@@ -20,7 +20,7 @@ public class CPL extends Header {
     //Category or Relation?
     private String from;
 
-    public CPL(String str, double Probability) {
+    public CPL(String str, Double Probability) {
         super(str, CPL, Probability);
     }
 

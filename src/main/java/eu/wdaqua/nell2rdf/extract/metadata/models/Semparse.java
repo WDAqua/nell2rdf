@@ -13,6 +13,7 @@ import static eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList.*;
  *
  * @author Maisa
  */
+
 public class Semparse extends Header {
 
     private String sSentence;
@@ -21,7 +22,7 @@ public class Semparse extends Header {
         return sSentence;
     }
 
-    public Semparse(String str, double Probability) {
+    public Semparse(String str, Double Probability) {
         super(str, SEMPARSE, Probability);
     }
 

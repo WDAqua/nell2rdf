@@ -30,8 +30,8 @@ public final class LineInstanceJOIN {
     private List<Integer> nrIterations = new ArrayList<>();
     private List<Double> probability;
 
-    private int nrIterationsInt;
-    private double probabilityDouble;
+    private Integer nrIterationsInt;
+    private Double probabilityDouble;
 
     //Object Responsable for the Source Column
     private final String source;
@@ -73,7 +73,7 @@ public final class LineInstanceJOIN {
         return str;
     }
 
-	public LineInstanceJOIN(String Entity, String Relation, String Value, String Iteration,
+    public LineInstanceJOIN(String Entity, String Relation, String Value, String Iteration,
             String probabilityPROMOTION, String Source, String EntityLiteralStrings,
             String ValueLiteralStrings, String BestEntityLiteralString, String BestValueLiteralString,
             String CategoriesForEntity, String CategoriesForValue, String CandidatSource, String CompleteLine) {
@@ -103,7 +103,7 @@ public final class LineInstanceJOIN {
             }
             this.MBL_source = new MBL_OR_ERC(Source, tempMBLorERC);
         }
-        
+
         IsCandidate(probabilityPROMOTION);
 
         if (candidate) {
@@ -156,10 +156,6 @@ public final class LineInstanceJOIN {
     public void IsCandidate(String temp) {
         candidate = temp.contains("[");
     }
-    
-    public boolean isCandidate() {
-    	return candidate;
-    }
 
     public int getNrIterationsInt() {
         return nrIterationsInt;
@@ -199,13 +195,11 @@ public final class LineInstanceJOIN {
     //Macarronada Italiana
     //Here is where the componentes are created; [ aqui
     public void setListComponents(List<String> stringListComponents, List<Double> probList) {
-        double tempProbility = 0;
+        Double tempProbility = null;
 
         for (int i = 0; i < stringListComponents.size(); i++) {
 
-            if (probList == null) {
-                tempProbility = 0.0;
-            } else {
+            if (probList != null) {
                 try {
                     tempProbility = probList.get(i);
                 } catch (IndexOutOfBoundsException e) {
@@ -262,8 +256,8 @@ public final class LineInstanceJOIN {
             }
         }
     }
-    /*   
-     public JSONObject setColumnsJSON() {
+/*
+    public JSONObject setColumnsJSON() {
         JSONObject joColumns = new JSONObject();
         joColumns.put(ConstantList.ENTITY_CSV, this.entity);
         joColumns.put(ConstantList.RELATION_CSV, this.relation);

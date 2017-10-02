@@ -21,9 +21,9 @@ public abstract class Header {
     public FormatHeader formatHeader;
     private String source;
     protected String componentName;
-    private int iteration;
+    private Integer iteration;
 
-    private double probability;
+    private Double probability;
 
     private String dateTime;
 
@@ -33,7 +33,7 @@ public abstract class Header {
 
     abstract public String getStringSource();
 
-    public Header(String str, String ComponentName, double Probability) {
+    public Header(String str, String ComponentName, Double Probability) {
         this.headerTreatment(str, ComponentName);
         this.probability = Probability;
     }
