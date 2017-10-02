@@ -27,7 +27,7 @@ public class FormatHeader {
 
     TokenModel tokenmodel;
 
-    private Integer tempIteration;
+    private int tempIteration;
     private Double tempProbability;
     private String tempDateTime;
 
@@ -47,7 +47,7 @@ public class FormatHeader {
         this.tempDateTime = tempDateTime;
     }
 
-    public void setTempIteration(Integer tempIteration) {
+    public void setTempIteration(int tempIteration) {
         this.tempIteration = tempIteration;
     }
 

@@ -30,7 +30,7 @@ public final class LineInstanceJOIN {
     private List<Integer> nrIterations = new ArrayList<>();
     private List<Double> probability;
 
-    private Integer nrIterationsInt;
+    private int nrIterationsInt;
     private Double probabilityDouble;
 
     //Object Responsable for the Source Column

@@ -21,7 +21,7 @@ public abstract class Header {
     public FormatHeader formatHeader;
     private String source;
     protected String componentName;
-    private Integer iteration;
+    private int iteration;
 
     private Double probability;
 
