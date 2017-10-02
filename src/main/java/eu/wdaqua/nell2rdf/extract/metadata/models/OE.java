@@ -61,7 +61,8 @@ public class OE extends Header {
                 try {
                     mapTextURL.put(temp[i], new URL(temp[i + 1]));
                 } catch (MalformedURLException ex) {
-                    System.out.println("Problema com URL");
+                    System.out.println("Problema com URL " + ex);
+                    System.out.println(LineInstanceJOIN.completeLine);                    
                 }
             }
             i += 2;

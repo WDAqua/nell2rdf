@@ -18,7 +18,8 @@ public class Main {
     //public static String fileNELLcsv = "D:\\Google-Drive\\PG\\NELL2RDF\\NELL.08m.1050.esv.csv";
     //public static String fileNELLcsv = "D:\\NELL.08m.1050.cesv.csv";
     //public static String fileNELLcsv = "D:\\NELL.08m.990.cesv.csv";
-    public static String fileNELLcsv = "C:\\Users\\Maisa\\Desktop\\Temp para NELL\\NELL.08m.1065.esv.csv";
+    //public static String fileNELLcsv = "C:\\Users\\Maisa\\Desktop\\Temp para NELL\\NELL.08m.1040.cesv.csv";
+    public static String fileNELLcsv = "C:\\Users\\Maisa\\Desktop\\Temp para NELL\\NELL.08m.1075.esv.csv";
     //public static String fileOut = "C:\\Users\\Maisa\\Desktop\\Temp para NELL\\teste_2407";
     public static String fileOutToString = "D:\\fileOutToString_2407";
     public static void main(String[] args) throws IOException, ParseException {
