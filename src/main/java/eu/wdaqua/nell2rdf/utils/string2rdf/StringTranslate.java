@@ -73,9 +73,6 @@ public class StringTranslate {
 
 	private final String		xsd;
 
-	// Change to double if more than 2^31-1 (~ 2.14 billion) statements
-	private int					statementNumber;
-
 	/**
 	 * Propriete prefLabel de SKOS.
 	 * (Jena n'implementant pas le vocabulaire SKOS, il est necessaire de la gerer manuellement).
@@ -110,7 +107,6 @@ public class StringTranslate {
 		this.prefLabel = this.model.createProperty(this.skos + "prefLabel");
 		this.fail = new LinkedList<>();
 		this.good = new LinkedList<>();
-		this.statementNumber = 0;
 
 		// workaround to reduce memory consumption
         try {
