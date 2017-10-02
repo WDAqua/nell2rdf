@@ -56,7 +56,7 @@ public class StringTranslate {
 	 */
 	private String resourceBase;
 	private String ontologyBase;
-	private String provenanceOntologyBase;
+	private String metadataBase;
 	private String provenanceResourceBase;
 
 	private String lang;
@@ -96,15 +96,14 @@ public class StringTranslate {
 		this.lang = lang;
 		this.resourceBase = this.base + ConstantList.NAMESPACE_END_RESOURCE;
 		this.ontologyBase = this.base + ConstantList.NAMESPACE_END_ONTOLOGY;
-		this.provenanceOntologyBase = this.base + ConstantList.NAMESPACE_END_PROVENANCE_ONTOLOGY;
-		this.provenanceResourceBase = this.base + ConstantList.NAMESPACE_END_PROVENANCE_RESOURCE;
+		this.metadataBase = this.base + ConstantList.NAMESPACE_END_METADATA;
 		this.skos = "http://www.w3.org/2004/02/skos/core#";
 		this.rdfs = "http://www.w3.org/2000/01/rdf-schema#";
 		this.xsd = "http://www.w3.org/2001/XMLSchema#";
 		this.model.setNsPrefix(ConstantList.PREFIX_RESOURCE, this.resourceBase);
 		this.model.setNsPrefix(ConstantList.PREFIX_ONTOLOGY, this.ontologyBase);
 		this.model.setNsPrefix(ConstantList.PREFIX_PROVENANCE_RESOURCE, this.provenanceResourceBase);
-		this.model.setNsPrefix(ConstantList.PREFIX_PROVENANCE_ONTOLOGY, this.provenanceOntologyBase);
+		this.model.setNsPrefix(ConstantList.PREFIX_PROVENANCE_ONTOLOGY, this.metadataBase);
 		this.model.setNsPrefix("skos", this.skos);
 		this.model.setNsPrefix("rdfs", this.rdfs);
 		this.model.setNsPrefix("xsd", this.xsd);
@@ -264,31 +263,31 @@ public class StringTranslate {
 
     private void createProvenanceOntology() {
         // Create properties
-        this.model.createProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_ASSOCIATED_WITH);
-        this.model.createProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_GENERATED_BY);
-        this.model.createProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_ITERATION);
-        this.model.createProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_ITERATION_OF_PROMOTION);
-        this.model.createProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_PROBABILITY);
-        this.model.createProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_PROBABILITY_OF_BELIEF);
-        this.model.createProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_AT_TIME);
-        this.model.createProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_SOURCE);
-        this.model.createProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_TOKEN);
-        this.model.createProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_TOKE_ENTITY);
-        this.model.createProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_RELATION_VALUE);
-        this.model.createProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_GENERALIZATION_VALUE);
-        this.model.createProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_LATITUDE_VALUE);
-        this.model.createProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_LONGITUDE_VALUE);
+        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_ASSOCIATED_WITH);
+        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_GENERATED_BY);
+        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_ITERATION);
+        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_ITERATION_OF_PROMOTION);
+        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_PROBABILITY);
+        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_PROBABILITY_OF_BELIEF);
+        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_AT_TIME);
+        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_SOURCE);
+        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_TOKEN);
+        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_TOKE_ENTITY);
+        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_RELATION_VALUE);
+        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_GENERALIZATION_VALUE);
+        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_LATITUDE_VALUE);
+        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_LONGITUDE_VALUE);
 
 	    // Create classes
-        this.model.createResource(this.provenanceOntologyBase + ConstantList.CLASS_BELIEF);
-        this.model.createResource(this.provenanceOntologyBase + ConstantList.CLASS_CANDIDATE_BELIEF);
-        this.model.createResource(this.provenanceOntologyBase + ConstantList.CLASS_PROMOTED_BELIEF);
-        this.model.createResource(this.provenanceOntologyBase + ConstantList.CLASS_COMPONENT);
-        this.model.createResource(this.provenanceOntologyBase + ConstantList.CLASS_COMPONENT_ITERATION);
-        this.model.createResource(this.provenanceOntologyBase + ConstantList.CLASS_TOKEN);
-        this.model.createResource(this.provenanceOntologyBase + ConstantList.CLASS_TOKEN_RELATION);
-        this.model.createResource(this.provenanceOntologyBase + ConstantList.CLASS_TOKEN_GENERALIZATION);
-        this.model.createResource(this.provenanceOntologyBase + ConstantList.CLASS_TOKEN_GEO);
+        this.model.createResource(this.metadataBase + ConstantList.CLASS_BELIEF);
+        this.model.createResource(this.metadataBase + ConstantList.CLASS_CANDIDATE_BELIEF);
+        this.model.createResource(this.metadataBase + ConstantList.CLASS_PROMOTED_BELIEF);
+        this.model.createResource(this.metadataBase + ConstantList.CLASS_COMPONENT);
+        this.model.createResource(this.metadataBase + ConstantList.CLASS_COMPONENT_ITERATION);
+        this.model.createResource(this.metadataBase + ConstantList.CLASS_TOKEN);
+        this.model.createResource(this.metadataBase + ConstantList.CLASS_TOKEN_RELATION);
+        this.model.createResource(this.metadataBase + ConstantList.CLASS_TOKEN_GENERALIZATION);
+        this.model.createResource(this.metadataBase + ConstantList.CLASS_TOKEN_GEO);
 
         if (this.metadata == NellOntologyConverter.NDFLUENTS) {
             this.model.setNsPrefix(ConstantList.PREFIX_NDFLUENTS, ConstantList.NAMESPACE_NDFLUENTS);
@@ -316,17 +315,17 @@ public class StringTranslate {
 		RDFNode object;
 
 		createProvenanceOntology();
-        resource.addProperty(RDF.type, model.getResource(this.provenanceOntologyBase + ConstantList.CLASS_BELIEF));
+        resource.addProperty(RDF.type, model.getResource(this.metadataBase + ConstantList.CLASS_BELIEF));
 
 		// If it is a promoted belief, add iteration of promotion and probability
         if (belief.isCandidate()) {
             // Add iteration of promotion
-            predicate = this.model.getProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_ITERATION_OF_PROMOTION);
+            predicate = this.model.getProperty(this.metadataBase + ConstantList.PROPERTY_ITERATION_OF_PROMOTION);
             object = this.model.createTypedLiteral(belief.getNrIterationsInt(),XSDDatatype.XSDinteger);
             resource.addProperty(predicate, object);
 
             // Add probability
-            predicate = this.model.getProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_PROBABILITY_OF_BELIEF);
+            predicate = this.model.getProperty(this.metadataBase + ConstantList.PROPERTY_PROBABILITY_OF_BELIEF);
             object = this.model.createTypedLiteral(belief.getProbabilityDouble(), XSDDatatype.XSDdecimal);
             resource.addProperty(predicate, object);
         }
@@ -336,31 +335,31 @@ public class StringTranslate {
             RDFNode object_λ;
 
             // Create the Component Iteration
-            predicate_λ = this.model.getProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_GENERATED_BY);
+            predicate_λ = this.model.getProperty(this.metadataBase + ConstantList.PROPERTY_GENERATED_BY);
             RDFNode componentIteration = createSequentialProvenanceResource(K, ConstantList.CLASS_COMPONENT_ITERATION);
             resource.addProperty(predicate_λ,componentIteration);
 
             // Add data to Component Iteration
-            predicate_λ = model.getProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_ASSOCIATED_WITH);
+            predicate_λ = model.getProperty(this.metadataBase + ConstantList.PROPERTY_ASSOCIATED_WITH);
             object_λ = model.getResource(this.provenanceResourceBase + V.getComponentName());
             componentIteration.asResource().addProperty(predicate_λ, object_λ);
 
-            predicate_λ = model.getProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_AT_TIME);
+            predicate_λ = model.getProperty(this.metadataBase + ConstantList.PROPERTY_AT_TIME);
             object_λ = model.createTypedLiteral(V.getDateTime(),XSDDatatype.XSDdateTime);
             componentIteration.asResource().addProperty(predicate_λ, object_λ);
 
             if (belief.isCandidate()) {
-                predicate_λ = model.getProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_ITERATION);
+                predicate_λ = model.getProperty(this.metadataBase + ConstantList.PROPERTY_ITERATION);
                 object_λ = model.createTypedLiteral(V.getIteration(), XSDDatatype.XSDinteger);
                 componentIteration.asResource().addProperty(predicate_λ, object_λ);
 
-                predicate_λ = model.getProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_PROBABILITY);
+                predicate_λ = model.getProperty(this.metadataBase + ConstantList.PROPERTY_PROBABILITY);
                 object_λ = model.createTypedLiteral(V.getProbability(), XSDDatatype.XSDdecimal);
                 componentIteration.asResource().addProperty(predicate_λ,object_λ);
             }
 
             if (V.getStringSource() != null) {
-                predicate_λ = model.getProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_SOURCE);
+                predicate_λ = model.getProperty(this.metadataBase + ConstantList.PROPERTY_SOURCE);
                 object_λ = model.createTypedLiteral(V.getStringSource().trim(), XSDDatatype.XSDstring);
                 componentIteration.asResource().addProperty(predicate_λ, object_λ);
             }
@@ -369,24 +368,24 @@ public class StringTranslate {
             RDFNode token;
             if (V instanceof LatLong) {
                 token = createSequentialProvenanceResource(ConstantList.RESOURCE_TOKEN_GEO, ConstantList.CLASS_TOKEN_GEO);
-                predicate_λ = model.getProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_LATITUDE_VALUE);
+                predicate_λ = model.getProperty(this.metadataBase + ConstantList.PROPERTY_LATITUDE_VALUE);
                 double[] latlong= V.getFormatHeader().getTokenElement2LatLong();
                 object_λ = model.createTypedLiteral(latlong[0], XSDDatatype.XSDdecimal);
                 token.asResource().addProperty(predicate_λ, object_λ);
-                predicate_λ = model.getProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_LONGITUDE_VALUE);
+                predicate_λ = model.getProperty(this.metadataBase + ConstantList.PROPERTY_LONGITUDE_VALUE);
                 object_λ = model.createTypedLiteral(((LatLong) V).getFormatHeader().getTokenElement2LatLong()[1], XSDDatatype.XSDdecimal);
                 token.asResource().addProperty(predicate_λ, object_λ);
             } else {
                 switch (V.getFormatHeader().getTypeKB()) {
                     case ConstantList.RELATION:
                         token = createSequentialProvenanceResource(ConstantList.RESOURCE_TOKEN_RELATION, ConstantList.CLASS_TOKEN_RELATION);
-                        predicate_λ = model.getProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_RELATION_VALUE);
+                        predicate_λ = model.getProperty(this.metadataBase + ConstantList.PROPERTY_RELATION_VALUE);
                         object_λ = model.createTypedLiteral(V.getFormatHeader().getTokenElement2(), XSDDatatype.XSDstring);
                         token.asResource().addProperty(predicate_λ, object_λ);
                         break;
                     case ConstantList.CATEGORY:
                         token = createSequentialProvenanceResource(ConstantList.RESOURCE_TOKEN_GENERALIZATION, ConstantList.CLASS_TOKEN_GENERALIZATION);
-                        predicate_λ = model.getProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_GENERALIZATION_VALUE);
+                        predicate_λ = model.getProperty(this.metadataBase + ConstantList.PROPERTY_GENERALIZATION_VALUE);
                         object_λ = model.createTypedLiteral(V.getFormatHeader().getTokenElement2(), XSDDatatype.XSDstring);
                         token.asResource().addProperty(predicate_λ, object_λ);
                         break;
@@ -395,10 +394,10 @@ public class StringTranslate {
                         break;
                 }
             }
-            predicate_λ = model.getProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_TOKE_ENTITY);
+            predicate_λ = model.getProperty(this.metadataBase + ConstantList.PROPERTY_TOKE_ENTITY);
             object_λ = model.createTypedLiteral(V.getFormatHeader().getTokenElement1(), XSDDatatype.XSDstring);
             token.asResource().addProperty(predicate_λ, object_λ);
-            predicate_λ = model.getProperty(this.provenanceOntologyBase + ConstantList.PROPERTY_TOKEN);
+            predicate_λ = model.getProperty(this.metadataBase + ConstantList.PROPERTY_TOKEN);
             componentIteration.asResource().addProperty(predicate_λ, token);
         });
 	}
@@ -536,7 +535,7 @@ public class StringTranslate {
 
 	private Resource createSequentialProvenanceResource(final String resource_name, final String type) {
 		final Resource resource = this.model.createResource(createSequentialProvenanceResourceUri(resource_name,belief.isCandidate()));
-		resource.addProperty(RDF.type, model.getResource(this.provenanceOntologyBase + type));
+		resource.addProperty(RDF.type, model.getResource(this.metadataBase + type));
 		return resource;
 	}
 

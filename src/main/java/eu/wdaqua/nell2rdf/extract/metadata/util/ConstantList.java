@@ -56,8 +56,7 @@ public abstract class ConstantList {
 
     public static final String NAMESPACE_END_RESOURCE = "/resource/";
     public static final String NAMESPACE_END_ONTOLOGY = "/ontology/";
-    public static final String NAMESPACE_END_PROVENANCE_ONTOLOGY = "/provenance/ontology/";
-    public static final String NAMESPACE_END_PROVENANCE_RESOURCE = "/provenance/resource/";
+    public static final String NAMESPACE_END_METADATA = "/metadata/";
 
     public static final String PROPERTY_ASSOCIATED_WITH = "associatedWith";
     public static final String PROPERTY_GENERATED_BY = "generatedBy";
