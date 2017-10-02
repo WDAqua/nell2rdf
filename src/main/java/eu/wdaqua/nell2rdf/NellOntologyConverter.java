@@ -72,9 +72,8 @@ public class NellOntologyConverter {
 	 * @param prefix prefix to the ontology.
 	 * @param rdfFileName Absolute path to the turtle file where to serialize the Jena ontology as turtle on the filesystem.
 	 */
-	public NellOntologyConverter(final String prefix, final String format, final String metadata, final String csvFileName, final String rdfFileName) {
+	public NellOntologyConverter(final String format, final String metadata, final String csvFileName, final String rdfFileName) {
 		super();
-		this.prefix = prefix;
 		this.format = format;
 		this.metadata = metadata;
 		this.ontologyFile = csvFileName;
@@ -106,28 +105,27 @@ public class NellOntologyConverter {
 				+ "You should call this program with the following arguments :\n");
 		sb.append("1- Desired serialization format: \"RDF/XML\", \"RDF/XML-ABBREV\", \"N-TRIPLE\", \"TURTLE\", \"TTL\", \"N3\" \n");
 		sb.append("2- Desired model to represent meta-data: \"none\", \"reification\", \"n-ary\", \"quads\", \"singleton-property\"\n");
-		sb.append("3- Desired prefix for the ontology to create. E.g. \"http://ste-lod-crew.fr/nell/\"\n");
-        sb.append("4- Desired separator after the namespace (i.e., # for hash-style or / for slash-style)\"\n");
-		sb.append("5- Absolute path to nell csv ontology file. E.g. \"/Users/cgravier/Desktop/NELL.08m.670.ontology.csv\"\n");
-		sb.append("6- Absolute path where to serialize the RDF model. E.g. \"/Users/cgravier/Desktop/NELL.08m.670.ontology.ttl\"\n");
-		sb.append("7- Absolute path to nell csv instance file. E.g. \"/Users/cgravier/Desktop/NELL.08m.670.instances.csv\"\n");
-		sb.append("8- Absolute path where to serialize the RDF instances. E.g. \"/Users/cgravier/Desktop/NELL.08m.670.instances.ttl\"\n");
+		sb.append("3- Absolute path to nell csv ontology file. E.g. \"./NELL.08m.1075.ontology.csv\"\n");
+		sb.append("4- Absolute path where to serialize the RDF model. E.g. \"./NELL.08m.1075.ontology.ttl\"\n");
+		sb.append("5- Absolute path to nell csv instance file. E.g. \"./NELL.08m.1070.cesv.csv\"\n");
+		sb.append("6- Absolute path where to serialize the RDF instances. E.g. \"./NELL.08m.1070.cesv.ttl\"\n");
+		sb.append("7- Where to delete original triple (optional, true by default, not applicable for quads)");
 		return sb.toString();
 	}
 
 	/**
 	 * Checks if the program arguments are valid. For now it only checks if there are precisely 3 arguments.
 	 * @param args Array of program argument as strings.
-	 * @return true if the number of arguments equals 5 and the Nell csv files (args[1] and args[3] values) exists on the filesystem.
+	 * @return true if the number of arguments equals 5 and the Nell csv files (args[2] and args[4] values) exists on the filesystem.
 	 */
 	private static boolean areSuppliedArgumentsOK(String[] args) {
 
-		if (args.length != 8 && args.length != 9) {
+		if (args.length != 6 && args.length != 7) {
 			return false;
 		}
 
-		final File f = new File(args[4]);
-		final File n = new File(args[6]);
+		final File f = new File(args[2]);
+		final File n = new File(args[4]);
 
 		return (f.exists() && f.isFile() && n.exists() && n.isFile());
 	}
@@ -138,11 +136,10 @@ public class NellOntologyConverter {
 	 *            <ul>
 	 *            <li>args[0] : serialization format.</li>
 	 *            <li>args[1] : model to represent meta-data.</li>
-	 *            <li>args[2] : prefix to use.</li>
-	 *            <li>args[3] : absolute path to nell ontology file on your FS.</li>
-	 *            <li>args[4] : absolute path to the output turtle file to create on your FS.</li>
-	 *            <li>args[5] : absolute path to the nell file on your FS.</li>
-	 *            <li>args[6] : absolute path to the output turtle file for nell to create on your FS.</li>
+	 *            <li>args[2] : absolute path to nell ontology file on your FS.</li>
+	 *            <li>args[3] : absolute path to the output turtle file to create on your FS.</li>
+	 *            <li>args[4] : absolute path to the nell file on your FS.</li>
+	 *            <li>args[5] : absolute path to the output turtle file for nell to create on your FS.</li>
 	 *            </ul>
 	 */
 	public static void main(String[] args) {
@@ -154,18 +151,15 @@ public class NellOntologyConverter {
 
 		final String format = args[0].toUpperCase();
 		final String metadata = args[1].toUpperCase();
-		final String prefix = args[2];
-		final String separator = args[3];
-		final String ontologyFile = args[4];
-		final String outputFile = args[5];
-		final String nellFile = args[6];
-		final String outputNellToRDF = args[7];
-		final String candidates = args[8];
-        final String deleteOriginalTriples = args.length == 10 ? args[9] : "true";
+		final String ontologyFile = args[2];
+		final String outputFile = args[3];
+		final String nellFile = args[4];
+		final String outputNellToRDF = args[5];
+        final String deleteOriginalTriples = args.length == 7 ? args[6] : "true";
 
 		// create an in-memory model of the NELL csv file.
 		log.info("Build an in-memory model of Nell ontology as a CSV file...");
-		final NellOntologyConverter converter = new NellOntologyConverter(prefix, format, metadata, ontologyFile, outputFile);
+		final NellOntologyConverter converter = new NellOntologyConverter(format, metadata, ontologyFile, outputFile);
 		log.info("Done.");
 
 		// convert this model to a Jena model.
@@ -177,7 +171,7 @@ public class NellOntologyConverter {
 		 * display some stats on the Jena model check that everything for leveraged by having the same stats on the NELL ontology model using ith the bash script provided at
 		 * src/main/resources/printNelCsvStats)
 		 */
-		NellMapper.displayStats(nellRdfOntology, converter.getNellOntologyModel(), prefix);
+		NellMapper.displayStats(nellRdfOntology, converter.getNellOntologyModel());
 
 		// dump the Jena model to file system
 		log.info("Dumping ontology model to FS...");
@@ -189,7 +183,7 @@ public class NellOntologyConverter {
 		log.info("Done, Jena model dumped to " + outputFile);
 
 		log.info("Start converting Nell instances into Jena Model");
-		converter.translateNellInstancesToRDF(nellFile, outputNellToRDF, prefix, separator, Boolean.parseBoolean(candidates), Boolean.parseBoolean(deleteOriginalTriples));
+		converter.translateNellInstancesToRDF(nellFile, outputNellToRDF, Boolean.parseBoolean(deleteOriginalTriples));
 		
 	}
 
@@ -211,7 +205,7 @@ public class NellOntologyConverter {
      * @param prefix Prefix to use when creating new IRIs.
      * @param separator
      */
-	private void translateNellInstancesToRDF(final String nellInstanceFile, final String rdfInstanceFile, final String prefix, String separator, boolean candidates, boolean deleteOriginalTriples) {
+	private void translateNellInstancesToRDF(final String nellInstanceFile, final String rdfInstanceFile, boolean deleteOriginalTriples) {
 
 //		boolean n3 = false;
 //		boolean turtle = false;
@@ -242,7 +236,7 @@ public class NellOntologyConverter {
         log.info("Exporting triples using " + format);
 
 		// workaround to use less memory
-		final ExtractNell extract = new ExtractNell(prefix, this.metadata, separator, format, candidates, rdfInstanceFile, deleteOriginalTriples);
+		final ExtractNell extract = new ExtractNell(this.metadata, format, rdfInstanceFile, deleteOriginalTriples);
 		WriteNell write;
 		extract.extraction(nellInstanceFile);
 		//System.out.println("Model extraction Done.");
