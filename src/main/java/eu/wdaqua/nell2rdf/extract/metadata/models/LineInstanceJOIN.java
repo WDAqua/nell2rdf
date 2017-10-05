@@ -156,6 +156,10 @@ public final class LineInstanceJOIN {
     public void IsCandidate(String temp) {
         candidate = temp.contains("[");
     }
+    
+    public boolean isCandidate() {
+    	return candidate;
+    }
 
     public int getNrIterationsInt() {
         return nrIterationsInt;

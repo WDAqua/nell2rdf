@@ -1,26 +1,34 @@
 package eu.wdaqua.nell2rdf.utils.string2rdf;
 
-import eu.wdaqua.nell2rdf.NellOntologyConverter;
-import eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList;
-import eu.wdaqua.nell2rdf.extract.metadata.models.Header;
-import eu.wdaqua.nell2rdf.extract.metadata.models.LatLong;
-import eu.wdaqua.nell2rdf.extract.metadata.models.LineInstanceJOIN;
-import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
-import org.apache.jena.datatypes.RDFDatatype;
-import org.apache.jena.datatypes.xsd.XSDDatatype;
-import org.apache.jena.rdf.model.*;
-import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.RDFS;
-import org.apache.log4j.Logger;
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+
+import org.apache.jena.datatypes.RDFDatatype;
+import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.ReifiedStatement;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
+import org.apache.log4j.Logger;
+
+import eu.wdaqua.nell2rdf.NellOntologyConverter;
+import eu.wdaqua.nell2rdf.extract.metadata.models.Header;
+import eu.wdaqua.nell2rdf.extract.metadata.models.LineInstanceJOIN;
+import eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList;
+import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
+import eu.wdaqua.nell2rdf.utils.UriNell;
+import eu.wdaqua.nell2rdf.utils.string2rdf.components.ComponentRDF;
+import eu.wdaqua.nell2rdf.utils.string2rdf.components.ComponentRDFBuilder;
 
 /**
  * 
@@ -31,13 +39,11 @@ import java.util.Map;
  */
 public class StringTranslate {
 
-    public static Logger		log						= Logger.getLogger(StringTranslate.class);
+    private final Logger		log						= Logger.getLogger(StringTranslate.class);
 
     private final String		metadata;
     private final boolean deleteOriginalTriples;
     private OutputStream outputStream = null;
-
-    private Map<String,Integer> numberSequences = new HashMap<>();
     
     private LineInstanceJOIN belief;
 
@@ -56,7 +62,6 @@ public class StringTranslate {
 	 */
 	private String resourceBase;
 	private String ontologyBase;
-	private String metadataBase;
 	private String provenanceResourceBase;
 
 	private String lang;
@@ -87,23 +92,21 @@ public class StringTranslate {
 	 */
 	public StringTranslate(final String metadata, String lang, String file, boolean deleteOriginalTriples) {
 		this.model = ModelFactory.createDefaultModel();
-		this.base = ConstantList.PREFIX;
+		this.base = UriNell.PREFIX;
 		this.metadata = metadata;
 		this.deleteOriginalTriples = deleteOriginalTriples;
 		this.lang = lang;
-		this.resourceBase = this.base + ConstantList.NAMESPACE_END_RESOURCE;
-		this.ontologyBase = this.base + ConstantList.NAMESPACE_END_ONTOLOGY;
-		this.metadataBase = this.base + ConstantList.NAMESPACE_END_METADATA;
+		this.resourceBase = this.base + UriNell.NAMESPACE_END_RESOURCE;
+		this.ontologyBase = this.base + UriNell.NAMESPACE_END_ONTOLOGY;
 		this.skos = "http://www.w3.org/2004/02/skos/core#";
 		this.rdfs = "http://www.w3.org/2000/01/rdf-schema#";
 		this.xsd = "http://www.w3.org/2001/XMLSchema#";
-		this.model.setNsPrefix(ConstantList.PREFIX_RESOURCE, this.resourceBase);
-		this.model.setNsPrefix(ConstantList.PREFIX_ONTOLOGY, this.ontologyBase);
-		this.model.setNsPrefix(ConstantList.PREFIX_PROVENANCE_RESOURCE, this.provenanceResourceBase);
-		this.model.setNsPrefix(ConstantList.PREFIX_PROVENANCE_ONTOLOGY, this.metadataBase);
-		this.model.setNsPrefix("skos", this.skos);
-		this.model.setNsPrefix("rdfs", this.rdfs);
-		this.model.setNsPrefix("xsd", this.xsd);
+//		this.model.setNsPrefix(UriNell.PREFIX_RESOURCE, this.resourceBase);
+//		this.model.setNsPrefix(UriNell.PREFIX_ONTOLOGY, this.ontologyBase);
+//		this.model.setNsPrefix(UriNell.PREFIX_METADATA, this.provenanceResourceBase);
+//		this.model.setNsPrefix("skos", this.skos);
+//		this.model.setNsPrefix("rdfs", this.rdfs);
+//		this.model.setNsPrefix("xsd", this.xsd);
 		this.prefLabel = this.model.createProperty(this.skos + "prefLabel");
 		this.fail = new LinkedList<>();
 		this.good = new LinkedList<>();
@@ -167,16 +170,16 @@ public class StringTranslate {
         // Create NdFluents triples
         Property property;
         Resource resource;
-        property = model.getProperty(ConstantList.PREFIX_NDFLUENTS, ConstantList.PROPERTY_PROVENANCE_PART_OF);
-        resource =  createSequentialProvenanceResource(triple.getSubject().getLocalName(),ConstantList.NAMESPACE_NDFLUENTS + ConstantList.CLASS_PROVENANCE_PART);
+        property = model.getProperty(UriNell.PREFIX_NDFLUENTS, UriNell.PROPERTY_PROVENANCE_PART_OF);
+        resource =  model.createResource(UriNell.createSequentialUri(triple.getSubject().asResource().getLocalName()), model.getResource(UriNell.CLASS_PROVENANCE_PART));
         resource.addProperty(property, triple.getSubject());
         if (triple.getObject().isResource()) {
-            resource = createSequentialProvenanceResource(triple.getObject().asResource().getLocalName(), ConstantList.NAMESPACE_NDFLUENTS + ConstantList.CLASS_PROVENANCE_PART);
+            resource = model.createResource(UriNell.createSequentialUri(triple.getObject().asResource().getLocalName()), model.getResource(UriNell.CLASS_PROVENANCE_PART));
             resource.addProperty(property, triple.getObject());
         }
 
-        property = model.getProperty(ConstantList.PREFIX_NDFLUENTS, ConstantList.PROPERTY_PROVENANCE_EXTENT);
-        resource = createSequentialProvenanceResource(ConstantList.RESOURCE_BELIEF, ConstantList.CLASS_BELIEF);
+        property = model.getProperty(UriNell.PREFIX_NDFLUENTS, UriNell.PROPERTY_PROVENANCE_EXTENT);
+        resource = model.createResource(UriNell.createAnchorUri(UriNell.RESOURCE_BELIEF, belief.isCandidate()), model.getResource(UriNell.CLASS_BELIEF));
         triple.getSubject().addProperty(property, resource);
         if (triple.getObject().isResource()) {
             triple.getObject().asResource().addProperty(property, resource);
@@ -192,7 +195,9 @@ public class StringTranslate {
         final Statement triple = stringToRDFWithoutMetadata(belief);
 
         // Create the Singleton Property
-        Property singletonProperty = createSingletonPropertyOf(triple.getPredicate());
+//        Property singletonProperty = createSingletonPropertyOf(triple.getPredicate());
+        final Property singletonProperty = model.getProperty(UriNell.createAnchorUri(triple.getPredicate().getURI(), belief.isCandidate()));
+        singletonProperty.addProperty(RDF.type, model.getResource(UriNell.SINGLETON_PROPERTY_OF));
 
         // Attach metadata to reification statement
         attachMetadata(singletonProperty, belief);
@@ -226,7 +231,7 @@ public class StringTranslate {
         // Create N-Ary triples
         Property predicate1 = this.model.getProperty(triple.getPredicate().toString() + "_statement");
         Property predicate2 = this.model.getProperty(triple.getPredicate().toString() + "_value");
-        RDFNode statement = createSequentialProvenanceResource(ConstantList.RESOURCE_BELIEF, ConstantList.CLASS_BELIEF);
+        RDFNode statement = model.createResource(UriNell.createAnchorUri(UriNell.RESOURCE_BELIEF, belief.isCandidate()), model.getResource(UriNell.CLASS_BELIEF));
         triple.getSubject().addProperty(predicate1,statement);
         statement.asResource().addProperty(predicate2,triple.getObject());
 
@@ -246,7 +251,8 @@ public class StringTranslate {
 		final Statement triple = stringToRDFWithoutMetadata(belief);
 
 		// Create reification
-        ReifiedStatement statement = triple.createReifiedStatement(createSequentialProvenanceResourceUri(ConstantList.RESOURCE_BELIEF,belief.isCandidate()));
+		ReifiedStatement statement = triple.createReifiedStatement(UriNell.createAnchorUri(UriNell.RESOURCE_BELIEF, belief.isCandidate()));
+//        ReifiedStatement statement = triple.createReifiedStatement(createSequentialProvenanceResourceUri(UriNell.RESOURCE_BELIEF,belief.isCandidate()));
 
 		// Attach metadata to reification statement
 		attachMetadata(statement, belief);
@@ -259,34 +265,34 @@ public class StringTranslate {
 
     private void createProvenanceOntology() {
         // Create properties
-        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_ASSOCIATED_WITH);
-        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_GENERATED_BY);
-        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_ITERATION);
-        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_ITERATION_OF_PROMOTION);
-        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_PROBABILITY);
-        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_PROBABILITY_OF_BELIEF);
-        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_AT_TIME);
-        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_SOURCE);
-        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_TOKEN);
-        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_TOKE_ENTITY);
-        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_RELATION_VALUE);
-        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_GENERALIZATION_VALUE);
-        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_LATITUDE_VALUE);
-        this.model.createProperty(this.metadataBase + ConstantList.PROPERTY_LONGITUDE_VALUE);
+        this.model.createProperty(UriNell.PROPERTY_ASSOCIATED_WITH);
+        this.model.createProperty(UriNell.PROPERTY_GENERATED_BY);
+        this.model.createProperty(UriNell.PROPERTY_ITERATION);
+        this.model.createProperty(UriNell.PROPERTY_ITERATION_OF_PROMOTION);
+        this.model.createProperty(UriNell.PROPERTY_PROBABILITY);
+        this.model.createProperty(UriNell.PROPERTY_PROBABILITY_OF_BELIEF);
+        this.model.createProperty(UriNell.PROPERTY_AT_TIME);
+        this.model.createProperty(UriNell.PROPERTY_SOURCE);
+        this.model.createProperty(UriNell.PROPERTY_TOKEN);
+        this.model.createProperty(UriNell.PROPERTY_TOKE_ENTITY);
+        this.model.createProperty(UriNell.PROPERTY_RELATION_VALUE);
+        this.model.createProperty(UriNell.PROPERTY_GENERALIZATION_VALUE);
+        this.model.createProperty(UriNell.PROPERTY_LATITUDE_VALUE);
+        this.model.createProperty(UriNell.PROPERTY_LONGITUDE_VALUE);
 
 	    // Create classes
-        this.model.createResource(this.metadataBase + ConstantList.CLASS_BELIEF);
-        this.model.createResource(this.metadataBase + ConstantList.CLASS_CANDIDATE_BELIEF);
-        this.model.createResource(this.metadataBase + ConstantList.CLASS_PROMOTED_BELIEF);
-        this.model.createResource(this.metadataBase + ConstantList.CLASS_COMPONENT);
-        this.model.createResource(this.metadataBase + ConstantList.CLASS_COMPONENT_ITERATION);
-        this.model.createResource(this.metadataBase + ConstantList.CLASS_TOKEN);
-        this.model.createResource(this.metadataBase + ConstantList.CLASS_TOKEN_RELATION);
-        this.model.createResource(this.metadataBase + ConstantList.CLASS_TOKEN_GENERALIZATION);
-        this.model.createResource(this.metadataBase + ConstantList.CLASS_TOKEN_GEO);
+        this.model.createResource(UriNell.CLASS_BELIEF);
+        this.model.createResource(UriNell.CLASS_CANDIDATE_BELIEF);
+        this.model.createResource(UriNell.CLASS_PROMOTED_BELIEF);
+        this.model.createResource(UriNell.CLASS_COMPONENT);
+        this.model.createResource(UriNell.CLASS_COMPONENT_EXECUTION);
+        this.model.createResource(UriNell.CLASS_TOKEN);
+        this.model.createResource(UriNell.CLASS_TOKEN_RELATION);
+        this.model.createResource(UriNell.CLASS_TOKEN_GENERALIZATION);
+        this.model.createResource(UriNell.CLASS_TOKEN_GEO);
 
         if (this.metadata == NellOntologyConverter.NDFLUENTS) {
-            this.model.setNsPrefix(ConstantList.PREFIX_NDFLUENTS, ConstantList.NAMESPACE_NDFLUENTS);
+            this.model.setNsPrefix(UriNell.PREFIX_NDFLUENTS, UriNell.NAMESPACE_NDFLUENTS);
         }
     }
 
@@ -309,93 +315,27 @@ public class StringTranslate {
 	private void attachMetadata(final Resource resource, final LineInstanceJOIN belief) {
 		Property predicate;
 		RDFNode object;
-
+		
 		createProvenanceOntology();
-        resource.addProperty(RDF.type, model.getResource(this.metadataBase + ConstantList.CLASS_BELIEF));
+        resource.addProperty(RDF.type, model.getResource(UriNell.CLASS_BELIEF));
 
 		// If it is a promoted belief, add iteration of promotion and probability
         if (belief.isCandidate()) {
             // Add iteration of promotion
-            predicate = this.model.getProperty(this.metadataBase + ConstantList.PROPERTY_ITERATION_OF_PROMOTION);
+            predicate = this.model.getProperty(UriNell.PROPERTY_ITERATION_OF_PROMOTION);
             object = this.model.createTypedLiteral(belief.getNrIterationsInt(),XSDDatatype.XSDinteger);
             resource.addProperty(predicate, object);
 
             // Add probability
-            predicate = this.model.getProperty(this.metadataBase + ConstantList.PROPERTY_PROBABILITY_OF_BELIEF);
+            predicate = this.model.getProperty(UriNell.PROPERTY_PROBABILITY_OF_BELIEF);
             object = this.model.createTypedLiteral(belief.getProbabilityDouble(), XSDDatatype.XSDdecimal);
             resource.addProperty(predicate, object);
         }
 
         belief.getListComponents().forEach((String K, Header V) -> {
-            Property predicate_λ;
-            RDFNode object_λ;
-
-            // Create the Component Iteration
-            predicate_λ = this.model.getProperty(this.metadataBase + ConstantList.PROPERTY_GENERATED_BY);
-            RDFNode componentIteration = createSequentialProvenanceResource(K, ConstantList.CLASS_COMPONENT_ITERATION);
-            resource.addProperty(predicate_λ,componentIteration);
-
-            // Add data to Component Iteration
-            predicate_λ = model.getProperty(this.metadataBase + ConstantList.PROPERTY_ASSOCIATED_WITH);
-            object_λ = model.getResource(this.provenanceResourceBase + V.getComponentName());
-            componentIteration.asResource().addProperty(predicate_λ, object_λ);
-
-            predicate_λ = model.getProperty(this.metadataBase + ConstantList.PROPERTY_AT_TIME);
-            object_λ = model.createTypedLiteral(V.getDateTime(),XSDDatatype.XSDdateTime);
-            componentIteration.asResource().addProperty(predicate_λ, object_λ);
-
-            if (belief.isCandidate()) {
-                predicate_λ = model.getProperty(this.metadataBase + ConstantList.PROPERTY_ITERATION);
-                object_λ = model.createTypedLiteral(V.getIteration(), XSDDatatype.XSDinteger);
-                componentIteration.asResource().addProperty(predicate_λ, object_λ);
-
-                predicate_λ = model.getProperty(this.metadataBase + ConstantList.PROPERTY_PROBABILITY);
-                object_λ = model.createTypedLiteral(V.getProbability(), XSDDatatype.XSDdecimal);
-                componentIteration.asResource().addProperty(predicate_λ,object_λ);
-            }
-
-            if (V.getStringSource() != null) {
-                predicate_λ = model.getProperty(this.metadataBase + ConstantList.PROPERTY_SOURCE);
-                object_λ = model.createTypedLiteral(V.getStringSource().trim(), XSDDatatype.XSDstring);
-                componentIteration.asResource().addProperty(predicate_λ, object_λ);
-            }
-
-            // Create Token
-            RDFNode token;
-            if (V instanceof LatLong) {
-                token = createSequentialProvenanceResource(ConstantList.RESOURCE_TOKEN_GEO, ConstantList.CLASS_TOKEN_GEO);
-                predicate_λ = model.getProperty(this.metadataBase + ConstantList.PROPERTY_LATITUDE_VALUE);
-                double[] latlong= V.getFormatHeader().getTokenElement2LatLong();
-                object_λ = model.createTypedLiteral(latlong[0], XSDDatatype.XSDdecimal);
-                token.asResource().addProperty(predicate_λ, object_λ);
-                predicate_λ = model.getProperty(this.metadataBase + ConstantList.PROPERTY_LONGITUDE_VALUE);
-                object_λ = model.createTypedLiteral(((LatLong) V).getFormatHeader().getTokenElement2LatLong()[1], XSDDatatype.XSDdecimal);
-                token.asResource().addProperty(predicate_λ, object_λ);
-            } else {
-                switch (V.getFormatHeader().getTypeKB()) {
-                    case ConstantList.RELATION:
-                        token = createSequentialProvenanceResource(ConstantList.RESOURCE_TOKEN_RELATION, ConstantList.CLASS_TOKEN_RELATION);
-                        predicate_λ = model.getProperty(this.metadataBase + ConstantList.PROPERTY_RELATION_VALUE);
-                        object_λ = model.createTypedLiteral(V.getFormatHeader().getTokenElement2(), XSDDatatype.XSDstring);
-                        token.asResource().addProperty(predicate_λ, object_λ);
-                        break;
-                    case ConstantList.CATEGORY:
-                        token = createSequentialProvenanceResource(ConstantList.RESOURCE_TOKEN_GENERALIZATION, ConstantList.CLASS_TOKEN_GENERALIZATION);
-                        predicate_λ = model.getProperty(this.metadataBase + ConstantList.PROPERTY_GENERALIZATION_VALUE);
-                        object_λ = model.createTypedLiteral(V.getFormatHeader().getTokenElement2(), XSDDatatype.XSDstring);
-                        token.asResource().addProperty(predicate_λ, object_λ);
-                        break;
-                    default:
-                        token = createSequentialProvenanceResource(ConstantList.RESOURCE_TOKEN, ConstantList.CLASS_TOKEN);
-                        break;
-                }
-            }
-            predicate_λ = model.getProperty(this.metadataBase + ConstantList.PROPERTY_TOKE_ENTITY);
-            object_λ = model.createTypedLiteral(V.getFormatHeader().getTokenElement1(), XSDDatatype.XSDstring);
-            token.asResource().addProperty(predicate_λ, object_λ);
-            predicate_λ = model.getProperty(this.metadataBase + ConstantList.PROPERTY_TOKEN);
-            componentIteration.asResource().addProperty(predicate_λ, token);
-        });
+        	ComponentRDF component = ComponentRDFBuilder.build(V);
+        	component.addTriples(resource);
+        	});
 	}
 
 	private Statement stringToRDFWithoutMetadata(final LineInstanceJOIN belief) {
@@ -508,36 +448,6 @@ public class StringTranslate {
 		}
 		return resource;
 	}
-
-	private Property createSingletonPropertyOf(final Property generalProperty) {
-	    final Property singletonProperty = model.getProperty(createSequentialProvenanceResourceUri(generalProperty.getLocalName(),belief.isCandidate()));
-        singletonProperty.addProperty(RDF.type, model.getResource("http://www.w3.org/2000/01/rdf-schema#rdf:singletonPropertyOf"));
-	    return singletonProperty;
-    }
-
-//	private Property getOrCreateProvenanceProperty(String string) {
-//	    Property property;
-//	    if ((property = model.getProperty(this.provenanceOntologyBase + string)) == null) {
-//	        property = model.createProperty(this.provenanceOntologyBase + string);
-//        }
-//        return property;
-//    }
-
-	private Resource createSequentialProvenanceResource(final Resource resource_class) {
-		final Resource resource = this.model.createResource(createSequentialProvenanceResourceUri(resource_class.getLocalName(),belief.isCandidate()));
-		resource.addProperty(RDF.type, resource_class);
-		return resource;
-	}
-
-	private Resource createSequentialProvenanceResource(final String resource_name, final String type) {
-		final Resource resource = this.model.createResource(createSequentialProvenanceResourceUri(resource_name,belief.isCandidate()));
-		resource.addProperty(RDF.type, model.getResource(this.metadataBase + type));
-		return resource;
-	}
-
-    private String createSequentialProvenanceResourceUri(final String name, boolean candidate) {
-        return this.provenanceResourceBase + name + (candidate ? ConstantList.SUFFIX_CANDIDATE : ConstantList.SUFFIX_PROMOTED) + numberSequences.compute(name, (K,V) -> V == null ? 1 : ++V);
-    }
 
 	/**
 	 * Renvoi la propriete associee e une chaene de caracteres.
