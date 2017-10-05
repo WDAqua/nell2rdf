@@ -102,7 +102,7 @@ public class ComponentRDF {
 
 	String getExecutionName() {
 		if (executionName == null) {
-			executionName = UriNell.createSequentialUri(componentNell.getComponentName());
+			executionName = UriNell.createSequentialUri(UriNell.PREFIX + UriNell.NAMESPACE_END_METADATA + componentNell.getComponentName() + "Execution");
 		}
 		return executionName;
 	}
