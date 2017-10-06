@@ -24,12 +24,12 @@ public class AliasMatcherRDF extends ComponentRDF {
 		componentExecution.addProperty(predicate, object);
 	}
 	
-	String getExecutionType() {
-		return UriNell.CLASS_ALIAS_MATCHER_EXECUTION;
+	String getComponentName() {
+		return UriNell.RESOURCE_ALIAS_MATCHER;
 	}
 	
-	String getComponentType() {
-		return UriNell.RESOURCE_ALIAS_MATCHER;
+	String getExecutionType() {
+		return UriNell.CLASS_ALIAS_MATCHER_EXECUTION;
 	}
 	
 	String getFreeBaseDate() {

@@ -6,12 +6,14 @@
 package eu.wdaqua.nell2rdf.extract.metadata.models;
 
 
-import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
+import static eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList.CMC;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import static eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList.*;
+
+import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
 
 /**
  *
@@ -122,7 +124,7 @@ public class CMC extends Header {
     }
 
     //Fiels found in CMC
-    private class CMCObjects {
+    public class CMCObjects {
 
         private String fieldName;
         private String fieldValue;

@@ -42,9 +42,11 @@ public class ComponentRDF {
 	}
 	
 	void addComponentName() {
-		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_ASSOCIATED_WITH);
-        RDFNode object = componentExecution.getModel().getResource(getComponentName());
-        componentExecution.addProperty(predicate, object);
+		if (getComponentName() != null) {
+			Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_ASSOCIATED_WITH);
+	        RDFNode object = componentExecution.getModel().getResource(getComponentName());
+	        componentExecution.addProperty(predicate, object);
+		}
 	}
 	
 	void addTime() {
@@ -108,7 +110,7 @@ public class ComponentRDF {
 	}
 	
 	String getComponentName() {
-		return UriNell.RESOURCE_ALIAS_MATCHER;
+		return null;
 	}
 	
 	String getDateTime() {
