@@ -41,6 +41,9 @@ public class UriNell {
 	public static final String PROPERTY_MORPHOLOGICAL_PATTERN_NAME = PREFIX + NAMESPACE_END_METADATA + "morphologicalPatternName";
 	public static final String PROPERTY_MORPHOLOGICAL_PATTERN_VALUE = PREFIX + NAMESPACE_END_METADATA + "morphologicalPatternValue";
 	public static final String PROPERTY_MORPHOLOGICAL_PATTERN_SCORE = PREFIX + NAMESPACE_END_METADATA + "morphologicalPatternScore";
+	public static final String PROPERTY_PATTERN_OCCURRENCES = PREFIX + NAMESPACE_END_METADATA + "patternOccurrences";
+	public static final String PROPERTY_TEXTUAL_PATTERN = PREFIX + NAMESPACE_END_METADATA + "textualPattern";
+	public static final String PROPERTY_NUMBER_OF_OCCURRENCES = PREFIX + NAMESPACE_END_METADATA + "nbOfOccurrences";
 	
 	public static final String CLASS_BELIEF = PREFIX + NAMESPACE_END_METADATA + "Belief";
 	public static final String CLASS_CANDIDATE_BELIEF = PREFIX + NAMESPACE_END_METADATA + "CandidateBelief";
@@ -54,21 +57,23 @@ public class UriNell {
 	public static final String CLASS_ALIAS_MATCHER_EXECUTION = PREFIX + NAMESPACE_END_METADATA + "AliasMatcherExecution";
 	public static final String CLASS_CMC_EXECUTION = PREFIX + NAMESPACE_END_METADATA + "CMCExecution";
 	public static final String CLASS_CPL_EXECUTION = PREFIX + NAMESPACE_END_METADATA + "CPLExecution";
-
+	
 	public static final String CLASS_COMPONENT = PREFIX + NAMESPACE_END_METADATA + "Component";
 	public static final String RESOURCE_ALIAS_MATCHER = PREFIX + NAMESPACE_END_METADATA + "AliasMatcher";
 	public static final String RESOURCE_CMC = PREFIX + NAMESPACE_END_METADATA + "CMC";
 	public static final String RESOURCE_CPL = PREFIX + NAMESPACE_END_METADATA + "CPL";
 	
+	public static final String CLASS_MORPHOLOGICAL_PATTERN = PREFIX + NAMESPACE_END_METADATA + "MophologicalPatternScoreTriple";
+	public static final String RESOURCE_MORPHOLOGICAL_PATTERN = PREFIX + NAMESPACE_END_METADATA + "MorphologicalPattern";
+	public static final String CLASS_PATTERN_OCCURRENCE = PREFIX + NAMESPACE_END_METADATA + "PatternNbOfOccurrencesPair";
+	public static final String RESOURCE_PATTERN_OCCURRENCE = PREFIX + NAMESPACE_END_METADATA + "PatternOccurrence";
 	
 	public static final String RESOURCE_BELIEF = "belief";
 	public static final String RESOURCE_TOKEN = "token";
 	public static final String RESOURCE_TOKEN_RELATION = "relationToken";
 	public static final String RESOURCE_TOKEN_GENERALIZATION = "generalizationToken";
 	public static final String RESOURCE_TOKEN_GEO = "geoToken";
-	
-	public static final String RESOURCE_MORPHOLOGICAL_PATTERN = PREFIX + NAMESPACE_END_METADATA + "MorphologicalPattern";
-	
+		
 	public static final String SUFFIX_PROMOTED = "Promoted";
 	public static final String SUFFIX_CANDIDATE = "Candidate";
 	
