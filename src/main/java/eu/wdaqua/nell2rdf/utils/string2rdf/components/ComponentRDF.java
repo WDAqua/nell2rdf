@@ -17,8 +17,7 @@ public class ComponentRDF {
 	Resource componentExecution;
 	
 	String	executionName = null,
-			tokenName = null,
-			tokenClass = null;
+			tokenName = null;
 	
 	public ComponentRDF(final Header componentNell) {
 		this.componentNell = componentNell;
@@ -145,13 +144,12 @@ public class ComponentRDF {
 	}
 	
 	String getTokenClass() {
-		if (tokenClass == null) {
+		String tokenClass = null;
 			if (componentNell.getFormatHeader().getTypeKB() == ConstantList.RELATION) {
-				tokenClass = UriNell.createSequentialUri(UriNell.CLASS_TOKEN_RELATION);
+				tokenClass = UriNell.CLASS_TOKEN_RELATION;
 			} else if (componentNell.getFormatHeader().getTypeKB() == ConstantList.CATEGORY) {
-				tokenClass = UriNell.createSequentialUri(UriNell.CLASS_TOKEN_GENERALIZATION);
+				tokenClass = UriNell.CLASS_TOKEN_GENERALIZATION;
 			}
-		}
 		return tokenClass;
 	}
 	
