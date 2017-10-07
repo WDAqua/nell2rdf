@@ -7,11 +7,13 @@ package eu.wdaqua.nell2rdf.extract.metadata.models;
 
 import static eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList.LATLONG;
 import static eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList.LATLONGTT;
-import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
 
 /**
  *
@@ -106,7 +108,7 @@ public class LatLong extends Header {
         return temp.toString();
     }
 
-    private class Rule {
+    public class Rule {
 
         String sPhrase;
         Double value1;

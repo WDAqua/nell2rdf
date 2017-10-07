@@ -10,9 +10,9 @@ import org.apache.jena.rdf.model.Resource;
 import eu.wdaqua.nell2rdf.extract.metadata.models.CPL;
 import eu.wdaqua.nell2rdf.utils.UriNell;
 
-public class CPLRdf extends ComponentRDF {
+public class CPLrdf extends ComponentRDF {
 	
-	public CPLRdf(final CPL cpl) {
+	public CPLrdf(final CPL cpl) {
 		super(cpl);
 	}
 

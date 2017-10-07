@@ -11,9 +11,9 @@ import eu.wdaqua.nell2rdf.extract.metadata.models.CMC;
 import eu.wdaqua.nell2rdf.extract.metadata.models.CMC.CMCObjects;
 import eu.wdaqua.nell2rdf.utils.UriNell;
 
-public class CMCRdf extends ComponentRDF {
+public class CMCrdf extends ComponentRDF {
 
-	public CMCRdf(final CMC cmc) {
+	public CMCrdf(final CMC cmc) {
 		super(cmc);
 	}
 

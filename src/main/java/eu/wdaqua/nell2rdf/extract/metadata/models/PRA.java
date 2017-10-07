@@ -5,14 +5,14 @@
  */
 package eu.wdaqua.nell2rdf.extract.metadata.models;
 
-import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
-import java.util.HashMap;
-import java.util.Map;
-import static eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList.*;
+import static eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList.PRA;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
 
 public class PRA extends Header {
 
@@ -96,7 +96,7 @@ public class PRA extends Header {
         return temp.toString();
     }
 
-    private class Rule {
+    public class Rule {
 
         String sPathDirection;
         List<String> lPath;
@@ -107,6 +107,20 @@ public class PRA extends Header {
             this.lPath = lPath;
             this.dScore = dScore;
         }
+
+		public String getsPathDirection() {
+			return sPathDirection;
+		}
+
+		public List<String> getlPath() {
+			return lPath;
+		}
+
+		public double getdScore() {
+			return dScore;
+		}
+        
+        
     }
 
 }
