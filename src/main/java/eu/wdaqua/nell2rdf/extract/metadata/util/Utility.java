@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package eu.wdaqua.nell2rdf.extract.metadata.util;
 
 import eu.wdaqua.nell2rdf.extract.metadata.models.LineInstanceJOIN;
@@ -53,8 +48,9 @@ public class Utility {
     private static final String REGEX_SOURCE_TOYS = "(\\[)(.)*";
     private static final String REGEX_SPREAD_SHEET_USER = "(?<=(>-))(.*)(?=(: ))";
     private static final String REGEX_SPREAD_SHEET_ERV = "(?<=(USER:))(.*)(?=(Action))";
-    private static final String REGEX_SPREAD_SHEET_ACTION = "(?<=(Action=\\())([a-zA-Z-0-9\\+\\-])*(?=(\\)))";
-    private static final String REGEX_SPREAD_SHEET_FROM = "(?<=(\\(from))(.*)(?=(\\)))";
+    private static final String REGEX_SPREAD_SHEET_USER_NULL = "(?<=(csv:))(.*)(?=(Action))";
+    private static final String REGEX_SPREAD_SHEET_ACTION = "(?<=(Action=\\())([a-zA-Z-0-9\\+\\- ])*(?=(\\)))";
+    private static final String REGEX_SPREAD_SHEET_FROM = "NELL(.*)csv";
 
     private static final String REGEX_RULE_INFERENCE_COMPLETE = "(?<=(\\{))(.*)(?=(\\}))";
     private static final String REGEX_PRA = "(?<=(>-))(.)*";
@@ -311,7 +307,12 @@ public class Utility {
     }
 
     public static String getSpreadSheetUserFeedback(String str) {
-        return extract(str, REGEX_SPREAD_SHEET_USER);
+        String temp = extract(str, REGEX_SPREAD_SHEET_USER);
+        if (!temp.contains("csv")) {
+            return temp;
+        } else {
+            return null;
+        }
     }
 
     public static String getSpreadSheetERV(String str, String user) {
@@ -319,8 +320,12 @@ public class Utility {
                 .replace(",", "").replace("\"", "").trim();
     }
 
+    public static String getSpreadSheetERV_NULL_USER(String str) {
+        return extract(str, REGEX_SPREAD_SHEET_USER_NULL).trim();
+    }
+
     public static String getSpreadSheetAction(String str) {
-        return extract(str, REGEX_SPREAD_SHEET_ACTION);
+        return extract(str, REGEX_SPREAD_SHEET_ACTION).replace(" -1", "");
     }
 
     public static String getSpreadSheetFrom(String str) {
@@ -395,8 +400,8 @@ public class Utility {
             //close the stream
         }
     }
-
-   /* public static void writeJsonFile(JSONObject jObject, String path, boolean next) throws IOException {
+/*
+    public static void writeJsonFile(JSONObject jObject, String path, boolean next) throws IOException {
         //write contents of StringBuffer to a file
         try (BufferedWriter bwr = new BufferedWriter(new FileWriter(new File(path), next))) {
             //write contents of StringBuffer to a file

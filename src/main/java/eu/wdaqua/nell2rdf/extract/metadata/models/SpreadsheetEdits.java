@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package eu.wdaqua.nell2rdf.extract.metadata.models;
 
 import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
@@ -54,14 +49,26 @@ import static eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList.*;
         this.action = Utility.getSpreadSheetAction(str);
         this.fromIteration = Utility.getSpreadSheetFrom(str);
 
-        String tempSplit[] = Utility.getSpreadSheetERV(str, this.userFeedback).split(" ");
-        try {
-            this.entity = tempSplit[0];
-            this.relation = tempSplit[1];
-            this.value = tempSplit[2];
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println(str);
+        if (this.userFeedback != null) {
+            String tempSplit[] = Utility.getSpreadSheetERV(str, this.userFeedback).split(" ");
+            try {
+                this.entity = tempSplit[0];
+                this.relation = tempSplit[1];
+                this.value = tempSplit[2];
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println(e + "\nprocessStringText + SpreadSheetEdits\n" + str);
+            }
+        } else {
+            String tempSplit[] = Utility.getSpreadSheetERV_NULL_USER(str).split(" ");
+            try {
+                this.entity = tempSplit[0].substring(tempSplit[0].lastIndexOf(":") + 1);
+                this.relation = tempSplit[1].substring(tempSplit[1].lastIndexOf(":") + 1);
+                this.value = tempSplit[2].substring(tempSplit[2].lastIndexOf(":") + 1);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println(e + "\nprocessStringText + SpreadSheetEdits\n" + str);
+            }
         }
+
     }
 
     @Override
@@ -85,3 +92,4 @@ import static eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList.*;
         return temp.toString() + "}";
     }
 }
+  
