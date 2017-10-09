@@ -47,6 +47,12 @@ public class UriNell {
 	public static final String PROPERTY_OLD_BUG = PREFIX + NAMESPACE_END_METADATA + "oldBug";
 	public static final String PROPERTY_LOCATION = PREFIX + NAMESPACE_END_METADATA + "location";
 	public static final String PROPERTY_PLACE_NAME = PREFIX + NAMESPACE_END_METADATA + "name";
+	public static final String PROPERTY_PROMOTED_ENTITY = PREFIX + NAMESPACE_END_METADATA + "promotedEntity";
+	public static final String PROPERTY_PROMOTED_ENTITY_CATEGORY = PREFIX + NAMESPACE_END_METADATA + "promotedEntityCategory";
+	public static final String PROPERTY_PROMOTED_RELATION = PREFIX + NAMESPACE_END_METADATA + "relation";
+	public static final String PROPERTY_PROMOTED_VALUE = PREFIX + NAMESPACE_END_METADATA + "value";
+	public static final String PROPERTY_PROMOTED_VALUE_CATEGORIE = PREFIX + NAMESPACE_END_METADATA + "valueCategorie";
+	
 	public static final String PROPERTY_TEXT_URL = PREFIX + NAMESPACE_END_METADATA + "textUrl";
 	public static final String PROPERTY_TEXT = PREFIX + NAMESPACE_END_METADATA + "text";
 	public static final String PROPERTY_URL_OE = PREFIX + NAMESPACE_END_METADATA + "urlOE";
@@ -55,13 +61,26 @@ public class UriNell {
 	public static final String PROPERTY_DIRECTION_OF_PATH = PREFIX + NAMESPACE_END_METADATA + "direction";
 	public static final String PROPERTY_SCORE_OF_PATH = PREFIX + NAMESPACE_END_METADATA + "score";
 	public static final String PROPERTY_LIST_OF_RELATIONS = PREFIX + NAMESPACE_END_METADATA + "listOfRelations";
+	public static final String PROPERTY_RULE_SCORES = PREFIX + NAMESPACE_END_METADATA + "ruleScores";
+	public static final String PROPERTY_RULE= PREFIX + NAMESPACE_END_METADATA + "rule";
+	public static final String PROPERTY_VARIABLE = PREFIX + NAMESPACE_END_METADATA + "variable";
+	public static final String PROPERTY_VALUE_OF_VARIABLE = PREFIX + NAMESPACE_END_METADATA + "valueOfVariable";
+	public static final String PROPERTY_PREDICATE = PREFIX + NAMESPACE_END_METADATA + "predicate";
+	public static final String PROPERTY_PREDICATE_NAME = PREFIX + NAMESPACE_END_METADATA + "predicateName";
+	public static final String PROPERTY_FIRST_VARIABLE_OF_PREDICATE = PREFIX + NAMESPACE_END_METADATA + "1stVariable";
+	public static final String PROPERTY_SECOND_VARIABLE_OF_PREDICATE = PREFIX + NAMESPACE_END_METADATA + "2ndVariable";
+	public static final String PROPERTY_ACCURACY =  PREFIX + NAMESPACE_END_METADATA + "accuracy";
+	public static final String PROPERTY_NUMBER_CORRECT =  PREFIX + NAMESPACE_END_METADATA + "nbCorrect";
+	public static final String PROPERTY_NUMBER_INCORRECT =  PREFIX + NAMESPACE_END_METADATA + "nbIncorrect";
+	public static final String PROPERTY_NUMBER_UNKNOWN = PREFIX + NAMESPACE_END_METADATA + "nbUnknown";	
 	public static final String PROPERTY_URL_SEAL = PREFIX + NAMESPACE_END_METADATA + "urlSeal";
 	public static final String PROPERTY_SENTENCE = PREFIX + NAMESPACE_END_METADATA + "sentence";
 	public static final String PROPERTY_USER = PREFIX + NAMESPACE_END_METADATA + "user";
 	public static final String PROPERTY_ENTITY = PREFIX + NAMESPACE_END_METADATA + "entity";
 	public static final String PROPERTY_RELATION = PREFIX + NAMESPACE_END_METADATA + "relation";
 	public static final String PROPERTY_VALUE = PREFIX + NAMESPACE_END_METADATA + "value";
-	public static final String PROPERTY_FROM_ITERATION = PREFIX + NAMESPACE_END_METADATA + "fromIteration";
+	public static final String PROPERTY_ACTION = PREFIX + NAMESPACE_END_METADATA + "action";
+	public static final String PROPERTY_FILE = PREFIX + NAMESPACE_END_METADATA + "file";
 	
 	public static final String CLASS_BELIEF = PREFIX + NAMESPACE_END_METADATA + "Belief";
 	public static final String CLASS_CANDIDATE_BELIEF = PREFIX + NAMESPACE_END_METADATA + "CandidateBelief";
@@ -78,6 +97,7 @@ public class UriNell {
 	public static final String CLASS_KB_MANIPULATION_EXECUTION = PREFIX + NAMESPACE_END_METADATA + "KbManipulationExecution";
 	public static final String CLASS_LE_EXECUTION = PREFIX + NAMESPACE_END_METADATA + "LEExecution";
 	public static final String CLASS_LATLONG_EXECUTION = PREFIX + NAMESPACE_END_METADATA + "LatLongExecution";
+	public static final String CLASS_MBL_EXECUTION = PREFIX + NAMESPACE_END_METADATA + "MBLExecution";
 	public static final String CLASS_OE_EXECUTION = PREFIX + NAMESPACE_END_METADATA + "OEExecution";
 	public static final String CLASS_ONTOLOGY_MODIFIER_EXECUTION = PREFIX + NAMESPACE_END_METADATA + "OntologyModifierExecution";
 	public static final String CLASS_PRA_EXECUTION = PREFIX + NAMESPACE_END_METADATA + "PRAExecution";
@@ -93,6 +113,7 @@ public class UriNell {
 	public static final String RESOURCE_KB_MANIPULATION = PREFIX + NAMESPACE_END_METADATA + "KbManipulation";
 	public static final String RESOURCE_LE = PREFIX + NAMESPACE_END_METADATA + "LE";
 	public static final String RESOURCE_LATLONG = PREFIX + NAMESPACE_END_METADATA + "LatLong";
+	public static final String RESOURCE_MBL = PREFIX + NAMESPACE_END_METADATA + "MBL";
 	public static final String RESOURCE_OE = PREFIX + NAMESPACE_END_METADATA + "OE";
 	public static final String RESOURCE_ONTOLOGY_MODIFIER = PREFIX + NAMESPACE_END_METADATA + "OntologyModifier";
 	public static final String RESOURCE_PRA = PREFIX + NAMESPACE_END_METADATA + "PRA";
@@ -111,6 +132,10 @@ public class UriNell {
 	public static final String RESOURCE_TEXT_URL = PREFIX + NAMESPACE_END_METADATA + "TextUrl";
 	public static final String CLASS_RELATION_PATH = PREFIX + NAMESPACE_END_METADATA + "Path";
 	public static final String RESOURCE_RELATION_PATH = PREFIX + NAMESPACE_END_METADATA + "RelationPath";
+	public static final String CLASS_VARIABLE = PREFIX + NAMESPACE_END_METADATA + "Variable";
+	public static final String RESOURCE_VARIABLE = PREFIX + NAMESPACE_END_METADATA + "Variable";
+	public static final String CLASS_PREDICATE = PREFIX + NAMESPACE_END_METADATA + "Predicate";
+	public static final String RESOURCE_PREDICATE = PREFIX + NAMESPACE_END_METADATA + "Predicate";
 	
 	public static final String RESOURCE_BELIEF = "belief";
 	public static final String RESOURCE_TOKEN = "token";

@@ -9,6 +9,7 @@ import eu.wdaqua.nell2rdf.extract.metadata.models.Header;
 import eu.wdaqua.nell2rdf.extract.metadata.models.KbManipulation;
 import eu.wdaqua.nell2rdf.extract.metadata.models.LE;
 import eu.wdaqua.nell2rdf.extract.metadata.models.LatLong;
+import eu.wdaqua.nell2rdf.extract.metadata.models.MBL;
 import eu.wdaqua.nell2rdf.extract.metadata.models.OE;
 import eu.wdaqua.nell2rdf.extract.metadata.models.OntologyModifier;
 import eu.wdaqua.nell2rdf.extract.metadata.models.PRA;
@@ -49,9 +50,7 @@ public class ComponentRDFBuilder {
 			componentRdf = new LErdf((LE) componentNell);
 			break;
 		case ConstantList.MBL:
-		case ConstantList.TEXT_MBL:
-			log.error("MBL component not implemented. Extracting only generic data.");
-			componentRdf = new ComponentRDF(componentNell);
+			componentRdf = new MBLrdf((MBL) componentNell);
 			break;
 		case ConstantList.OE:
 			componentRdf = new OErdf((OE) componentNell);
@@ -75,7 +74,7 @@ public class ComponentRDFBuilder {
 			componentRdf = new SpreadsheetEditsRDF((SpreadsheetEdits) componentNell);
 			break;
 		default:
-			log.warn("It was not possible to identify the type of component. Extracting only generic data.");
+			log.warn("It was not possible to identify the type of component " + componentNell.getComponentName() + ". Extracting only generic data.");
 			componentRdf = new ComponentRDF(componentNell);
 		}
 		return componentRdf;

@@ -17,6 +17,7 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.ReifiedStatement;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.sparql.core.Quad;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.log4j.Logger;
@@ -211,16 +212,16 @@ public class StringTranslate {
 
 	private void stringToRDFWithQuads(final LineInstanceJOIN belief) {
 
-//        // Create normal triple without metadata
-//        final Statement triple = stringToRDFWithoutMetadata(nellData);
-//
-//		// Create QUAD
-//		final Resource tripleId = createSequentialProvenanceResource("ID");
-//		final Quad quad = new Quad(tripleId.asNode(), triple.asTriple());
-//		triple.createReifiedStatement();
-//
-//        // Attach metadata to triple ID
-//        attachMetadata(tripleId, nellData);
+        // Create normal triple without metadata
+        final Statement triple = stringToRDFWithoutMetadata(belief);
+
+		// Create QUAD
+		final Resource tripleId = model.createResource(UriNell.createAnchorUri(UriNell.RESOURCE_BELIEF, belief.isCandidate()), model.getResource(UriNell.CLASS_BELIEF));
+		final Quad quad = new Quad(tripleId.asNode(), triple.asTriple());
+		triple.createReifiedStatement();
+
+        // Attach metadata to triple ID
+        attachMetadata(tripleId, belief);
 	}
 
 	private void stringToRDFWithNAry(final LineInstanceJOIN belief) {

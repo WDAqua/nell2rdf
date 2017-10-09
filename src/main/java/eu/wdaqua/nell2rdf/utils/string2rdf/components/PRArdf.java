@@ -32,7 +32,7 @@ public class PRArdf extends ComponentRDF {
 			Resource path = object.asResource();
 			
 			predicate = path.getModel().getProperty(UriNell.PROPERTY_DIRECTION_OF_PATH);
-			object = path.getModel().createResource();
+			object = path.getModel().createResource(UriNell.PREFIX + UriNell.NAMESPACE_END_METADATA + walk.getsPathDirection());
 			path.addProperty(predicate, object);
 			
 			predicate = path.getModel().getProperty(UriNell.PROPERTY_SCORE_OF_PATH);
@@ -42,7 +42,11 @@ public class PRArdf extends ComponentRDF {
 			RDFList list = path.getModel().createList();
 			walk.getlPath().forEach(step -> {
 				RDFNode element = list.getModel().createTypedLiteral(step);
-				list.add(element);
+				if (list.isEmpty()) {
+					list.cons(element);
+				} else {
+					list.add(element);
+				}
 			});
 			predicate = path.getModel().getProperty(UriNell.PROPERTY_LIST_OF_RELATIONS);
 			path.addProperty(predicate, list);

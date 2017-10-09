@@ -20,6 +20,7 @@ public class SpreadsheetEditsRDF extends ComponentRDF {
 		addEntity();
 		addRelation();
 		addValue();
+		addAction();
 		addFromIteration();
 	}
 	
@@ -47,8 +48,14 @@ public class SpreadsheetEditsRDF extends ComponentRDF {
 		componentExecution.addProperty(predicate, object);
 	}
 	
+	void addAction() {
+		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_ACTION);
+		RDFNode object = componentExecution.getModel().createTypedLiteral(getValue());
+		componentExecution.addProperty(predicate, object);
+	}
+	
 	void addFromIteration () {
-		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_FROM_ITERATION);
+		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_FILE);
 		RDFNode object = componentExecution.getModel().createTypedLiteral(getFromIteration(),XSDDatatype.XSDnonNegativeInteger);
 		componentExecution.addProperty(predicate, object);
 	}
@@ -81,8 +88,8 @@ public class SpreadsheetEditsRDF extends ComponentRDF {
         return ((SpreadsheetEdits) componentNell).getMetadata_Action();
     }
 
-    int getFromIteration() {
-        return 0; //((SpreadsheetEdits) componentNell).getMetadata_From();
+    String getFromIteration() {
+        return ((SpreadsheetEdits) componentNell).getMetadata_From();
     }
 
 }

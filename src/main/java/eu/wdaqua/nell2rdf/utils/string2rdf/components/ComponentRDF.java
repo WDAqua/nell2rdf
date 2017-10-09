@@ -24,7 +24,6 @@ public class ComponentRDF {
 	}
 	
 	public void addTriples (final Resource resource) {
-
         componentExecution = createComponentExecution(resource);  
         addComponentName();
         addTime();
