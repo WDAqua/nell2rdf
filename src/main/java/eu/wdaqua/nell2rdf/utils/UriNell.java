@@ -155,8 +155,12 @@ public class UriNell {
         return name + "_" + numberSequences.compute(name, (K,V) -> V == null ? 1 : ++V);
     }
 	
-	public static String createAnchorUri(final String name, final boolean candidate) {
-		return UriNell.createSequentialUri(PREFIX + NAMESPACE_END_METADATA + name + "_" + (candidate ? SUFFIX_CANDIDATE : SUFFIX_PROMOTED));
+	public static String createAnchorUri(final String subject, final String predicate, final String object) {
+		return UriNell.createSequentialUri(PREFIX + NAMESPACE_END_METADATA + subject + "+" + predicate + "+" + object);
 	}
+	
+//	public static String createAnchorUri(final String name, final boolean candidate) {
+//		return UriNell.createSequentialUri(PREFIX + NAMESPACE_END_METADATA + name + "_" + (candidate ? SUFFIX_CANDIDATE : SUFFIX_PROMOTED));
+//	}
 	
 }

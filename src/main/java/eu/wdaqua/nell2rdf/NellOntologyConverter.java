@@ -5,11 +5,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import eu.wdaqua.nell2rdf.extract.ExtractNell;
 import org.apache.jena.rdf.model.Model;
 import org.apache.log4j.Logger;
 
 import eu.wdaqua.nell2rdf.beans.NellModel;
+import eu.wdaqua.nell2rdf.extract.ExtractNell;
 import eu.wdaqua.nell2rdf.extract.WriteNell;
 import eu.wdaqua.nell2rdf.utils.NellMapper;
 
@@ -26,13 +26,14 @@ public class NellOntologyConverter {
 	public static final String	TURTLE				= "TURTLE";
 	public static final String  TTL                 = "TTL";
     public static final String	N3					= "N3";
-    public static final String  NDFLUENTS           = "NDFLUENTS";
 
+    public static final String	QUADS				= "QUADS";
+    
 	public static final String	NONE				= "NONE";
 	public static final String	REIFICATION			= "REIFICATION";
 	public static final String	N_ARY				= "N-ARY";
-	public static final String	QUADS				= "QUADS";
 	public static final String	SINGLETON_PROPERTY	= "SINGLETON-PROPERTY";
+	public static final String  NDFLUENTS           = "NDFLUENTS";
 
 	public static Logger		log					= Logger.getLogger(NellOntologyConverter.class);
 
@@ -229,7 +230,8 @@ public class NellOntologyConverter {
                 && !format.equals(NTRIPLES)
                 && !format.equals(TURTLE)
                 && !format.equals(TTL)
-                && !format.equals(N3)) {
+                && !format.equals(N3)
+                && !format.equals(QUADS)) {
             format = NTRIPLES;
         }
 

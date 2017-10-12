@@ -17,7 +17,10 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.ReifiedStatement;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.sparql.core.Quad;
+import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.sparql.core.DatasetGraph;
+import org.apache.jena.tdb.TDBFactory;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.log4j.Logger;
@@ -126,6 +129,7 @@ public class StringTranslate {
 	 */
 
 	public void stringToRDF(final String nellData) {
+		DatasetGraph graph = null;
 		String[] split = nellData.split("\t");
 		belief = new LineInstanceJOIN(split[0], split[1], split[2], split[3], split[4], Utility.DecodeURL(split[5]), split[6], split[7], split[8], split[9], split[10], split[11], Utility.DecodeURL(split[12]), nellData);
 		switch (this.metadata) {
@@ -143,7 +147,7 @@ public class StringTranslate {
                 break;
             case NellOntologyConverter.QUADS:
                 log.debug("Converting string to RDF using quads to attach metadata");
-                stringToRDFWithQuads(belief);
+                graph = stringToRDFWithQuads(belief);
                 break;
             case NellOntologyConverter.SINGLETON_PROPERTY:
                 log.debug("Converting string to RDF using singleton property to attach metadata");
@@ -160,6 +164,11 @@ public class StringTranslate {
         }
 
 		//workaround to reduce memory consumption
+		
+		if (graph != null) {
+			RDFDataMgr.write(outputStream, graph, Lang.NQUADS) ;
+		}
+		
 		this.model.write(this.outputStream, this.lang);
 		this.model.removeAll();
 	}
@@ -180,7 +189,8 @@ public class StringTranslate {
         }
 
         property = model.getProperty(UriNell.PREFIX_NDFLUENTS, UriNell.PROPERTY_PROVENANCE_EXTENT);
-        resource = model.createResource(UriNell.createAnchorUri(UriNell.RESOURCE_BELIEF, belief.isCandidate()), model.getResource(UriNell.CLASS_BELIEF));
+        // resource = model.createResource(UriNell.createAnchorUri(UriNell.RESOURCE_BELIEF, belief.isCandidate()), model.getResource(UriNell.CLASS_BELIEF));
+        resource = model.createResource(UriNell.createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()), model.getResource(UriNell.CLASS_BELIEF));
         triple.getSubject().addProperty(property, resource);
         if (triple.getObject().isResource()) {
             triple.getObject().asResource().addProperty(property, resource);
@@ -197,7 +207,8 @@ public class StringTranslate {
 
         // Create the Singleton Property
 //        Property singletonProperty = createSingletonPropertyOf(triple.getPredicate());
-        final Property singletonProperty = model.getProperty(UriNell.createAnchorUri(triple.getPredicate().getURI(), belief.isCandidate()));
+        // final Property singletonProperty = model.getProperty(UriNell.createAnchorUri(triple.getPredicate().getURI(), belief.isCandidate()));
+        final Property singletonProperty = model.getProperty(UriNell.createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()));
         singletonProperty.addProperty(RDF.type, model.getResource(UriNell.SINGLETON_PROPERTY_OF));
 
         // Attach metadata to reification statement
@@ -210,18 +221,29 @@ public class StringTranslate {
 
 	}
 
-	private void stringToRDFWithQuads(final LineInstanceJOIN belief) {
+	private DatasetGraph stringToRDFWithQuads(final LineInstanceJOIN belief) {
 
+		// Create Named Graph
+        //final Resource tripleId = model.createResource(UriNell.createAnchorUri(UriNell.RESOURCE_BELIEF, belief.isCandidate()), model.getResource(UriNell.CLASS_BELIEF));
+        final Resource tripleId = model.createResource(UriNell.createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()), model.getResource(UriNell.CLASS_BELIEF));
+        Model model = ModelFactory.createDefaultModel();
+        
+        DatasetGraph dataset = TDBFactory.createDatasetGraph();
+        
+//        dataset.addNamedModel(tripleId.getURI(), model);
+        
         // Create normal triple without metadata
-        final Statement triple = stringToRDFWithoutMetadata(belief);
-
-		// Create QUAD
-		final Resource tripleId = model.createResource(UriNell.createAnchorUri(UriNell.RESOURCE_BELIEF, belief.isCandidate()), model.getResource(UriNell.CLASS_BELIEF));
-		final Quad quad = new Quad(tripleId.asNode(), triple.asTriple());
-		triple.createReifiedStatement();
+        final Statement triple = stringToRDFWithoutMetadata(model, belief);
+        
+    	dataset.add(tripleId.asNode(), triple.getSubject().asNode(), triple.getPredicate().asNode(), triple.getObject().asNode());
+        
+//        dataset.getNamedModel(tripleId.getURI());
+//        dataset.addNamedModel(tripleId.getURI(), model);
 
         // Attach metadata to triple ID
         attachMetadata(tripleId, belief);
+        
+        return dataset;
 	}
 
 	private void stringToRDFWithNAry(final LineInstanceJOIN belief) {
@@ -232,7 +254,9 @@ public class StringTranslate {
         // Create N-Ary triples
         Property predicate1 = this.model.getProperty(triple.getPredicate().toString() + "_statement");
         Property predicate2 = this.model.getProperty(triple.getPredicate().toString() + "_value");
-        RDFNode statement = model.createResource(UriNell.createAnchorUri(UriNell.RESOURCE_BELIEF, belief.isCandidate()), model.getResource(UriNell.CLASS_BELIEF));
+//        RDFNode statement = model.createResource(UriNell.createAnchorUri(UriNell.RESOURCE_BELIEF, belief.isCandidate()), model.getResource(UriNell.CLASS_BELIEF));
+        RDFNode statement = model.createResource(UriNell.createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()), model.getResource(UriNell.CLASS_BELIEF));
+        
         triple.getSubject().addProperty(predicate1,statement);
         statement.asResource().addProperty(predicate2,triple.getObject());
 
@@ -252,7 +276,8 @@ public class StringTranslate {
 		final Statement triple = stringToRDFWithoutMetadata(belief);
 
 		// Create reification
-		ReifiedStatement statement = triple.createReifiedStatement(UriNell.createAnchorUri(UriNell.RESOURCE_BELIEF, belief.isCandidate()));
+//		ReifiedStatement statement = triple.createReifiedStatement(UriNell.createAnchorUri(UriNell.RESOURCE_BELIEF, belief.isCandidate()));
+		ReifiedStatement statement = triple.createReifiedStatement(UriNell.createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()));
 //        ReifiedStatement statement = triple.createReifiedStatement(createSequentialProvenanceResourceUri(UriNell.RESOURCE_BELIEF,belief.isCandidate()));
 
 		// Attach metadata to reification statement
@@ -340,6 +365,10 @@ public class StringTranslate {
 	}
 
 	private Statement stringToRDFWithoutMetadata(final LineInstanceJOIN belief) {
+		return stringToRDFWithoutMetadata(this.model, belief);
+	}
+	
+	private Statement stringToRDFWithoutMetadata(Model model, final LineInstanceJOIN belief) {
 		String[] nellData = belief.completeLine.split("\t");
 		/* Traitement du sujet. */
 		String[] nellDataSplit = nellData[0].split(":", 2);

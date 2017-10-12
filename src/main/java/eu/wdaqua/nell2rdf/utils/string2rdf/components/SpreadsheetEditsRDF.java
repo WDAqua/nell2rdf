@@ -25,9 +25,11 @@ public class SpreadsheetEditsRDF extends ComponentRDF {
 	}
 	
 	void addUser() {
-		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_USER);
-		RDFNode object = componentExecution.getModel().createTypedLiteral(getUser());
-		componentExecution.addProperty(predicate, object);
+		if (getUser() != null) {
+			Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_USER);
+			RDFNode object = componentExecution.getModel().createTypedLiteral(getUser());
+			componentExecution.addProperty(predicate, object);
+		}
 	}
 	
 	void addEntity() {
