@@ -5,13 +5,14 @@
  */
 package eu.wdaqua.nell2rdf.extract.metadata.models;
 
-import eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList;
-import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList;
+import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
 
 /**
  *
@@ -31,7 +32,7 @@ public final class LineInstanceJOIN {
     private List<Double> probability;
 
     private int nrIterationsInt;
-    private Double probabilityDouble;
+    private Double probabilityDouble = null;
 
     //Object Responsable for the Source Column
     private final String source;
@@ -83,9 +84,9 @@ public final class LineInstanceJOIN {
         String tempMBLorERC = "";
         this.source = Source;
 
-        this.entity = Entity;
-        this.relation = Relation;
-        this.value = Value;
+        this.entity = Entity.replaceFirst("candidate:", "");
+        this.relation = Relation.replaceFirst("candidate:", "");
+        this.value = Value.replaceFirst("candidate:", "");
 
         if (relation.contains(ConstantList.LOOK_GENERALIZATIONS)) {
             CAT_OR_REL = ConstantList.CATEGORY;
@@ -165,7 +166,7 @@ public final class LineInstanceJOIN {
         return nrIterationsInt;
     }
 
-    public double getProbabilityDouble() {
+    public Double getProbabilityDouble() {
         return probabilityDouble;
     }
 

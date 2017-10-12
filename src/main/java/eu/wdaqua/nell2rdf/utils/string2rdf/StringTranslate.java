@@ -345,13 +345,12 @@ public class StringTranslate {
 		createProvenanceOntology();
         resource.addProperty(RDF.type, model.getResource(UriNell.CLASS_BELIEF));
 
-		// If it is a promoted belief, add iteration of promotion and probability
-        if (belief.isCandidate()) {
-            // Add iteration of promotion
-            predicate = this.model.getProperty(UriNell.PROPERTY_ITERATION_OF_PROMOTION);
-            object = this.model.createTypedLiteral(belief.getNrIterationsInt(),XSDDatatype.XSDinteger);
-            resource.addProperty(predicate, object);
+        // Add iteration of promotion
+        predicate = this.model.getProperty(UriNell.PROPERTY_ITERATION_OF_PROMOTION);
+        object = this.model.createTypedLiteral(belief.getNrIterationsInt(),XSDDatatype.XSDinteger);
+        resource.addProperty(predicate, object);
 
+        if (belief.getProbabilityDouble() != null) {
             // Add probability
             predicate = this.model.getProperty(UriNell.PROPERTY_PROBABILITY_OF_BELIEF);
             object = this.model.createTypedLiteral(belief.getProbabilityDouble(), XSDDatatype.XSDdecimal);
@@ -371,7 +370,7 @@ public class StringTranslate {
 	private Statement stringToRDFWithoutMetadata(Model model, final LineInstanceJOIN belief) {
 		String[] nellData = belief.completeLine.split("\t");
 		/* Traitement du sujet. */
-		String[] nellDataSplit = nellData[0].split(":", 2);
+		String[] nellDataSplit = belief.getEntity().split(":", 2);
 		nellDataSplit[1] = nellDataSplit[1].replaceAll(":", "_");
 		final Resource subject = getOrCreateRessource(nellDataSplit[1]);
 		if (!nellData[6].equals(" ")) {
@@ -388,11 +387,11 @@ public class StringTranslate {
 		}
 		
 		/* Traitement du predicat. */
-		Property relation = this.findRelation(nellData[1]);
+		Property relation = this.findRelation(belief.getRelation());
 		
 		/* Traitement de l'objet. */
 		RDFNode object_node;
-		nellDataSplit = nellData[2].split(":", 2);
+		nellDataSplit = belief.getValue().split(":", 2);
 		if (nellDataSplit[0].equals("concept")) {
 			/* Cas ou l'objet n'est pas un literal. */
 			Resource object_resource;

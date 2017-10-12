@@ -156,7 +156,7 @@ public class UriNell {
     }
 	
 	public static String createAnchorUri(final String subject, final String predicate, final String object) {
-		return UriNell.createSequentialUri(PREFIX + NAMESPACE_END_METADATA + subject + "+" + predicate + "+" + object);
+		return PREFIX + NAMESPACE_END_METADATA + subject + "+" + predicate + "+" + object;
 	}
 	
 //	public static String createAnchorUri(final String name, final boolean candidate) {
