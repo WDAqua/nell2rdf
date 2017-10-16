@@ -17,6 +17,9 @@ public class UriNell {
 	public static final String PREFIX_ONTOLOGY = "nellonto";
 	public static final String PREFIX_RESOURCE = "nell";
 	
+	public static final String PROPERTY_SUBJECT_PROPERTY = PREFIX + NAMESPACE_END_METADATA + "subjectProperty";
+	public static final String PROPERTY_OBJECT_PROPERTY = PREFIX + NAMESPACE_END_METADATA + "objectProperty";
+	
 	public static final String PROPERTY_ASSOCIATED_WITH = PREFIX + NAMESPACE_END_METADATA + "associatedWith";
 	public static final String PROPERTY_AT_TIME = PREFIX + NAMESPACE_END_METADATA + "atTime";
 	public static final String PROPERTY_GENERALIZATION_VALUE = PREFIX + NAMESPACE_END_METADATA + "generalizationValue";

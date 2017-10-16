@@ -28,7 +28,6 @@ import org.apache.log4j.Logger;
 import eu.wdaqua.nell2rdf.NellOntologyConverter;
 import eu.wdaqua.nell2rdf.extract.metadata.models.Header;
 import eu.wdaqua.nell2rdf.extract.metadata.models.LineInstanceJOIN;
-import eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList;
 import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
 import eu.wdaqua.nell2rdf.utils.UriNell;
 import eu.wdaqua.nell2rdf.utils.string2rdf.components.ComponentRDF;
@@ -252,8 +251,12 @@ public class StringTranslate {
         final Statement triple = stringToRDFWithoutMetadata(belief);
 
         // Create N-Ary triples
+        Property predicate = this.model.getProperty(triple.getPredicate().toString());
         Property predicate1 = this.model.getProperty(triple.getPredicate().toString() + "_statement");
         Property predicate2 = this.model.getProperty(triple.getPredicate().toString() + "_value");
+        predicate.addProperty(this.model.getProperty(UriNell.PROPERTY_SUBJECT_PROPERTY), predicate1);
+        predicate.addProperty(this.model.getProperty(UriNell.PROPERTY_OBJECT_PROPERTY), predicate2);
+        
 //        RDFNode statement = model.createResource(UriNell.createAnchorUri(UriNell.RESOURCE_BELIEF, belief.isCandidate()), model.getResource(UriNell.CLASS_BELIEF));
         RDFNode statement = model.createResource(UriNell.createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()), model.getResource(UriNell.CLASS_BELIEF));
         
@@ -289,60 +292,60 @@ public class StringTranslate {
         }
 	}
 
-    private void createProvenanceOntology() {
-        // Create properties
-        this.model.createProperty(UriNell.PROPERTY_ASSOCIATED_WITH);
-        this.model.createProperty(UriNell.PROPERTY_GENERATED_BY);
-        this.model.createProperty(UriNell.PROPERTY_ITERATION);
-        this.model.createProperty(UriNell.PROPERTY_ITERATION_OF_PROMOTION);
-        this.model.createProperty(UriNell.PROPERTY_PROBABILITY);
-        this.model.createProperty(UriNell.PROPERTY_PROBABILITY_OF_BELIEF);
-        this.model.createProperty(UriNell.PROPERTY_AT_TIME);
-        this.model.createProperty(UriNell.PROPERTY_SOURCE);
-        this.model.createProperty(UriNell.PROPERTY_TOKEN);
-        this.model.createProperty(UriNell.PROPERTY_TOKE_ENTITY);
-        this.model.createProperty(UriNell.PROPERTY_RELATION_VALUE);
-        this.model.createProperty(UriNell.PROPERTY_GENERALIZATION_VALUE);
-        this.model.createProperty(UriNell.PROPERTY_LATITUDE_VALUE);
-        this.model.createProperty(UriNell.PROPERTY_LONGITUDE_VALUE);
+//    private void createProvenanceOntology() {
+//        // Create properties
+//        this.model.createProperty(UriNell.PROPERTY_ASSOCIATED_WITH);
+//        this.model.createProperty(UriNell.PROPERTY_GENERATED_BY);
+//        this.model.createProperty(UriNell.PROPERTY_ITERATION);
+//        this.model.createProperty(UriNell.PROPERTY_ITERATION_OF_PROMOTION);
+//        this.model.createProperty(UriNell.PROPERTY_PROBABILITY);
+//        this.model.createProperty(UriNell.PROPERTY_PROBABILITY_OF_BELIEF);
+//        this.model.createProperty(UriNell.PROPERTY_AT_TIME);
+//        this.model.createProperty(UriNell.PROPERTY_SOURCE);
+//        this.model.createProperty(UriNell.PROPERTY_TOKEN);
+//        this.model.createProperty(UriNell.PROPERTY_TOKE_ENTITY);
+//        this.model.createProperty(UriNell.PROPERTY_RELATION_VALUE);
+//        this.model.createProperty(UriNell.PROPERTY_GENERALIZATION_VALUE);
+//        this.model.createProperty(UriNell.PROPERTY_LATITUDE_VALUE);
+//        this.model.createProperty(UriNell.PROPERTY_LONGITUDE_VALUE);
+//
+//	    // Create classes
+//        this.model.createResource(UriNell.CLASS_BELIEF);
+//        this.model.createResource(UriNell.CLASS_CANDIDATE_BELIEF);
+//        this.model.createResource(UriNell.CLASS_PROMOTED_BELIEF);
+//        this.model.createResource(UriNell.CLASS_COMPONENT);
+//        this.model.createResource(UriNell.CLASS_COMPONENT_EXECUTION);
+//        this.model.createResource(UriNell.CLASS_TOKEN);
+//        this.model.createResource(UriNell.CLASS_TOKEN_RELATION);
+//        this.model.createResource(UriNell.CLASS_TOKEN_GENERALIZATION);
+//        this.model.createResource(UriNell.CLASS_TOKEN_GEO);
+//
+//        if (this.metadata == NellOntologyConverter.NDFLUENTS) {
+//            this.model.setNsPrefix(UriNell.PREFIX_NDFLUENTS, UriNell.NAMESPACE_NDFLUENTS);
+//        }
+//    }
 
-	    // Create classes
-        this.model.createResource(UriNell.CLASS_BELIEF);
-        this.model.createResource(UriNell.CLASS_CANDIDATE_BELIEF);
-        this.model.createResource(UriNell.CLASS_PROMOTED_BELIEF);
-        this.model.createResource(UriNell.CLASS_COMPONENT);
-        this.model.createResource(UriNell.CLASS_COMPONENT_EXECUTION);
-        this.model.createResource(UriNell.CLASS_TOKEN);
-        this.model.createResource(UriNell.CLASS_TOKEN_RELATION);
-        this.model.createResource(UriNell.CLASS_TOKEN_GENERALIZATION);
-        this.model.createResource(UriNell.CLASS_TOKEN_GEO);
-
-        if (this.metadata == NellOntologyConverter.NDFLUENTS) {
-            this.model.setNsPrefix(UriNell.PREFIX_NDFLUENTS, UriNell.NAMESPACE_NDFLUENTS);
-        }
-    }
-
-    private void createComponents() {
-        this.model.createResource(this.provenanceResourceBase + ConstantList.ALIASMATCHER);
-        this.model.createResource(this.provenanceResourceBase + ConstantList.CMC);
-        this.model.createResource(this.provenanceResourceBase + ConstantList.CPL);
-        this.model.createResource(this.provenanceResourceBase + ConstantList.LE);
-        this.model.createResource(this.provenanceResourceBase + ConstantList.LATLONG);
-        this.model.createResource(this.provenanceResourceBase + ConstantList.MBL);
-        this.model.createResource(this.provenanceResourceBase + ConstantList.OE);
-        this.model.createResource(this.provenanceResourceBase + ConstantList.ONTOLOGYMODIFIER);
-        this.model.createResource(this.provenanceResourceBase + ConstantList.PRA);
-        this.model.createResource(this.provenanceResourceBase + ConstantList.RULEINFERENCE);
-        this.model.createResource(this.provenanceResourceBase + ConstantList.SEAL);
-        this.model.createResource(this.provenanceResourceBase + ConstantList.SEMPARSE);
-        this.model.createResource(this.provenanceResourceBase + ConstantList.SPREADSHEETEDITS);
-    }
+//    private void createComponents() {
+//        this.model.createResource(this.provenanceResourceBase + ConstantList.ALIASMATCHER);
+//        this.model.createResource(this.provenanceResourceBase + ConstantList.CMC);
+//        this.model.createResource(this.provenanceResourceBase + ConstantList.CPL);
+//        this.model.createResource(this.provenanceResourceBase + ConstantList.LE);
+//        this.model.createResource(this.provenanceResourceBase + ConstantList.LATLONG);
+//        this.model.createResource(this.provenanceResourceBase + ConstantList.MBL);
+//        this.model.createResource(this.provenanceResourceBase + ConstantList.OE);
+//        this.model.createResource(this.provenanceResourceBase + ConstantList.ONTOLOGYMODIFIER);
+//        this.model.createResource(this.provenanceResourceBase + ConstantList.PRA);
+//        this.model.createResource(this.provenanceResourceBase + ConstantList.RULEINFERENCE);
+//        this.model.createResource(this.provenanceResourceBase + ConstantList.SEAL);
+//        this.model.createResource(this.provenanceResourceBase + ConstantList.SEMPARSE);
+//        this.model.createResource(this.provenanceResourceBase + ConstantList.SPREADSHEETEDITS);
+//    }
 
 	private void attachMetadata(final Resource resource, final LineInstanceJOIN belief) {
 		Property predicate;
 		RDFNode object;
 		
-		createProvenanceOntology();
+		// createProvenanceOntology();
         resource.addProperty(RDF.type, model.getResource(UriNell.CLASS_BELIEF));
 
         // Add iteration of promotion
