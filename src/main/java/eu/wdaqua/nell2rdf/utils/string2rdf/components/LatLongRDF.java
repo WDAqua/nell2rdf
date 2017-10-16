@@ -43,7 +43,7 @@ public class LatLongRDF extends ComponentRDF {
 	
 	void addNameLatLongTriples() {
 		getRules().forEach(rule -> {
-			RDFNode nameLatLongTriple = componentExecution.getModel().createResource(UriNell.createSequentialUri(UriNell.RESOURCE_NAMELATLONG_TRIPLE + getCommonString()), componentExecution.getModel().getResource(UriNell.CLASS_LATLONG_EXECUTION)); 
+			RDFNode nameLatLongTriple = componentExecution.getModel().createResource(UriNell.createSequentialUri(UriNell.RESOURCE_NAMELATLONG_TRIPLE + getCommonString()), componentExecution.getModel().getResource(UriNell.CLASS_NAMELATLONG_TRIPLE)); 
 
 			Property predicate_λ = nameLatLongTriple.getModel().getProperty(UriNell.PROPERTY_PLACE_NAME);
 			RDFNode object_λ = nameLatLongTriple.getModel().createTypedLiteral(rule.getsPhrase());
