@@ -52,9 +52,9 @@ public class UriNell {
 	public static final String PROPERTY_PLACE_NAME = PREFIX + NAMESPACE_END_METADATA + "name";
 	public static final String PROPERTY_PROMOTED_ENTITY = PREFIX + NAMESPACE_END_METADATA + "promotedEntity";
 	public static final String PROPERTY_PROMOTED_ENTITY_CATEGORY = PREFIX + NAMESPACE_END_METADATA + "promotedEntityCategory";
-	public static final String PROPERTY_PROMOTED_RELATION = PREFIX + NAMESPACE_END_METADATA + "relation";
-	public static final String PROPERTY_PROMOTED_VALUE = PREFIX + NAMESPACE_END_METADATA + "value";
-	public static final String PROPERTY_PROMOTED_VALUE_CATEGORIE = PREFIX + NAMESPACE_END_METADATA + "valueCategorie";
+	public static final String PROPERTY_PROMOTED_RELATION = PREFIX + NAMESPACE_END_METADATA + "promotedRelation";
+	public static final String PROPERTY_PROMOTED_VALUE = PREFIX + NAMESPACE_END_METADATA + "promotedValue";
+	public static final String PROPERTY_PROMOTED_VALUE_CATEGORIE = PREFIX + NAMESPACE_END_METADATA + "promotedValueCategory";
 	
 	public static final String PROPERTY_TEXT_URL = PREFIX + NAMESPACE_END_METADATA + "textUrl";
 	public static final String PROPERTY_TEXT = PREFIX + NAMESPACE_END_METADATA + "text";
