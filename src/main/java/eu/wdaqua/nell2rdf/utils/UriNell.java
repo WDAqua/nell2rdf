@@ -125,7 +125,7 @@ public class UriNell {
 	public static final String RESOURCE_SEMPARSE = PREFIX + NAMESPACE_END_METADATA + "Semparse";
 	public static final String RESOURCE_SPREADSHEETEDITS = PREFIX + NAMESPACE_END_METADATA + "SpreadsheetEdits";
 	
-	public static final String CLASS_MORPHOLOGICAL_PATTERN = PREFIX + NAMESPACE_END_METADATA + "MophologicalPatternScoreTriple";
+	public static final String CLASS_MORPHOLOGICAL_PATTERN = PREFIX + NAMESPACE_END_METADATA + "MorphologicalPatternScoreTriple";
 	public static final String RESOURCE_MORPHOLOGICAL_PATTERN = PREFIX + NAMESPACE_END_METADATA + "MorphologicalPattern";
 	public static final String CLASS_PATTERN_OCCURRENCE = PREFIX + NAMESPACE_END_METADATA + "PatternNbOfOccurrencesPair";
 	public static final String RESOURCE_PATTERN_OCCURRENCE = PREFIX + NAMESPACE_END_METADATA + "PatternOccurrence";
