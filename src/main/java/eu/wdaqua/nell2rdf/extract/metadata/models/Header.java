@@ -5,12 +5,13 @@
  */
 package eu.wdaqua.nell2rdf.extract.metadata.models;
 
-import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
 
 /**
  *
@@ -82,7 +83,7 @@ public abstract class Header {
         return componentName;
     }
 
-    public double getProbability() {
+    public Double getProbability() {
         return probability;
     }
 
