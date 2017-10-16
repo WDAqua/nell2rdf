@@ -28,6 +28,7 @@ public class ComponentRDF {
         addComponentName();
         addTime();
         addIteration();
+        addProbability();
         addSource();
         addToken();
 	}
