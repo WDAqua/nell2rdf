@@ -12,19 +12,19 @@ import eu.wdaqua.nell2rdf.utils.UriNell;
 
 public class CPLrdf extends ComponentRDF {
 	
-	public CPLrdf(final CPL cpl) {
-		super(cpl);
+	public CPLrdf(final CPL cpl, Resource belief) {
+		super(cpl, belief);
 	}
 
-	public void addTriples (final Resource resource) {
-		super.addTriples(resource);
+	public void addTriples () {
+		super.addTriples();
 		addPatternOccurrences();
 	}
 	
 	void addPatternOccurrences() {
 		getPatternOccurrences().forEach((K,V) -> {
 			Property predicate_λ = componentExecution.getModel().getProperty(UriNell.PROPERTY_PATTERN_OCCURRENCES);
-			RDFNode object_λ = componentExecution.getModel().createResource(UriNell.createSequentialUri(UriNell.RESOURCE_PATTERN_OCCURRENCE), componentExecution.getModel().getResource(UriNell.CLASS_PATTERN_OCCURRENCE));
+			RDFNode object_λ = componentExecution.getModel().createResource(UriNell.createSequentialUri(UriNell.RESOURCE_PATTERN_OCCURRENCE + getCommonString()), componentExecution.getModel().getResource(UriNell.CLASS_PATTERN_OCCURRENCE));
 			componentExecution.addProperty(predicate_λ, object_λ);
 			
 			Resource patternResource = object_λ.asResource();

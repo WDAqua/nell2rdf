@@ -9,12 +9,12 @@ import eu.wdaqua.nell2rdf.utils.UriNell;
 
 public class OntologyModifierRDF extends ComponentRDF {
 
-	public OntologyModifierRDF(final OntologyModifier ontologyModifier) {
-		super(ontologyModifier);
+	public OntologyModifierRDF(final OntologyModifier ontologyModifier, Resource belief) {
+		super(ontologyModifier, belief);
 	}
 
 	public void addTriples (final Resource resource) {
-		super.addTriples(resource);
+		super.addTriples();
 		addOntologyModification();
 	}
 	

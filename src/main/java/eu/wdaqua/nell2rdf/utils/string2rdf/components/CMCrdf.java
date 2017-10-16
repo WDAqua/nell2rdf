@@ -13,19 +13,19 @@ import eu.wdaqua.nell2rdf.utils.UriNell;
 
 public class CMCrdf extends ComponentRDF {
 
-	public CMCrdf(final CMC cmc) {
-		super(cmc);
+	public CMCrdf(final CMC cmc, Resource belief) {
+		super(cmc, belief);
 	}
 
 	public void addTriples (final Resource resource) {
-		super.addTriples(resource);
+		super.addTriples();
 		addMorphologicalPatterns();
 	}
 	
 	void addMorphologicalPatterns() {
 		getMorphologicalPatterns().forEach(pattern -> {
 			Property predicate_λ = componentExecution.getModel().getProperty(UriNell.PROPERTY_MORPHOLOGICAL_PATTERN);
-			RDFNode object_λ = componentExecution.getModel().createResource(UriNell.createSequentialUri(UriNell.RESOURCE_MORPHOLOGICAL_PATTERN),componentExecution.getModel().getResource(UriNell.CLASS_MORPHOLOGICAL_PATTERN));
+			RDFNode object_λ = componentExecution.getModel().createResource(UriNell.createSequentialUri(UriNell.RESOURCE_MORPHOLOGICAL_PATTERN + getCommonString()),componentExecution.getModel().getResource(UriNell.CLASS_MORPHOLOGICAL_PATTERN));
 			componentExecution.addProperty(predicate_λ, object_λ);
 			
 			Resource patternResource = object_λ.asResource();

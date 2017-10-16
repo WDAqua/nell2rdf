@@ -9,12 +9,12 @@ import eu.wdaqua.nell2rdf.utils.UriNell;
 
 public class AliasMatcherRDF extends ComponentRDF {
 	
-	public AliasMatcherRDF(final AliasMatcher aliasMatcher) {
-		super(aliasMatcher);
+	public AliasMatcherRDF(final AliasMatcher aliasMatcher, Resource belief) {
+		super(aliasMatcher, belief);
 	}
 
-	public void addTriples (final Resource resource) {
-		super.addTriples(resource);
+	public void addTriples () {
+		super.addTriples();
 		addFreebaseDate();
 	}
 	

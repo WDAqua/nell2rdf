@@ -14,12 +14,12 @@ import eu.wdaqua.nell2rdf.utils.UriNell;
 
 public class RLrdf extends ComponentRDF {
 	
-	public RLrdf(final RuleInference ruleInference) {
-		super(ruleInference);
+	public RLrdf(final RuleInference ruleInference, Resource belief) {
+		super(ruleInference, belief);
 	}
 
 	public void addTriples (final Resource resource) {
-		super.addTriples(resource);
+		super.addTriples();
 		addRule();
 	}
 	
@@ -29,7 +29,7 @@ public class RLrdf extends ComponentRDF {
 		Iterator<String> values = getValues().iterator();
 		for (String variable : getVariables()) {
 			Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_VARIABLE);
-			RDFNode object = componentExecution.getModel().createResource(UriNell.createSequentialUri(UriNell.RESOURCE_VARIABLE + variable), componentExecution.getModel().getResource(UriNell.CLASS_VARIABLE));
+			RDFNode object = componentExecution.getModel().createResource(UriNell.createSequentialUri(UriNell.RESOURCE_VARIABLE + getCommonString() + "_" + variable), componentExecution.getModel().getResource(UriNell.CLASS_VARIABLE));
 			componentExecution.addProperty(predicate, object);
 			
 			predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_VALUE_OF_VARIABLE);
@@ -41,7 +41,7 @@ public class RLrdf extends ComponentRDF {
 		
 		getPredicates().forEach(predicate -> {
 			Property predicate_λ = componentExecution.getModel().getProperty(UriNell.PROPERTY_PREDICATE);
-			RDFNode object_λ = componentExecution.getModel().createResource(UriNell.createSequentialUri(UriNell.RESOURCE_PREDICATE), componentExecution.getModel().getResource(UriNell.CLASS_PREDICATE));
+			RDFNode object_λ = componentExecution.getModel().createResource(UriNell.createSequentialUri(UriNell.RESOURCE_PREDICATE + getCommonString()), componentExecution.getModel().getResource(UriNell.CLASS_PREDICATE));
 			componentExecution.addProperty(predicate_λ, object_λ);
 			
 			predicate_λ = componentExecution.getModel().getProperty(UriNell.PROPERTY_PREDICATE_NAME);

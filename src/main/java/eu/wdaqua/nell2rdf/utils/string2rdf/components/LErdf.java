@@ -7,12 +7,12 @@ import eu.wdaqua.nell2rdf.utils.UriNell;
 
 public class LErdf extends ComponentRDF {
 
-	public LErdf(final LE le) {
-		super(le);
+	public LErdf(final LE le, Resource belief) {
+		super(le, belief);
 	}
 
 	public void addTriples (final Resource resource) {
-		super.addTriples(resource);
+		super.addTriples();
 	}
 	
 	String getComponentName() {

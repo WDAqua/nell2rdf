@@ -9,12 +9,12 @@ import eu.wdaqua.nell2rdf.utils.UriNell;
 
 public class KbManipulationRDF extends ComponentRDF {
 
-	public KbManipulationRDF(final KbManipulation kbManipulation) {
-		super(kbManipulation);
+	public KbManipulationRDF(final KbManipulation kbManipulation, Resource belief) {
+		super(kbManipulation, belief);
 	}
 
 	public void addTriples (final Resource resource) {
-		super.addTriples(resource);
+		super.addTriples();
 		addOldBug();
 	}
 	

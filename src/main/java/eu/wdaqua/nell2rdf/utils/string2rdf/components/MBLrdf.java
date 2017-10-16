@@ -9,12 +9,12 @@ import eu.wdaqua.nell2rdf.utils.UriNell;
 
 public class MBLrdf extends ComponentRDF {
 
-	public MBLrdf(final MBL mbl) {
-		super(mbl);
+	public MBLrdf(final MBL mbl, Resource belief) {
+		super(mbl, belief);
 	}
 
 	public void addTriples (final Resource resource) {
-		super.addTriples(resource);
+		super.addTriples();
 		addEntity();
 		addRelation();
 		addValue();

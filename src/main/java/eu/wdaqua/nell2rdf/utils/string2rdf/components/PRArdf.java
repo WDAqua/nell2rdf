@@ -14,19 +14,19 @@ import eu.wdaqua.nell2rdf.utils.UriNell;
 
 public class PRArdf extends ComponentRDF {
 
-	public PRArdf(final PRA pra) {
-		super(pra);
+	public PRArdf(final PRA pra, Resource belief) {
+		super(pra, belief);
 	}
 
 	public void addTriples (final Resource resource) {
-		super.addTriples(resource);
+		super.addTriples();
 		addPaths();
 	}
 	
 	void addPaths() {
 		getPaths().forEach(walk -> {
 			Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_RELATION_PATH);
-			RDFNode object = componentExecution.getModel().createResource(UriNell.RESOURCE_RELATION_PATH, componentExecution.getModel().getResource(UriNell.CLASS_RELATION_PATH));
+			RDFNode object = componentExecution.getModel().createResource(UriNell.createSequentialUri(UriNell.RESOURCE_RELATION_PATH + getCommonString()), componentExecution.getModel().getResource(UriNell.CLASS_RELATION_PATH));
 			componentExecution.addProperty(predicate, object);
 			
 			Resource path = object.asResource();

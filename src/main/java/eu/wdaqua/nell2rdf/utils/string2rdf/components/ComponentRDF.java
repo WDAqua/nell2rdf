@@ -14,17 +14,19 @@ public class ComponentRDF {
 	//private final Logger		log						= Logger.getLogger(this.getClass().getName());
 	
 	Header componentNell;
+	Resource belief;
 	Resource componentExecution;
 	
 	String	executionName = null,
 			tokenName = null;
 	
-	public ComponentRDF(final Header componentNell) {
+	public ComponentRDF(final Header componentNell, final Resource belief) {
 		this.componentNell = componentNell;
+		this.belief = belief;
 	}
 	
-	public void addTriples (final Resource resource) {
-        componentExecution = createComponentExecution(resource);  
+	public void addTriples () {
+        componentExecution = createComponentExecution(belief);  
         addComponentName();
         addTime();
         addIteration();
@@ -103,7 +105,7 @@ public class ComponentRDF {
 
 	String getExecutionName() {
 		if (executionName == null) {
-			executionName = UriNell.createSequentialUri(UriNell.PREFIX + UriNell.NAMESPACE_END_METADATA + componentNell.getComponentName() + "Execution");
+			executionName = UriNell.PREFIX + UriNell.NAMESPACE_END_METADATA + "Execution" + getCommonString();
 		}
 		return executionName;
 	}
@@ -135,9 +137,9 @@ public class ComponentRDF {
 	String getTokenName() {
 		if (tokenName == null) {
 			if (componentNell.getFormatHeader().getTypeKB() == ConstantList.RELATION) {
-				tokenName = UriNell.createSequentialUri(UriNell.RESOURCE_TOKEN_RELATION);
+				tokenName = UriNell.RESOURCE_TOKEN_RELATION + getCommonString();
 			} else if (componentNell.getFormatHeader().getTypeKB() == ConstantList.CATEGORY) {
-				tokenName = UriNell.createSequentialUri(UriNell.RESOURCE_TOKEN_GENERALIZATION);
+				tokenName = UriNell.RESOURCE_TOKEN_GENERALIZATION + getCommonString();
 			}
 		}
 		return tokenName;
@@ -169,5 +171,9 @@ public class ComponentRDF {
 	
 	String getTokenValue() {
 		return componentNell.getFormatHeader().getTokenElement2();
+	}
+	
+	String getCommonString() {
+		return  "_" + componentNell.getComponentName() + "_"  + belief.getLocalName() + "_" + getIteration();
 	}
 }

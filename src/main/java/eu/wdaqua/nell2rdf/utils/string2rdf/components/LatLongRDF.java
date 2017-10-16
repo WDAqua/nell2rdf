@@ -13,12 +13,12 @@ import eu.wdaqua.nell2rdf.utils.UriNell;
 
 public class LatLongRDF extends ComponentRDF {
 	
-	public LatLongRDF(final LatLong latLong) {
-		super(latLong);
+	public LatLongRDF(final LatLong latLong, Resource belief) {
+		super(latLong, belief);
 	}
 
 	public void addTriples (final Resource resource) {
-		super.addTriples(resource);
+		super.addTriples();
 		addNameLatLongTriples();
 	}
 	
@@ -43,7 +43,7 @@ public class LatLongRDF extends ComponentRDF {
 	
 	void addNameLatLongTriples() {
 		getRules().forEach(rule -> {
-			RDFNode nameLatLongTriple = componentExecution.getModel().createResource(UriNell.createSequentialUri(UriNell.RESOURCE_NAMELATLONG_TRIPLE), componentExecution.getModel().getResource(UriNell.CLASS_LATLONG_EXECUTION)); 
+			RDFNode nameLatLongTriple = componentExecution.getModel().createResource(UriNell.createSequentialUri(UriNell.RESOURCE_NAMELATLONG_TRIPLE + getCommonString()), componentExecution.getModel().getResource(UriNell.CLASS_LATLONG_EXECUTION)); 
 
 			Property predicate_λ = nameLatLongTriple.getModel().getProperty(UriNell.PROPERTY_PLACE_NAME);
 			RDFNode object_λ = nameLatLongTriple.getModel().createTypedLiteral(rule.getsPhrase());
@@ -72,7 +72,7 @@ public class LatLongRDF extends ComponentRDF {
 	
 	String getTokenName() {
 		if (tokenName == null) {
-			tokenName = UriNell.createSequentialUri(UriNell.RESOURCE_TOKEN_GEO);
+			tokenName = UriNell.RESOURCE_TOKEN_GEO + getCommonString();
 		}
 		return tokenName;
 	}

@@ -9,12 +9,12 @@ import eu.wdaqua.nell2rdf.utils.UriNell;
 
 public class SemparseRDF extends ComponentRDF {
 	
-	public SemparseRDF(final Semparse semparse) {
-		super(semparse);
+	public SemparseRDF(final Semparse semparse, Resource belief) {
+		super(semparse, belief);
 	}
 
 	public void addTriples (final Resource resource) {
-		super.addTriples(resource);
+		super.addTriples();
 		addSentence();
 	}
 	

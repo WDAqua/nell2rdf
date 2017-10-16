@@ -13,19 +13,19 @@ import eu.wdaqua.nell2rdf.utils.UriNell;
 
 public class OErdf extends ComponentRDF {
 	
-	public OErdf(final OE oe) {
-		super(oe);
+	public OErdf(final OE oe, Resource belief) {
+		super(oe, belief);
 	}
 
 	public void addTriples (final Resource resource) {
-		super.addTriples(resource);
+		super.addTriples();
 		addTextUrlPairs();
 	}
 	
 	void addTextUrlPairs() {
 		getTextUrlPairs().forEach((K,V) -> {
 			Property predicate_λ = componentExecution.getModel().getProperty(UriNell.PROPERTY_TEXT_URL);
-			RDFNode object_λ = componentExecution.getModel().createResource(UriNell.createSequentialUri(UriNell.RESOURCE_TEXT_URL),componentExecution.getModel().getResource(UriNell.CLASS_TEXT_URL));
+			RDFNode object_λ = componentExecution.getModel().createResource(UriNell.createSequentialUri(UriNell.RESOURCE_TEXT_URL + getCommonString()),componentExecution.getModel().getResource(UriNell.CLASS_TEXT_URL));
 			componentExecution.addProperty(predicate_λ, object_λ);
 			
 			Resource resource = object_λ.asResource();

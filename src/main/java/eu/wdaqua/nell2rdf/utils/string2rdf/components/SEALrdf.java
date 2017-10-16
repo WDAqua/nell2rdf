@@ -12,12 +12,12 @@ import eu.wdaqua.nell2rdf.utils.UriNell;
 
 public class SEALrdf extends ComponentRDF {
 	
-	public SEALrdf(final SEAL seal) {
-		super(seal);
+	public SEALrdf(final SEAL seal, Resource belief) {
+		super(seal, belief);
 	}
 
 	public void addTriples (final Resource resource) {
-		super.addTriples(resource);
+		super.addTriples();
 		addURLs();
 	}
 	

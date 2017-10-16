@@ -10,12 +10,12 @@ import eu.wdaqua.nell2rdf.utils.UriNell;
 
 public class SpreadsheetEditsRDF extends ComponentRDF {
 	
-	public SpreadsheetEditsRDF(final SpreadsheetEdits spreadsheetEdits) {
-		super(spreadsheetEdits);
+	public SpreadsheetEditsRDF(final SpreadsheetEdits spreadsheetEdits, Resource belief) {
+		super(spreadsheetEdits, belief);
 	}
 
 	public void addTriples (final Resource resource) {
-		super.addTriples(resource);
+		super.addTriples();
 		addUser();
 		addEntity();
 		addRelation();
