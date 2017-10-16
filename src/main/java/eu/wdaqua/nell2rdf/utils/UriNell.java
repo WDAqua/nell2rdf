@@ -39,7 +39,7 @@ public class UriNell {
 	public static final String PROPERTY_TOKE_ENTITY = PREFIX + NAMESPACE_END_METADATA + "tokenEntity";
 	public static final String PROPERTY_TOKEN = PREFIX + NAMESPACE_END_METADATA + "hasToken";
 	
-	public static final String PROPERTY_FREEBASE_DATE = PREFIX + NAMESPACE_END_METADATA + "freebaseData";
+	public static final String PROPERTY_FREEBASE_DATE = PREFIX + NAMESPACE_END_METADATA + "freebaseDate";
 	public static final String PROPERTY_MORPHOLOGICAL_PATTERN = PREFIX + NAMESPACE_END_METADATA + "morphologicalPattern";
 	public static final String PROPERTY_MORPHOLOGICAL_PATTERN_NAME = PREFIX + NAMESPACE_END_METADATA + "morphologicalPatternName";
 	public static final String PROPERTY_MORPHOLOGICAL_PATTERN_VALUE = PREFIX + NAMESPACE_END_METADATA + "morphologicalPatternValue";
