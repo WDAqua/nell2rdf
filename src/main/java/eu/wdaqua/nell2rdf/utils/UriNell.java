@@ -70,8 +70,8 @@ public class UriNell {
 	public static final String PROPERTY_VALUE_OF_VARIABLE = PREFIX + NAMESPACE_END_METADATA + "valueOfVariable";
 	public static final String PROPERTY_PREDICATE = PREFIX + NAMESPACE_END_METADATA + "predicate";
 	public static final String PROPERTY_PREDICATE_NAME = PREFIX + NAMESPACE_END_METADATA + "predicateName";
-	public static final String PROPERTY_FIRST_VARIABLE_OF_PREDICATE = PREFIX + NAMESPACE_END_METADATA + "1stVariable";
-	public static final String PROPERTY_SECOND_VARIABLE_OF_PREDICATE = PREFIX + NAMESPACE_END_METADATA + "2ndVariable";
+	public static final String PROPERTY_FIRST_VARIABLE_OF_PREDICATE = PREFIX + NAMESPACE_END_METADATA + "firstVariable";
+	public static final String PROPERTY_SECOND_VARIABLE_OF_PREDICATE = PREFIX + NAMESPACE_END_METADATA + "secondVariable";
 	public static final String PROPERTY_ACCURACY =  PREFIX + NAMESPACE_END_METADATA + "accuracy";
 	public static final String PROPERTY_NUMBER_CORRECT =  PREFIX + NAMESPACE_END_METADATA + "nbCorrect";
 	public static final String PROPERTY_NUMBER_INCORRECT =  PREFIX + NAMESPACE_END_METADATA + "nbIncorrect";
