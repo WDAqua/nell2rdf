@@ -135,6 +135,10 @@ public class UriNell {
 	public static final String RESOURCE_TEXT_URL = PREFIX + NAMESPACE_END_METADATA + "TextUrl";
 	public static final String CLASS_RELATION_PATH = PREFIX + NAMESPACE_END_METADATA + "Path";
 	public static final String RESOURCE_RELATION_PATH = PREFIX + NAMESPACE_END_METADATA + "RelationPath";
+	public static final String CLASS_RULE_SCORES_TUPLE = PREFIX + NAMESPACE_END_METADATA + "RuleScoresTuple";
+	public static final String RESOURCE_RULE_SCORES_TUPLE = PREFIX + NAMESPACE_END_METADATA + "RuleScores";
+	public static final String CLASS_RULE = PREFIX + NAMESPACE_END_METADATA + "Rule";
+	public static final String RESOURCE_RULE = PREFIX + NAMESPACE_END_METADATA + "Rule";
 	public static final String CLASS_VARIABLE = PREFIX + NAMESPACE_END_METADATA + "Variable";
 	public static final String RESOURCE_VARIABLE = PREFIX + NAMESPACE_END_METADATA + "Variable";
 	public static final String CLASS_PREDICATE = PREFIX + NAMESPACE_END_METADATA + "Predicate";
