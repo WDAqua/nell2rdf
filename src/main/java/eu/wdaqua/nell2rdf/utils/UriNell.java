@@ -58,7 +58,7 @@ public class UriNell {
 	
 	public static final String PROPERTY_TEXT_URL = PREFIX + NAMESPACE_END_METADATA + "textUrl";
 	public static final String PROPERTY_TEXT = PREFIX + NAMESPACE_END_METADATA + "text";
-	public static final String PROPERTY_URL_OE = PREFIX + NAMESPACE_END_METADATA + "urlOE";
+	public static final String PROPERTY_URL = PREFIX + NAMESPACE_END_METADATA + "url";
 	public static final String PROPERTY_ONTOLOGY_MODIFICATION = PREFIX + NAMESPACE_END_METADATA + "ontologyModification";
 	public static final String PROPERTY_RELATION_PATH = PREFIX + NAMESPACE_END_METADATA + "relationPath";
 	public static final String PROPERTY_DIRECTION_OF_PATH = PREFIX + NAMESPACE_END_METADATA + "direction";
@@ -76,7 +76,6 @@ public class UriNell {
 	public static final String PROPERTY_NUMBER_CORRECT =  PREFIX + NAMESPACE_END_METADATA + "nbCorrect";
 	public static final String PROPERTY_NUMBER_INCORRECT =  PREFIX + NAMESPACE_END_METADATA + "nbIncorrect";
 	public static final String PROPERTY_NUMBER_UNKNOWN = PREFIX + NAMESPACE_END_METADATA + "nbUnknown";	
-	public static final String PROPERTY_URL_SEAL = PREFIX + NAMESPACE_END_METADATA + "urlSeal";
 	public static final String PROPERTY_SENTENCE = PREFIX + NAMESPACE_END_METADATA + "sentence";
 	public static final String PROPERTY_USER = PREFIX + NAMESPACE_END_METADATA + "user";
 	public static final String PROPERTY_ENTITY = PREFIX + NAMESPACE_END_METADATA + "entity";

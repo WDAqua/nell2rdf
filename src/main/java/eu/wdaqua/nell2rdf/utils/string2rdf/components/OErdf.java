@@ -35,7 +35,7 @@ public class OErdf extends ComponentRDF {
 			resource.addProperty(predicate_λ, object_λ);
 			
 			if (V != null) {
-				predicate_λ = resource.getModel().getProperty(UriNell.PROPERTY_URL_OE);
+				predicate_λ = resource.getModel().getProperty(UriNell.PROPERTY_URL);
 				object_λ = resource.getModel().createTypedLiteral(V.toString(),XSDDatatype.XSDanyURI);
 				resource.addProperty(predicate_λ, object_λ);
 			}

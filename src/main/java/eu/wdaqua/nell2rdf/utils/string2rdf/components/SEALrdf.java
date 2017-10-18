@@ -23,7 +23,7 @@ public class SEALrdf extends ComponentRDF {
 	
 	void addURLs() {
 		getURLs().forEach(url -> {
-			Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_URL_SEAL);
+			Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_URL);
 			RDFNode object = componentExecution.getModel().createTypedLiteral(url, XSDDatatype.XSDanyURI);
 			componentExecution.addProperty(predicate, object);
 		});
