@@ -180,10 +180,10 @@ public class StringTranslate {
         Property property;
         Resource resource;
         property = model.getProperty(UriNell.PREFIX_NDFLUENTS, UriNell.PROPERTY_PROVENANCE_PART_OF);
-        resource =  model.createResource(UriNell.createSequentialUri(triple.getSubject().asResource().getLocalName()), model.getResource(UriNell.CLASS_PROVENANCE_PART));
+        resource =  model.createResource(UriNell.createSequentialUri(triple.getSubject().getURI()), model.getResource(UriNell.CLASS_PROVENANCE_PART));
         resource.addProperty(property, triple.getSubject());
         if (triple.getObject().isResource()) {
-            resource = model.createResource(UriNell.createSequentialUri(triple.getObject().asResource().getLocalName()), model.getResource(UriNell.CLASS_PROVENANCE_PART));
+            resource = model.createResource(UriNell.createSequentialUri(triple.getObject().asResource().getURI()), model.getResource(UriNell.CLASS_PROVENANCE_PART));
             resource.addProperty(property, triple.getObject());
         }
 
