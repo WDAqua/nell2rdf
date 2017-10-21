@@ -197,6 +197,11 @@ public class StringTranslate {
 
         // Attach metadata to reification statement
         attachMetadata(resource, belief);
+        
+     // Delete original triples if requested
+        if (deleteOriginalTriples) {
+            triple.remove();
+        }
     }
 
 	private void stringToRDFWithSingletoProperty(final LineInstanceJOIN belief) {
@@ -241,6 +246,11 @@ public class StringTranslate {
 
         // Attach metadata to triple ID
         attachMetadata(tripleId, belief);
+        
+     // Delete original triples if requested
+        if (deleteOriginalTriples) {
+            triple.remove();
+        }
         
         return dataset;
 	}
