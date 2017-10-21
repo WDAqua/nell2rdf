@@ -162,7 +162,9 @@ public class UriNell {
     }
 	
 	public static String createAnchorUri(final String subject, final String predicate, final String object) {
-		return PREFIX + NAMESPACE_END_METADATA + subject + "+" + predicate + "+" + object;
+		return PREFIX + NAMESPACE_END_METADATA + subject.split(":", 2)[1].replaceAll(":", "_").replaceAll(" ", "_")
+				+ "+" + predicate
+				+ "+" + object.split(":", 2)[1].replaceAll(":", "_").replaceAll(" ", "_");
 	}
 	
 //	public static String createAnchorUri(final String name, final boolean candidate) {
