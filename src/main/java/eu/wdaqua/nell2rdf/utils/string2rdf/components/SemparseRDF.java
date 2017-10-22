@@ -13,7 +13,7 @@ public class SemparseRDF extends ComponentRDF {
 		super(semparse, belief);
 	}
 
-	public void addTriples (final Resource resource) {
+	public void addTriples () {
 		super.addTriples();
 		addSentence();
 	}

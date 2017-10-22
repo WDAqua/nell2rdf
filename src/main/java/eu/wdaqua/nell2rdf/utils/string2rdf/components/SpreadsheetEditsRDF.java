@@ -14,7 +14,7 @@ public class SpreadsheetEditsRDF extends ComponentRDF {
 		super(spreadsheetEdits, belief);
 	}
 
-	public void addTriples (final Resource resource) {
+	public void addTriples () {
 		super.addTriples();
 		addUser();
 		addEntity();

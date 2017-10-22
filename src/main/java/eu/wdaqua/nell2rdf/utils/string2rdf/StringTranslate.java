@@ -372,6 +372,7 @@ public class StringTranslate {
 
         belief.getListComponents().forEach((String K, Header V) -> {
         	ComponentRDF component = ComponentRDFBuilder.build(V, resource);
+//        	System.out.println(component.getClass());
         	component.addTriples();
         	});
 	}

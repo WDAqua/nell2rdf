@@ -11,7 +11,7 @@ public class LErdf extends ComponentRDF {
 		super(le, belief);
 	}
 
-	public void addTriples (final Resource resource) {
+	public void addTriples () {
 		super.addTriples();
 	}
 	

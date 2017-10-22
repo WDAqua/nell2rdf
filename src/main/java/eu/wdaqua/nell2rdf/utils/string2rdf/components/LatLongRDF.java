@@ -17,7 +17,7 @@ public class LatLongRDF extends ComponentRDF {
 		super(latLong, belief);
 	}
 
-	public void addTriples (final Resource resource) {
+	public void addTriples () {
 		super.addTriples();
 		addNameLatLongTriples();
 	}
@@ -58,7 +58,7 @@ public class LatLongRDF extends ComponentRDF {
 			nameLatLongTriple.asResource().addProperty(predicate_λ, object_λ);
 			
 			predicate_λ = componentExecution.getModel().getProperty(UriNell.PROPERTY_LOCATION);
-			componentExecution.addProperty(predicate_λ, object_λ);
+			componentExecution.addProperty(predicate_λ, nameLatLongTriple);
 		});
 	}
 	

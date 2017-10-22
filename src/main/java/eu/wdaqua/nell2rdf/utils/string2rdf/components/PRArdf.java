@@ -18,7 +18,7 @@ public class PRArdf extends ComponentRDF {
 		super(pra, belief);
 	}
 
-	public void addTriples (final Resource resource) {
+	public void addTriples () {
 		super.addTriples();
 		addPaths();
 	}

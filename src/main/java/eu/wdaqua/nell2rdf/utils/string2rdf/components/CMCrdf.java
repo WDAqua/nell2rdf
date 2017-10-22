@@ -17,7 +17,7 @@ public class CMCrdf extends ComponentRDF {
 		super(cmc, belief);
 	}
 
-	public void addTriples (final Resource resource) {
+	public void addTriples () {
 		super.addTriples();
 		addMorphologicalPatterns();
 	}

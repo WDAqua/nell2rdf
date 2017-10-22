@@ -13,7 +13,7 @@ public class OntologyModifierRDF extends ComponentRDF {
 		super(ontologyModifier, belief);
 	}
 
-	public void addTriples (final Resource resource) {
+	public void addTriples () {
 		super.addTriples();
 		addOntologyModification();
 	}

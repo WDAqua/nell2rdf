@@ -16,7 +16,7 @@ public class SEALrdf extends ComponentRDF {
 		super(seal, belief);
 	}
 
-	public void addTriples (final Resource resource) {
+	public void addTriples () {
 		super.addTriples();
 		addURLs();
 	}

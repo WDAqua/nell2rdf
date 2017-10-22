@@ -13,7 +13,7 @@ public class MBLrdf extends ComponentRDF {
 		super(mbl, belief);
 	}
 
-	public void addTriples (final Resource resource) {
+	public void addTriples () {
 		super.addTriples();
 		addEntity();
 		addRelation();

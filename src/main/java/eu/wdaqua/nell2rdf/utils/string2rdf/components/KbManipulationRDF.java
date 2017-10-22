@@ -13,7 +13,7 @@ public class KbManipulationRDF extends ComponentRDF {
 		super(kbManipulation, belief);
 	}
 
-	public void addTriples (final Resource resource) {
+	public void addTriples () {
 		super.addTriples();
 		addOldBug();
 	}
