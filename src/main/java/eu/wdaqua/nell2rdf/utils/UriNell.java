@@ -143,11 +143,11 @@ public class UriNell {
 	public static final String CLASS_PREDICATE = PREFIX + NAMESPACE_END_METADATA + "Predicate";
 	public static final String RESOURCE_PREDICATE = PREFIX + NAMESPACE_END_METADATA + "Predicate";
 	
-	public static final String RESOURCE_BELIEF = "belief";
-	public static final String RESOURCE_TOKEN = "token";
-	public static final String RESOURCE_TOKEN_RELATION = "relationToken";
-	public static final String RESOURCE_TOKEN_GENERALIZATION = "generalizationToken";
-	public static final String RESOURCE_TOKEN_GEO = "geoToken";
+//	public static final String RESOURCE_BELIEF = "belief";
+//	public static final String RESOURCE_TOKEN = "token";
+	public static final String RESOURCE_TOKEN_RELATION = PREFIX + NAMESPACE_END_METADATA + "relationToken";
+	public static final String RESOURCE_TOKEN_GENERALIZATION = PREFIX + NAMESPACE_END_METADATA + "generalizationToken";
+	public static final String RESOURCE_TOKEN_GEO = PREFIX + NAMESPACE_END_METADATA + "geoToken";
 		
 	public static final String SUFFIX_PROMOTED = "Promoted";
 	public static final String SUFFIX_CANDIDATE = "Candidate";
