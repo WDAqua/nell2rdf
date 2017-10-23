@@ -71,18 +71,20 @@ public class RLrdf extends ComponentRDF {
 			RDFNode object_λ = rule.getModel().createResource(UriNell.createSequentialUri(UriNell.RESOURCE_PREDICATE + getCommonString()), componentExecution.getModel().getResource(UriNell.CLASS_PREDICATE));
 			rule.addProperty(predicate_λ, object_λ);
 			
+			Resource logicalPredicate = object_λ.asResource();
+			
 			predicate_λ = rule.getModel().getProperty(UriNell.PROPERTY_PREDICATE_NAME);
 			object_λ = rule.getModel().createTypedLiteral(relation[0]);
-			rule.addProperty(predicate_λ, object_λ);
+			logicalPredicate.addProperty(predicate_λ, object_λ);
 			
 			predicate_λ = rule.getModel().getProperty(UriNell.PROPERTY_FIRST_VARIABLE_OF_PREDICATE);
 			object_λ = rule.getModel().createTypedLiteral(relation[1]);
-			rule.addProperty(predicate_λ, object_λ);
+			logicalPredicate.addProperty(predicate_λ, object_λ);
 			
 			if (relation.length > 2 ) {
 				predicate_λ = rule.getModel().getProperty(UriNell.PROPERTY_SECOND_VARIABLE_OF_PREDICATE);
 				object_λ = rule.getModel().createTypedLiteral(relation[2]);
-				rule.addProperty(predicate_λ, object_λ);
+				logicalPredicate.addProperty(predicate_λ, object_λ);
 			}
 		});
 	}
