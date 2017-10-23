@@ -38,7 +38,8 @@ public class Utility {
     private static final String REGEX_LATLONGTT_GEONAMES = "((?<=(>-)|(-geonames:))(.*))";
     private static final String REGEX_LATLONG_ALL_ATRIBUTES = "([A-Za-z ])*(\\@)([0-9-\\.,])*";
     public static final String REGEX_LATLONG_RULES = "(([ A-Za-z])*(\\@)([\\-\\.0-9])*(,)([\\-\\.0-9])*)";
-    private static final String REGEX_ONTOLOGYMODIFIER = "(?<=((\\d{2}\\:\\d{2}\\:\\d{2}))[-<])";
+    //private static final String REGEX_ONTOLOGYMODIFIER = "(?<=((\\d{2}\\:\\d{2}\\:\\d{2}))[-<])";
+    private static final String REGEX_ONTOLOGYMODIFIER = "(-tsv([A-Za-z_\\-\\.])*)";
     private static final String REGEX_ITERATION_COMPONENT = "(?<=(Iter:))([0-9])*(?=-)";
 
     private static final String REGEX_FROM = "(From:)+([^ ])*";
