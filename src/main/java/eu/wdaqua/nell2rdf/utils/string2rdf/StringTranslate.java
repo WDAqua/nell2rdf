@@ -189,7 +189,7 @@ public class StringTranslate {
 
         property = model.getProperty(UriNell.PREFIX_NDFLUENTS, UriNell.PROPERTY_PROVENANCE_EXTENT);
         // resource = model.createResource(UriNell.createAnchorUri(UriNell.RESOURCE_BELIEF, belief.isCandidate()), model.getResource(UriNell.CLASS_BELIEF));
-        resource = model.createResource(UriNell.createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()), model.getResource(UriNell.CLASS_BELIEF));
+        resource = model.createResource(UriNell.createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()));
         triple.getSubject().addProperty(property, resource);
         if (triple.getObject().isResource()) {
             triple.getObject().asResource().addProperty(property, resource);
@@ -229,7 +229,7 @@ public class StringTranslate {
 
 		// Create Named Graph
         //final Resource tripleId = model.createResource(UriNell.createAnchorUri(UriNell.RESOURCE_BELIEF, belief.isCandidate()), model.getResource(UriNell.CLASS_BELIEF));
-        final Resource tripleId = model.createResource(UriNell.createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()), model.getResource(UriNell.CLASS_BELIEF));
+        final Resource tripleId = model.createResource(UriNell.createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()));
         Model model = ModelFactory.createDefaultModel();
         
         DatasetGraph dataset = TDBFactory.createDatasetGraph();
@@ -268,7 +268,7 @@ public class StringTranslate {
         predicate.addProperty(this.model.getProperty(UriNell.PROPERTY_OBJECT_PROPERTY), predicate2);
         
 //        RDFNode statement = model.createResource(UriNell.createAnchorUri(UriNell.RESOURCE_BELIEF, belief.isCandidate()), model.getResource(UriNell.CLASS_BELIEF));
-        RDFNode statement = model.createResource(UriNell.createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()), model.getResource(UriNell.CLASS_BELIEF));
+        RDFNode statement = model.createResource(UriNell.createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()));
         
         triple.getSubject().addProperty(predicate1,statement);
         statement.asResource().addProperty(predicate2,triple.getObject());
@@ -356,7 +356,12 @@ public class StringTranslate {
 		RDFNode object;
 		
 		// createProvenanceOntology();
-        resource.addProperty(RDF.type, model.getResource(UriNell.CLASS_BELIEF));
+		if (belief.isCandidate() == true) {
+			resource.addProperty(RDF.type, model.getResource(UriNell.CLASS_CANDIDATE_BELIEF));
+		} else {
+			resource.addProperty(RDF.type, model.getResource(UriNell.CLASS_PROMOTED_BELIEF));
+		}
+        
 
         // Add iteration of promotion
         predicate = this.model.getProperty(UriNell.PROPERTY_ITERATION_OF_PROMOTION);
