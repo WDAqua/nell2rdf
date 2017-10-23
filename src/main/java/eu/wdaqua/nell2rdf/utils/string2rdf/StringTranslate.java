@@ -420,9 +420,9 @@ public class StringTranslate {
 			} else {
 				object_resource = getOrCreateRessource(nellDataSplit[1]);
 
-				if (!nellData[11].equals("")) {
-					findType(nellData[11], object_resource);
-				}
+//				if (!nellData[11].equals("")) {
+//					findType(nellData[11], object_resource);
+//				}
 			}
 
 			if (!nellData[7].equals(" ")) {
