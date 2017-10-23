@@ -80,9 +80,9 @@ public class RLrdf extends ComponentRDF {
 			rule.addProperty(predicate_λ, object_λ);
 			
 			if (relation.length > 2 ) {
-				predicate_λ = componentExecution.getModel().getProperty(UriNell.PROPERTY_SECOND_VARIABLE_OF_PREDICATE);
-				object_λ = componentExecution.getModel().createTypedLiteral(relation[2]);
-				componentExecution.addProperty(predicate_λ, object_λ);
+				predicate_λ = rule.getModel().getProperty(UriNell.PROPERTY_SECOND_VARIABLE_OF_PREDICATE);
+				object_λ = rule.getModel().createTypedLiteral(relation[2]);
+				rule.addProperty(predicate_λ, object_λ);
 			}
 		});
 	}

@@ -5,14 +5,14 @@
  */
 package eu.wdaqua.nell2rdf.extract.metadata.models;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * @author Maisa
  */
 import eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class FormatHeader {
 
@@ -66,11 +66,11 @@ public class FormatHeader {
                     Double.valueOf(in.get(TOKEN)[2]));
         } else {
             if (LineInstanceJOIN.CAT_OR_REL.equals(ConstantList.RELATION)) {
-                tokenFormated.put(FROM, LineInstanceJOIN.CAT_OR_REL.toUpperCase());
+                tokenFormated.put(FROM, ConstantList.RELATION);
                 tokenFormated.put(ELEMENT1, in.get(TOKEN)[0]);
                 tokenFormated.put(ELEMENT2, in.get(TOKEN)[1]);
             } else if (LineInstanceJOIN.CAT_OR_REL.equals(ConstantList.CATEGORY)) {
-                tokenFormated.put(FROM, LineInstanceJOIN.CAT_OR_REL.toUpperCase());
+                tokenFormated.put(FROM, ConstantList.CATEGORY);
                 tokenFormated.put(ELEMENT1, in.get(TOKEN)[0]);
                 tokenFormated.put(ELEMENT2, in.get(TOKEN)[1]);
             }
