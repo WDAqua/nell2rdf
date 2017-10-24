@@ -27,38 +27,38 @@ public class SpreadsheetEditsRDF extends ComponentRDF {
 	void addUser() {
 		if (getUser() != null) {
 			Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_USER);
-			RDFNode object = componentExecution.getModel().createTypedLiteral(getUser());
+			RDFNode object = componentExecution.getModel().createTypedLiteral(getUser(),XSDDatatype.XSDstring);
 			componentExecution.addProperty(predicate, object);
 		}
 	}
 	
 	void addEntity() {
 		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_ENTITY);
-		RDFNode object = componentExecution.getModel().createTypedLiteral(getEntity());
+		RDFNode object = componentExecution.getModel().createTypedLiteral(getEntity(),XSDDatatype.XSDstring);
 		componentExecution.addProperty(predicate, object);
 	}
 	
 	void addRelation() {
 		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_RELATION);
-		RDFNode object = componentExecution.getModel().createTypedLiteral(getRelation());
+		RDFNode object = componentExecution.getModel().createTypedLiteral(getRelation(),XSDDatatype.XSDstring);
 		componentExecution.addProperty(predicate, object);
 	}
 	
 	void addValue() {
 		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_VALUE);
-		RDFNode object = componentExecution.getModel().createTypedLiteral(getValue());
+		RDFNode object = componentExecution.getModel().createTypedLiteral(getValue(),XSDDatatype.XSDstring);
 		componentExecution.addProperty(predicate, object);
 	}
 	
 	void addAction() {
 		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_ACTION);
-		RDFNode object = componentExecution.getModel().createTypedLiteral(getAction());
+		RDFNode object = componentExecution.getModel().createTypedLiteral(getAction(),XSDDatatype.XSDstring);
 		componentExecution.addProperty(predicate, object);
 	}
 	
 	void addFromIteration () {
 		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_FILE);
-		RDFNode object = componentExecution.getModel().createTypedLiteral(getFromIteration(),XSDDatatype.XSDnonNegativeInteger);
+		RDFNode object = componentExecution.getModel().createTypedLiteral(getFromIteration(),XSDDatatype.XSDstring);
 		componentExecution.addProperty(predicate, object);
 	}
 	

@@ -30,7 +30,7 @@ public class CPLrdf extends ComponentRDF {
 			Resource patternResource = object_λ.asResource();
 			
 			predicate_λ = patternResource.getModel().getProperty(UriNell.PROPERTY_TEXTUAL_PATTERN);
-			object_λ = patternResource.getModel().createTypedLiteral(K);
+			object_λ = patternResource.getModel().createTypedLiteral(K,XSDDatatype.XSDstring);
 			patternResource.addProperty(predicate_λ, object_λ);
 			
 			predicate_λ = patternResource.getModel().getProperty(UriNell.PROPERTY_NUMBER_OF_OCCURRENCES);

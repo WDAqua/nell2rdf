@@ -31,11 +31,11 @@ public class CMCrdf extends ComponentRDF {
 			Resource patternResource = object_λ.asResource();
 			
 			predicate_λ = patternResource.getModel().getProperty(UriNell.PROPERTY_MORPHOLOGICAL_PATTERN_NAME);
-			object_λ = patternResource.getModel().createTypedLiteral(pattern.getFieldName());
+			object_λ = patternResource.getModel().createTypedLiteral(pattern.getFieldName(),XSDDatatype.XSDstring);
 			patternResource.addProperty(predicate_λ, object_λ);
 			
 			predicate_λ = patternResource.getModel().getProperty(UriNell.PROPERTY_MORPHOLOGICAL_PATTERN_VALUE);
-			object_λ = patternResource.getModel().createTypedLiteral(pattern.getFieldValue());
+			object_λ = patternResource.getModel().createTypedLiteral(pattern.getFieldValue(),XSDDatatype.XSDstring);
 			patternResource.addProperty(predicate_λ, object_λ);
 			
 			predicate_λ = patternResource.getModel().getProperty(UriNell.PROPERTY_MORPHOLOGICAL_PATTERN_SCORE);

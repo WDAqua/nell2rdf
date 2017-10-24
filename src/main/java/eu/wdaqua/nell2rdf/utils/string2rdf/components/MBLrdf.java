@@ -1,5 +1,6 @@
 package eu.wdaqua.nell2rdf.utils.string2rdf.components;
 
+import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
@@ -22,28 +23,28 @@ public class MBLrdf extends ComponentRDF {
 	
 	void addEntity() {
 		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_PROMOTED_ENTITY);
-		RDFNode object = componentExecution.getModel().createTypedLiteral(getEntity());
+		RDFNode object = componentExecution.getModel().createTypedLiteral(getEntity(),XSDDatatype.XSDstring);
 		componentExecution.addProperty(predicate, object);
 		
 		predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_PROMOTED_ENTITY_CATEGORY);
-		object = componentExecution.getModel().createTypedLiteral(getEntityCategory());
+		object = componentExecution.getModel().createTypedLiteral(getEntityCategory(),XSDDatatype.XSDstring);
 		componentExecution.addProperty(predicate, object);
 	}
 	
 	void addRelation() {
 		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_PROMOTED_RELATION);
-		RDFNode object = componentExecution.getModel().createTypedLiteral(getRelation());
+		RDFNode object = componentExecution.getModel().createTypedLiteral(getRelation(),XSDDatatype.XSDstring);
 		componentExecution.addProperty(predicate, object);
 	}
 	
 	void addValue() {
 		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_PROMOTED_VALUE);
-		RDFNode object = componentExecution.getModel().createTypedLiteral(getValue());
+		RDFNode object = componentExecution.getModel().createTypedLiteral(getValue(),XSDDatatype.XSDstring);
 		componentExecution.addProperty(predicate, object);
 		
 		if (getValueCategory() != null) {
 			predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_PROMOTED_VALUE_CATEGORIE);
-			object = componentExecution.getModel().createTypedLiteral(getValueCategory());
+			object = componentExecution.getModel().createTypedLiteral(getValueCategory(),XSDDatatype.XSDstring);
 			componentExecution.addProperty(predicate, object);
 		}
 	}

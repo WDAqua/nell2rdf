@@ -6,6 +6,7 @@ import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.RDF;
 
 import eu.wdaqua.nell2rdf.extract.metadata.models.LatLong;
 import eu.wdaqua.nell2rdf.extract.metadata.models.LatLong.Rule;
@@ -46,7 +47,7 @@ public class LatLongRDF extends ComponentRDF {
 			RDFNode nameLatLongTriple = componentExecution.getModel().createResource(UriNell.createSequentialUri(UriNell.RESOURCE_NAMELATLONG_TRIPLE + getCommonString()), componentExecution.getModel().getResource(UriNell.CLASS_NAMELATLONG_TRIPLE)); 
 
 			Property predicate_λ = nameLatLongTriple.getModel().getProperty(UriNell.PROPERTY_PLACE_NAME);
-			RDFNode object_λ = nameLatLongTriple.getModel().createTypedLiteral(rule.getsPhrase());
+			RDFNode object_λ = nameLatLongTriple.getModel().createTypedLiteral(rule.getsPhrase(), RDF.dtLangString);
 			nameLatLongTriple.asResource().addProperty(predicate_λ, object_λ);
 			
 			predicate_λ = nameLatLongTriple.getModel().getProperty(UriNell.PROPERTY_LATITUDE_VALUE);

@@ -56,11 +56,11 @@ public class RLrdf extends ComponentRDF {
 		Iterator<String> values = getValues().iterator();
 		for (String variable : getVariables()) {
 			predicate = ruleScoresTuple.getModel().getProperty(UriNell.PROPERTY_VARIABLE);
-			object = ruleScoresTuple.getModel().createResource(UriNell.createSequentialUri(UriNell.RESOURCE_VARIABLE + getCommonString() + "_" + variable), componentExecution.getModel().getResource(UriNell.CLASS_VARIABLE));
+			object = ruleScoresTuple.getModel().createResource(UriNell.RESOURCE_VARIABLE + getCommonString() + "_" + variable, componentExecution.getModel().getResource(UriNell.CLASS_VARIABLE));
 			ruleScoresTuple.addProperty(predicate, object);
 			
 			predicate = ruleScoresTuple.getModel().getProperty(UriNell.PROPERTY_VALUE_OF_VARIABLE);
-			object = ruleScoresTuple.getModel().createTypedLiteral(values.next());
+			object = ruleScoresTuple.getModel().createTypedLiteral(values.next(),XSDDatatype.XSDstring);
 			ruleScoresTuple.addProperty(predicate, object);
 			
 			variables.put(variable, object);
@@ -74,16 +74,16 @@ public class RLrdf extends ComponentRDF {
 			Resource logicalPredicate = object_λ.asResource();
 			
 			predicate_λ = rule.getModel().getProperty(UriNell.PROPERTY_PREDICATE_NAME);
-			object_λ = rule.getModel().createTypedLiteral(relation[0]);
+			object_λ = rule.getModel().createTypedLiteral(relation[0],XSDDatatype.XSDstring);
 			logicalPredicate.addProperty(predicate_λ, object_λ);
 			
 			predicate_λ = rule.getModel().getProperty(UriNell.PROPERTY_FIRST_VARIABLE_OF_PREDICATE);
-			object_λ = rule.getModel().createTypedLiteral(relation[1]);
+			object_λ = rule.getModel().createResource(UriNell.RESOURCE_VARIABLE + getCommonString() + "_" + relation[1], componentExecution.getModel().getResource(UriNell.CLASS_VARIABLE));
 			logicalPredicate.addProperty(predicate_λ, object_λ);
 			
 			if (relation.length > 2 ) {
 				predicate_λ = rule.getModel().getProperty(UriNell.PROPERTY_SECOND_VARIABLE_OF_PREDICATE);
-				object_λ = rule.getModel().createTypedLiteral(relation[2]);
+				object_λ = rule.getModel().createResource(UriNell.RESOURCE_VARIABLE + getCommonString() + "_" + relation[2], componentExecution.getModel().getResource(UriNell.CLASS_VARIABLE));
 				logicalPredicate.addProperty(predicate_λ, object_λ);
 			}
 		});
