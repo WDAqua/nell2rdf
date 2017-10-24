@@ -156,6 +156,8 @@ public class UriNell {
 	public static final String CLASS_PROVENANCE_PART = NAMESPACE_NDFLUENTS + "ContextualPart";
 	
 	public static final String SINGLETON_PROPERTY_OF = "http://www.w3.org/2000/01/rdf-schema#rdf:singletonPropertyOf";
+	
+	public static final String ENGLISH_TAG = "en";
 
 	public static String createSequentialUri(final String name) {
         return name + "_" + numberSequences.compute(name, (K,V) -> V == null ? 1 : ++V);
