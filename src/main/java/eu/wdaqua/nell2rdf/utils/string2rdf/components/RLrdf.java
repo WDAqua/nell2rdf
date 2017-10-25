@@ -9,11 +9,14 @@ import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.log4j.Logger;
 
 import eu.wdaqua.nell2rdf.extract.metadata.models.RuleInference;
 import eu.wdaqua.nell2rdf.utils.UriNell;
 
 public class RLrdf extends ComponentRDF {
+	
+	private final Logger		log						= Logger.getLogger(this.getClass().getName());
 	
 	public RLrdf(final RuleInference ruleInference, Resource belief) {
 		super(ruleInference, belief);
@@ -59,9 +62,13 @@ public class RLrdf extends ComponentRDF {
 			object = ruleScoresTuple.getModel().createResource(UriNell.RESOURCE_VARIABLE + getCommonString() + "_" + variable, componentExecution.getModel().getResource(UriNell.CLASS_VARIABLE));
 			ruleScoresTuple.addProperty(predicate, object);
 			
-			predicate = ruleScoresTuple.getModel().getProperty(UriNell.PROPERTY_VALUE_OF_VARIABLE);
-			object = ruleScoresTuple.getModel().createTypedLiteral(values.next(),XSDDatatype.XSDstring);
-			ruleScoresTuple.addProperty(predicate, object);
+			if (values.hasNext()) {
+				predicate = ruleScoresTuple.getModel().getProperty(UriNell.PROPERTY_VALUE_OF_VARIABLE);
+				object = ruleScoresTuple.getModel().createTypedLiteral(values.next(),XSDDatatype.XSDstring);
+				ruleScoresTuple.addProperty(predicate, object);
+			} else {
+				log.warn("No value for variable " + variable + " in " + getCommonString());
+			}
 			
 			variables.put(variable, object);
 		}
