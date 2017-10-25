@@ -33,7 +33,11 @@ public class OntologyModifierRDF extends ComponentRDF {
 	}
 	
 	String getOntologyModification() {
-		return ((OntologyModifier) componentNell).getMetadata_From().substring(1);
+		String string = ((OntologyModifier) componentNell).getMetadata_From();
+		if (string.length() > 0) {
+			string = string.substring(1);
+		}
+		return string;
 	}
 
 }
