@@ -155,7 +155,8 @@ public class UriNell {
 	public static final String NAMESPACE_NDFLUENTS = "http://www.emse.fr/~zimmermann/Ontologies/ndfluents.ttl#";
 	public static final String CLASS_PROVENANCE_PART = NAMESPACE_NDFLUENTS + "ContextualPart";
 	
-	public static final String SINGLETON_PROPERTY_OF = "http://www.w3.org/2000/01/rdf-schema#rdf:singletonPropertyOf";
+	public static final String SINGLETON_PROPERTY_OF = "http://www.w3.org/1999/02/22-rdf-syntax-ns#singletonPropertyOf";
+	public static final String TYPE_SINGLETON_PROPERTY = "http://www.w3.org/1999/02/22-rdf-syntax-ns#SingletonProperty";
 	
 	public static final String ENGLISH_TAG = "en";
 
