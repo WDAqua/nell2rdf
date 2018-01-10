@@ -58,7 +58,7 @@ public class ComponentRDF {
 	
 	void addIteration () {
             Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_ITERATION);
-            RDFNode object = componentExecution.getModel().createTypedLiteral(getIteration(), XSDDatatype.XSDinteger);
+            RDFNode object = componentExecution.getModel().createTypedLiteral(getIteration(), XSDDatatype.XSDnonNegativeInteger);
             componentExecution.addProperty(predicate, object);
 	}
 	

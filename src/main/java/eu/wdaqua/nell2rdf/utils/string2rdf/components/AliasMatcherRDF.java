@@ -1,5 +1,6 @@
 package eu.wdaqua.nell2rdf.utils.string2rdf.components;
 
+import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
@@ -20,7 +21,7 @@ public class AliasMatcherRDF extends ComponentRDF {
 	
 	void addFreebaseDate() {
 		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_FREEBASE_DATE);
-		RDFNode object = componentExecution.getModel().createTypedLiteral(getFreeBaseDate());
+		RDFNode object = componentExecution.getModel().createTypedLiteral(getFreeBaseDate(), XSDDatatype.XSDdate);
 		componentExecution.addProperty(predicate, object);
 	}
 	

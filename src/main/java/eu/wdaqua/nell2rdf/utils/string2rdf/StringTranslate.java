@@ -366,7 +366,7 @@ public class StringTranslate {
 
         // Add iteration of promotion
         predicate = this.model.getProperty(UriNell.PROPERTY_ITERATION_OF_PROMOTION);
-        object = this.model.createTypedLiteral(belief.getNrIterationsInt(),XSDDatatype.XSDinteger);
+        object = this.model.createTypedLiteral(belief.getNrIterationsInt(),XSDDatatype.XSDnonNegativeInteger);
         resource.addProperty(predicate, object);
 
         if (belief.getProbabilityDouble() != null) {
