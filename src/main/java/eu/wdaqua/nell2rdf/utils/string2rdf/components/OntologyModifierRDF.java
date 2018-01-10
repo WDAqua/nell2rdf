@@ -20,7 +20,7 @@ public class OntologyModifierRDF extends ComponentRDF {
 	
 	void addOntologyModification() {
 		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_ONTOLOGY_MODIFICATION);
-		RDFNode object = componentExecution.getModel().getResource(UriNell.PREFIX + UriNell.NAMESPACE_END_METADATA + getOntologyModification());
+		RDFNode object = componentExecution.getModel().getResource(UriNell.NAMESPACE_PREFIX + UriNell.NAMESPACE_END_METADATA + getOntologyModification());
 		componentExecution.addProperty(predicate, object);
 	}
 	

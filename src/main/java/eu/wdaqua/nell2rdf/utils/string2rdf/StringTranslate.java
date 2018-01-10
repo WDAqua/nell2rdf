@@ -95,7 +95,31 @@ public class StringTranslate {
 	 */
 	public StringTranslate(final String metadata, String lang, String file, boolean deleteOriginalTriples) {
 		this.model = ModelFactory.createDefaultModel();
-		this.base = UriNell.PREFIX;
+		switch (metadata) {
+		case NellOntologyConverter.NONE:
+			this.base = UriNell.NAMESPACE_PREFIX;
+            break;
+        case NellOntologyConverter.REIFICATION:
+        	this.base = UriNell.NAMESPACE_PREFIX + UriNell.NAMESPACE_MIDDLE_REIFICATION;
+            break;
+        case NellOntologyConverter.N_ARY:
+        	this.base = UriNell.NAMESPACE_PREFIX + UriNell.NAMESPACE_MIDDLE_NARY_RELATIONS;
+            break;
+        case NellOntologyConverter.QUADS:
+        	this.base = UriNell.NAMESPACE_PREFIX + UriNell.NAMESPACE_MIDDLE_NAMED_GRAPHS;
+            break;
+        case NellOntologyConverter.SINGLETON_PROPERTY:
+        	this.base = UriNell.NAMESPACE_PREFIX + UriNell.NAMESPACE_MIDDLE_SINGLETON_PROPERTY;
+            break;
+        case NellOntologyConverter.NDFLUENTS:
+        	this.base = UriNell.NAMESPACE_PREFIX + UriNell.NAMESPACE_MIDDLE_NDFLUENTS;
+            break;
+        default:
+            log.warn("Metadata model not recognized. Converting string to RDF without metadata");
+            this.base = UriNell.NAMESPACE_PREFIX;
+            break;
+		}
+		
 		this.metadata = metadata;
 		this.deleteOriginalTriples = deleteOriginalTriples;
 		this.lang = lang;
@@ -179,7 +203,7 @@ public class StringTranslate {
         // Create NdFluents triples
         Property property;
         Resource resource;
-        property = model.getProperty(UriNell.PREFIX_NDFLUENTS, UriNell.PROPERTY_PROVENANCE_PART_OF);
+        property = model.getProperty(UriNell.PROPERTY_PROVENANCE_PART_OF);
         resource =  model.createResource(UriNell.createSequentialUri(triple.getSubject().getURI()), model.getResource(UriNell.CLASS_PROVENANCE_PART));
         resource.addProperty(property, triple.getSubject());
         if (triple.getObject().isResource()) {
@@ -187,7 +211,7 @@ public class StringTranslate {
             resource.addProperty(property, triple.getObject());
         }
 
-        property = model.getProperty(UriNell.PREFIX_NDFLUENTS, UriNell.PROPERTY_PROVENANCE_EXTENT);
+        property = model.getProperty(UriNell.PROPERTY_PROVENANCE_EXTENT);
         // resource = model.createResource(UriNell.createAnchorUri(UriNell.RESOURCE_BELIEF, belief.isCandidate()), model.getResource(UriNell.CLASS_BELIEF));
         resource = model.createResource(UriNell.createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()));
         triple.getSubject().addProperty(property, resource);

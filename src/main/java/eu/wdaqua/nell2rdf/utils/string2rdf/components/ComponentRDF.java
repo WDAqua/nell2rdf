@@ -105,7 +105,7 @@ public class ComponentRDF {
 
 	String getExecutionName() {
 		if (executionName == null) {
-			executionName = UriNell.PREFIX + UriNell.NAMESPACE_END_METADATA + "Execution" + getCommonString();
+			executionName = UriNell.NAMESPACE_PREFIX + UriNell.NAMESPACE_END_METADATA + "Execution" + getCommonString();
 		}
 		return executionName;
 	}

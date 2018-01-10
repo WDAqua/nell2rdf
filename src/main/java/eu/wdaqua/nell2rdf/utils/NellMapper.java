@@ -156,22 +156,22 @@ public class NellMapper {
 		Selector selectorPosSymm = new SimpleSelector(null, RDF.type, OWL2.AsymmetricProperty);
 		Selector selectorNegSymm = new SimpleSelector(null, OWL2.propertyDisjointWith, OWL2.AsymmetricProperty);
 
-		Property propInstanceType = nellRdf.getProperty(UriNell.PREFIX + RdfModelUtils.nellNS + "instancetype");
+		Property propInstanceType = nellRdf.getProperty(UriNell.NAMESPACE_PREFIX + RdfModelUtils.nellNS + "instancetype");
 		Selector selectorInstanceType = new SimpleSelector(null, propInstanceType, (RDFNode) null);
 
-		Property propDomInRange = nellRdf.getProperty(UriNell.PREFIX + RdfModelUtils.nellNS + "domainwithinrange");
+		Property propDomInRange = nellRdf.getProperty(UriNell.NAMESPACE_PREFIX + RdfModelUtils.nellNS + "domainwithinrange");
 		Selector selectorDomainRange = new SimpleSelector(null, propDomInRange, (RDFNode) null);
 
-		Property propRangeInDom = nellRdf.getProperty(UriNell.PREFIX + RdfModelUtils.nellNS + "rangewithindomain");
+		Property propRangeInDom = nellRdf.getProperty(UriNell.NAMESPACE_PREFIX + RdfModelUtils.nellNS + "rangewithindomain");
 		Selector selectorRangeDomain = new SimpleSelector(null, propRangeInDom, (RDFNode) null);
 
-		Property propPopulate = nellRdf.getProperty(UriNell.PREFIX + RdfModelUtils.nellNS + "populate");
+		Property propPopulate = nellRdf.getProperty(UriNell.NAMESPACE_PREFIX + RdfModelUtils.nellNS + "populate");
 		Selector selectorPopulate = new SimpleSelector(null, propPopulate, (RDFNode) null);
 
-		Property propVisible = nellRdf.getProperty(UriNell.PREFIX + RdfModelUtils.nellNS + "visible");
+		Property propVisible = nellRdf.getProperty(UriNell.NAMESPACE_PREFIX + RdfModelUtils.nellNS + "visible");
 		Selector selectorVisible = new SimpleSelector(null, propVisible, (RDFNode) null);
 
-		Property propHumanformat = nellRdf.getProperty(UriNell.PREFIX + RdfModelUtils.nellNS + "humanformat");
+		Property propHumanformat = nellRdf.getProperty(UriNell.NAMESPACE_PREFIX + RdfModelUtils.nellNS + "humanformat");
 		Selector selectorHumanFormat = new SimpleSelector(null, propHumanformat, (RDFNode) null);
 
 		int disclass = classDisjunction.toList().size();
