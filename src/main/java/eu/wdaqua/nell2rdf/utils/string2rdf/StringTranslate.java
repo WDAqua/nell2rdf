@@ -239,7 +239,7 @@ public class StringTranslate {
         final Property singletonProperty = model.getProperty(UriNell.createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()));
         singletonProperty.addProperty(model.getProperty(UriNell.SINGLETON_PROPERTY_OF), triple.getPredicate());
         singletonProperty.addProperty(RDF.type, model.getResource(UriNell.TYPE_SINGLETON_PROPERTY));
-
+        triple.getSubject().addProperty(singletonProperty, triple.getObject());
         // Attach metadata to reification statement
         attachMetadata(singletonProperty, belief);
 
