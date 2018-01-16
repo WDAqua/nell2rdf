@@ -17,11 +17,12 @@ public class KbManipulation extends Header {
 
     private String oldBug;
 
-    public KbManipulation(String str, double Probability) {
+    public KbManipulation(String str, Double Probability) {
         super(str, KBMANIPULATION, Probability);
+        //System.out.println(LineInstanceJOIN.completeLine);
     }
 
-    public String getOldBug() {
+    public String getMetadata_oldBug() {
         return oldBug;
     }
 

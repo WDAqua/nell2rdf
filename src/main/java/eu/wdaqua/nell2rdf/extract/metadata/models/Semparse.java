@@ -7,41 +7,38 @@ package eu.wdaqua.nell2rdf.extract.metadata.models;
 
 import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import static eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList.*;
 
 /**
  *
  * @author Maisa
  */
+
 public class Semparse extends Header {
 
-     private List<String> listSentence;
+    private String sSentence;
 
-    public List<String> getListSentence() {
-        return listSentence;
+    public String getMetadata_SentenceList() {
+        return sSentence;
     }
 
-    public Semparse(String str, double Probability) {
+    public Semparse(String str, Double Probability) {
         super(str, SEMPARSE, Probability);
     }
 
     @Override
     public void processStringText(String str) {
-        listSentence = new ArrayList<>();
-        String tempSplit[] = Utility.getSEMPARSE(str).split(",");
-        listSentence.addAll(Arrays.asList(tempSplit));
+        sSentence = Utility.getSEMPARSE(str);
+
     }
 
     @Override
     public String toString() {
         StringBuffer temp = new StringBuffer();
         temp.append("{");
-        for (String sentence : this.listSentence) {
-            temp.append(sentence).append("\t");
-        }
+
+        temp.append(sSentence).append("\t");
+
         if (temp.lastIndexOf("\t") > -1) {
             return super.toString() + temp.toString().substring(0, temp.lastIndexOf("\t")) + "}]";
         } else {
@@ -53,9 +50,7 @@ public class Semparse extends Header {
     public String getStringSource() {
         StringBuffer temp = new StringBuffer();
         temp.append("{");
-        for (String sentence : this.listSentence) {
-            temp.append(sentence).append("\t");
-        }
+        temp.append(sSentence).append("\t");
         if (temp.lastIndexOf("\t") > -1) {
             return temp.toString().substring(0, temp.lastIndexOf("\t")) + "}";
         } else {

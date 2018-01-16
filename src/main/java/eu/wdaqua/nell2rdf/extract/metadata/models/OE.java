@@ -19,13 +19,13 @@ import static eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList.*;
  */
 public class OE extends Header {
 
-  private Map<String, URL> mapTextURL;
+    private Map<String, URL> mapTextURL;
 
-    public OE(String str, double Probability) {
+    public OE(String str, Double Probability) {
         super(str, OE, Probability);
     }
 
-    public Map<String, URL> getMapTextURL() {
+    public Map<String, URL> getMetadata_mapTextURL() {
         return mapTextURL;
     }
 
@@ -61,7 +61,8 @@ public class OE extends Header {
                 try {
                     mapTextURL.put(temp[i], new URL(temp[i + 1]));
                 } catch (MalformedURLException ex) {
-                    System.out.println("Problema com URL");
+                    System.out.println("Problema com URL " + ex);
+                    System.out.println(LineInstanceJOIN.completeLine);
                 }
             }
             i += 2;

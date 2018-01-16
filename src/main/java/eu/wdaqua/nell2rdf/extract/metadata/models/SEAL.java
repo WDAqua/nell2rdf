@@ -25,7 +25,7 @@ public class SEAL extends Header {
     //private List<URL> listURL;
     private List<String> listURL;
 
-    public SEAL(String str, double Probability) {
+    public SEAL(String str, Double Probability) {
         super(str, SEAL, Probability);
     }
 
@@ -49,7 +49,7 @@ public class SEAL extends Header {
         this.fromComplete = Utility.getFromComplete(str);
     }
 
-    public List<String> getListURL() {
+    public List<String> getMedatadata_URLList() {
         return this.listURL;
     }
 

@@ -7,7 +7,7 @@ package eu.wdaqua.nell2rdf.extract.metadata.models;
 
 import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
 import static eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 
 /**
@@ -16,10 +16,10 @@ import java.util.Date;
  */
 public class AliasMatcher extends Header {
 
-     //[Freebase 7/9/2012]
-    private Date FreebaseDate;
+    //[Freebase 7/9/2012] mudando para 9/7/2012
+    private LocalDate FreebaseDate;
 
-    public AliasMatcher(String str, double Probability) {
+    public AliasMatcher(String str, Double Probability) {
         super(str, ALIASMATCHER, Probability);
     }
 
@@ -28,13 +28,13 @@ public class AliasMatcher extends Header {
         this.FreebaseDate = Utility.setDateTimeFormatFreebase(Utility.getAliasMatcherFreebase(str));
     }
 
-    public Date getFreebaseDate() {
+    public LocalDate getMetadata_FreebaseDate() {
         return FreebaseDate;
     }
 
     @Override
     public String toString() {
-        return super.toString() + " " + getFreebaseDate() + "]";
+        return super.toString() + " " + getMetadata_FreebaseDate() + "]";
     }
 
     @Override

@@ -5,13 +5,14 @@
  */
 package eu.wdaqua.nell2rdf.extract.metadata.models;
 
-import eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList;
-import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList;
+import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
 
 /**
  *
@@ -31,7 +32,7 @@ public final class LineInstanceJOIN {
     private List<Double> probability;
 
     private int nrIterationsInt;
-    private double probabilityDouble;
+    private Double probabilityDouble = null;
 
     //Object Responsable for the Source Column
     private final String source;
@@ -57,8 +58,7 @@ public final class LineInstanceJOIN {
         this.categoriesForValue = new ArrayList<>();
         this.nrIterations = new ArrayList<>();
         this.probability = new ArrayList<>();
-
-        listComponents = new HashMap<>();
+        this.listComponents = new HashMap<>();
     }
 
     public String organizeStringsExtraction(String str) {
@@ -77,16 +77,16 @@ public final class LineInstanceJOIN {
     public LineInstanceJOIN(String Entity, String Relation, String Value, String Iteration,
             String probabilityPROMOTION, String Source, String EntityLiteralStrings,
             String ValueLiteralStrings, String BestEntityLiteralString, String BestValueLiteralString,
-            String CategoriesForEntity, String CategoriesForValue, String CandidatSource, String CompleteLine, boolean candidate) {
+            String CategoriesForEntity, String CategoriesForValue, String CandidatSource, String CompleteLine) {
 
         this.inicilizeObjets();
 
         String tempMBLorERC = "";
         this.source = Source;
 
-        this.entity = Entity;
-        this.relation = Relation;
-        this.value = Value;
+        this.entity = Entity.replaceFirst("candidate:", "");
+        this.relation = Relation.replaceFirst("candidate:", "");
+        this.value = Value.replaceFirst("candidate:", "");
 
         if (relation.contains(ConstantList.LOOK_GENERALIZATIONS)) {
             CAT_OR_REL = ConstantList.CATEGORY;
@@ -105,6 +105,8 @@ public final class LineInstanceJOIN {
             this.MBL_source = new MBL_OR_ERC(Source, tempMBLorERC);
         }
 
+        IsCandidate(probabilityPROMOTION);
+
         if (candidate) {
             this.setProbability(probabilityPROMOTION);
             this.setIterations(Iteration);
@@ -120,7 +122,7 @@ public final class LineInstanceJOIN {
         this.categoriesForEntity.addAll(Arrays.asList(organizeStringsExtraction(CategoriesForEntity).split(",")));
         this.categoriesForValue.addAll(Arrays.asList(organizeStringsExtraction(CategoriesForValue).split(",")));
 
-        this.completeLine = CompleteLine;
+        LineInstanceJOIN.completeLine = CompleteLine;
 
         this.candidateSource = CandidatSource;
 
@@ -155,12 +157,16 @@ public final class LineInstanceJOIN {
     public void IsCandidate(String temp) {
         candidate = temp.contains("[");
     }
+    
+    public boolean isCandidate() {
+    	return candidate;
+    }
 
     public int getNrIterationsInt() {
         return nrIterationsInt;
     }
 
-    public double getProbabilityDouble() {
+    public Double getProbabilityDouble() {
         return probabilityDouble;
     }
 
@@ -194,13 +200,11 @@ public final class LineInstanceJOIN {
     //Macarronada Italiana
     //Here is where the componentes are created; [ aqui
     public void setListComponents(List<String> stringListComponents, List<Double> probList) {
-        double tempProbility = 0;
+        Double tempProbility = null;
 
         for (int i = 0; i < stringListComponents.size(); i++) {
 
-            if (probList == null) {
-                tempProbility = 0.0;
-            } else {
+            if (probList != null) {
                 try {
                     tempProbility = probList.get(i);
                 } catch (IndexOutOfBoundsException e) {
@@ -257,4 +261,38 @@ public final class LineInstanceJOIN {
             }
         }
     }
+/*
+    public JSONObject setColumnsJSON() {
+        JSONObject joColumns = new JSONObject();
+        joColumns.put(ConstantList.ENTITY_CSV, this.entity);
+        joColumns.put(ConstantList.RELATION_CSV, this.relation);
+        joColumns.put(ConstantList.VALUE_CSV, this.value);
+        if (!candidate) {
+            joColumns.put(ConstantList.ITERATION_CSV, this.nrIterationsInt);
+            joColumns.put(ConstantList.PROBABILITY_CSV, this.probabilityDouble);
+        } else {
+            JSONArray jArrayTempIteration = new JSONArray();
+
+            for (int i = 0; i < this.nrIterations.size(); i++) {
+                jArrayTempIteration.add(this.nrIterations.get(i));
+            }
+            joColumns.put(ConstantList.ITERATION_CSV, jArrayTempIteration);
+
+            JSONArray jArrayTempProbabilty = new JSONArray();
+            for (int i = 0; i < this.probability.size(); i++) {
+                jArrayTempProbabilty.add(this.probability.get(i));
+            }
+            joColumns.put(ConstantList.PROBABILITY_CSV, jArrayTempProbabilty);
+        }
+
+        joColumns.put(ConstantList.SOURCE_CSV, this.source);
+        joColumns.put(ConstantList.ENTITY_LS_CSV, this.entityLiteralStrings);
+        joColumns.put(ConstantList.VALUE_LS_CSV, this.valueLiteralStrings);
+        joColumns.put(ConstantList.BEST_ENTITY_CSV, this.bestEntityLiteralString);
+        joColumns.put(ConstantList.BEST_VALUE_CVS, this.bestValueLiteralString);
+        joColumns.put(ConstantList.CATEGORIES_ENTITY_CSV, this.categoriesForEntity);
+        joColumns.put(ConstantList.CATEGORIES_VALUE_CSV, this.categoriesForValue);
+
+        return joColumns;
+    }*/
 }

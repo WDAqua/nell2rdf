@@ -25,9 +25,9 @@ public class ExtractNell {
 	/**
 	 * Constructeur, ne prend pas d'arguement, initialise first et translator.
 	 */
-	public ExtractNell(final String prefix, final String metadata, String separator, boolean candidates) {
+	public ExtractNell(final String metadata, String lang, String file, boolean deleteOriginalTriples) {
 		this.first = true;
-		this.translator = new StringTranslate(prefix, metadata, separator, candidates);
+		this.translator = new StringTranslate(metadata, lang, file, deleteOriginalTriples);
 	}
 
 	/**
@@ -43,11 +43,11 @@ public class ExtractNell {
 				if (this.first) {
 					this.first = false;
 				} else {
-					String[] lineSplit = line.split("\t");
-					if (lineSplit.length >= 12) {
+					//String[] lineSplit = line.split("\t");
+					//if (lineSplit.length >= 12) {
 						// String[] lineRDF = { lineSplit[0], lineSplit[1], lineSplit[2], lineSplit[6], lineSplit[7], lineSplit[8], lineSplit[9], lineSplit[10], lineSplit[11] };
-						this.translator.stringToRDF(lineSplit);
-					}
+						this.translator.stringToRDF(line);
+					//}
 				}
 			}
 			br.close();

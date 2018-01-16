@@ -5,12 +5,13 @@
  */
 package eu.wdaqua.nell2rdf.extract.metadata.models;
 
-import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
 
 /**
  *
@@ -23,7 +24,7 @@ public abstract class Header {
     protected String componentName;
     private int iteration;
 
-    private double probability;
+    private Double probability;
 
     private String dateTime;
 
@@ -33,7 +34,7 @@ public abstract class Header {
 
     abstract public String getStringSource();
 
-    public Header(String str, String ComponentName, double Probability) {
+    public Header(String str, String ComponentName, Double Probability) {
         this.headerTreatment(str, ComponentName);
         this.probability = Probability;
     }
@@ -82,7 +83,7 @@ public abstract class Header {
         return componentName;
     }
 
-    public double getProbability() {
+    public Double getProbability() {
         return probability;
     }
 
@@ -91,13 +92,18 @@ public abstract class Header {
     }
 
     public void setToken(String str) {
+        // str = "SpreadsheetEdits-Iter:924-2015/05/13-13:58:04-<token=angelina_county_airport,//en.wikipedia.org/wiki/angelina%20county%20airport>-bkisiel: \"angelina_county_airport haswikipediaurl //en.wikipedia.org/wiki/angelina%20county%20airport\", Action=(+haswikipediaurl) (from NELL.08m.924.SSFeedback.csv)";
         String temp = Utility.getToken(str);
         if (!temp.isEmpty()) {
             String tempSlip[] = temp.split(",");
-            try {
-                mapToken.put("token", new String[]{tempSlip[0], tempSlip[1]});
-            } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println("Pera " + e + "\n" + str);
+            if (tempSlip.length == 2) {
+                try {
+                    mapToken.put("token", new String[]{tempSlip[0], tempSlip[1]});
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    System.out.println("Pera " + e + "\n" + str + "\nCompleteLine: " + LineInstanceJOIN.completeLine);
+                }
+            } else {
+                mapToken.put("token", new String[]{tempSlip[0], ""});
             }
         } else {
             mapToken.put("token", new String[]{"", ""});

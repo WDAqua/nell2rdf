@@ -12,7 +12,7 @@ import static eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList.*;
  */
 public class LE extends Header {
 
-    public LE(String str, double Probability) {
+    public LE(String str, Double Probability) {
         super(str, LE, Probability);
     }
 
@@ -24,6 +24,10 @@ public class LE extends Header {
     @Override
     public String getStringSource() {
         return null;
+    }
+
+    public String getMetadata_StringSource() {
+        return getStringSource();
     }
 
 }
