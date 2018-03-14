@@ -408,9 +408,9 @@ public class StringTranslate {
 	    if (statement.getPredicate().getURI().equals(PROPERTY_HAS_WIKIPEDIA_PAGE)) {
 		final Resource newSubject = statement.getSubject();
 		final Property newProperty = OWL2.sameAs;
-		final String dbpediaResource = statement.getObject().asResource().getURI().replaceFirst(NAMESPACE_WIKIPEDIA, NAMESPACE_DBPEDIA);
+		final String dbpediaResource = statement.getObject().asLiteral().getString().replaceFirst(NAMESPACE_WIKIPEDIA, NAMESPACE_DBPEDIA);
 		final Resource newObject = this.model.createResource(createUri(dbpediaResource));
-		this.model.createStatement(newSubject, newProperty, newObject);
+		newSubject.addProperty(newProperty, newObject);
 	    }
 	}
     }
