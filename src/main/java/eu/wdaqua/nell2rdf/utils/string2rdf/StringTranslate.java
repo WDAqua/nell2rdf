@@ -384,10 +384,11 @@ public class StringTranslate {
     // }
 
     private boolean excludeTripleFromReification(final Statement triple) {
-	boolean excludeTripleFromReification = false;
-	if (triple.getPredicate().getNameSpace() == RDF.getURI()) {
-	    excludeTripleFromReification = true;
-	}
+	final boolean excludeTripleFromReification = false;
+	// For now all the triples are reified
+	// if (triple.getPredicate().getNameSpace() == RDF.getURI()) {
+	// excludeTripleFromReification = true;
+	// }
 	return excludeTripleFromReification;
     }
 
