@@ -11,6 +11,8 @@ import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.log4j.Logger;
 
+import static eu.wdaqua.nell2rdf.utils.UriNell.*;
+
 /**
  * Utility class for manipulating a Jena model of NELL.
  * @author Christophe Gravier
@@ -100,7 +102,7 @@ public class RdfModelUtils {
 		}
 
 		// set irreflexive info ....
-		Resource property = nellRdf.getResource(iri);
+		Resource property = nellRdf.getResource(createUri(iri));
 		if (antireflexiveValue.contains("false")) {
 			// ... in this case the property is disjoint with properties that
 			// are irreflexive.
@@ -136,7 +138,7 @@ public class RdfModelUtils {
 		}
 
 		// set irreflexive info ....
-		Resource property = nellRdf.getResource(iri);
+		Resource property = nellRdf.getResource(createUri(iri));
 		if (antisymmValue.contains("false")) {
 			// ... in this case the property is disjoint with properties that
 			// are irreflexive.
@@ -162,10 +164,10 @@ public class RdfModelUtils {
 		// of the descrption using a language detector algorithm. Apache TIKA provides a nice implementation of such language detector, provided the text is large enough (dozen+ words).
 		Literal com = nellRdf.createLiteral(description, "en");
 		if (isClass(iri, nellRdf)) {
-			Resource myClass = nellRdf.getResource(iri);
+			Resource myClass = nellRdf.getResource(createUri(iri));
 			myClass.addProperty(RDFS.comment, com);
 		} else if (isProperty(prefix + nellNS + subject, nellRdf)) {
-			Resource myClass = nellRdf.getResource(iri);
+			Resource myClass = nellRdf.getResource(createUri(iri));
 			myClass.addProperty(RDFS.comment, com);
 		} else {
 			log.error("Cannot a description to " + iri + " : not a class or a property.");
@@ -191,8 +193,8 @@ public class RdfModelUtils {
 		if (!isClass(iriSuperClass, nellRdf)) {
 			RdfModelUtils.addClass(nellRdf, superClass, prefix);
 		}
-		Resource rsc = nellRdf.getResource(prefix + nellNS + subClass);
-		Resource sup = nellRdf.getResource(prefix + nellNS + superClass);
+		Resource rsc = nellRdf.getResource(createUri(prefix + nellNS + subClass));
+		Resource sup = nellRdf.getResource(createUri(prefix + nellNS + superClass));
 		rsc.addProperty(RDFS.subClassOf, sup);
 	}
 
@@ -211,11 +213,11 @@ public class RdfModelUtils {
 		String iriClass = prefix + nellNS + resource;
 		Resource humanReadableResource = null;
 		if (isClass(iriClass, nellRdf)) {
-			humanReadableResource = nellRdf.getResource(iriClass);
+			humanReadableResource = nellRdf.getResource(createUri(iriClass));
 		} else {
 			String iriProp = prefix + nellNS + resource;
 			if (isProperty(iriProp, nellRdf)) {
-				humanReadableResource = nellRdf.getResource(iriProp);
+				humanReadableResource = nellRdf.getResource(createUri(iriProp));
 			}
 		}
 
@@ -246,15 +248,15 @@ public class RdfModelUtils {
 		String iriObject = prefix + nellNS + object;
 
 		if (isClass(iriSubject, nellRdf) && isClass(iriObject, nellRdf)) {
-			Resource oneClass = nellRdf.getResource(iriSubject);
-			Resource otherClass = nellRdf.getResource(iriObject);
+			Resource oneClass = nellRdf.getResource(createUri(iriSubject));
+			Resource otherClass = nellRdf.getResource(createUri(iriObject));
 			createClassDisjunction(oneClass, otherClass, nellRdf);
 		} else {
 			iriSubject = prefix + nellNS + subject;
 			iriObject = prefix + nellNS + object;
 			if (isProperty(iriSubject, nellRdf) && isProperty(iriObject, nellRdf)) {
-				Resource oneProp = nellRdf.getResource(iriSubject);
-				Resource otherProp = nellRdf.getResource(iriObject);
+				Resource oneProp = nellRdf.getResource(createUri(iriSubject));
+				Resource otherProp = nellRdf.getResource(createUri(iriObject));
 				createPropertyDisjunction(oneProp, otherProp, nellRdf);
 			} else {
 				log.error("The resource " + subject + " and " + object + " are not both property or both classes, they cannot be disjoint.");
@@ -277,7 +279,7 @@ public class RdfModelUtils {
 		}
 
 		// ... then add the assertion about this property being functional
-		Resource functionalProperty = nellRdf.getResource(iri);
+		Resource functionalProperty = nellRdf.getResource(createUri(iri));
 		functionalProperty.addProperty(RDF.type, OWL.FunctionalProperty);
 	}
 
@@ -318,8 +320,8 @@ public class RdfModelUtils {
 			addClass(nellRdf, scopeName, prefix);
 		}
 
-		Resource objectProperty = nellRdf.getResource(propertyIri);
-		Resource rangeClass = nellRdf.getResource(rangeIri);
+		Resource objectProperty = nellRdf.getResource(createUri(propertyIri));
+		Resource rangeClass = nellRdf.getResource(createUri(rangeIri));
 
 		// make the property an ObjectProperty if it has not, and set its range.
 		objectProperty.addProperty(RDF.type, OWL.ObjectProperty);
@@ -356,8 +358,8 @@ public class RdfModelUtils {
 		}
 
 		// Set anotherProperty to be an inverseProperty of oneProperty
-		Resource onePropertyResource = nellRdf.getResource(onePropertyIri);
-		Resource anotherPropertyResource = nellRdf.getResource(anotherPropertyIri);
+		Resource onePropertyResource = nellRdf.getResource(createUri(onePropertyIri));
+		Resource anotherPropertyResource = nellRdf.getResource(createUri(anotherPropertyIri));
 		if (onePropertyResource.hasProperty(RDF.type, OWL.FunctionalProperty)) {
 			anotherPropertyResource.addProperty(RDF.type, OWL.InverseFunctionalProperty);
 		}
@@ -415,7 +417,7 @@ public class RdfModelUtils {
 	 * @return true if the property was found <b>and</b> that the resource at this IRI has the RDF type RDF.Property, false otherwise.
 	 */
 	private static boolean isProperty(String iri, Model nellRdf) {
-		Resource expectedProperty = nellRdf.getResource(iri);
+		Resource expectedProperty = nellRdf.getResource(createUri(iri));
 		return (expectedProperty != null && expectedProperty.hasProperty(RDF.type, RDF.Property));
 	}
 
@@ -426,7 +428,7 @@ public class RdfModelUtils {
 	 * @return true if the class was found <b>and</b> that the resource at this IRI has the RDF type RDFS.Class, false otherwise.
 	 */
 	private static boolean isClass(String iri, Model nellRdf) {
-		Resource expectedProperty = nellRdf.getResource(iri);
+		Resource expectedProperty = nellRdf.getResource(createUri(iri));
 		return (expectedProperty != null && expectedProperty.hasProperty(RDF.type, RDFS.Class));
 	}
 

@@ -5,7 +5,7 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 
 import eu.wdaqua.nell2rdf.extract.metadata.models.OntologyModifier;
-import eu.wdaqua.nell2rdf.utils.UriNell;
+import static eu.wdaqua.nell2rdf.utils.UriNell.*;
 
 public class OntologyModifierRDF extends ComponentRDF {
 
@@ -19,17 +19,17 @@ public class OntologyModifierRDF extends ComponentRDF {
 	}
 	
 	void addOntologyModification() {
-		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_ONTOLOGY_MODIFICATION);
-		RDFNode object = componentExecution.getModel().getResource(UriNell.NAMESPACE_PREFIX + UriNell.NAMESPACE_END_METADATA + getOntologyModification());
+		Property predicate = componentExecution.getModel().getProperty(PROPERTY_ONTOLOGY_MODIFICATION);
+		RDFNode object = componentExecution.getModel().getResource(createUri(NAMESPACE_PREFIX + NAMESPACE_END_METADATA + getOntologyModification()));
 		componentExecution.addProperty(predicate, object);
 	}
 	
 	String getComponentName() {
-		return UriNell.RESOURCE_ONTOLOGY_MODIFIER;
+		return RESOURCE_ONTOLOGY_MODIFIER;
 	}
 	
 	String getExecutionType() {
-		return UriNell.CLASS_ONTOLOGY_MODIFIER_EXECUTION;
+		return CLASS_ONTOLOGY_MODIFIER_EXECUTION;
 	}
 	
 	String getOntologyModification() {

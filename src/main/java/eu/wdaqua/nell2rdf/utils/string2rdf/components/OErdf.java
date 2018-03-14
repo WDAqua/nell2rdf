@@ -10,7 +10,7 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 
 import eu.wdaqua.nell2rdf.extract.metadata.models.OE;
-import eu.wdaqua.nell2rdf.utils.UriNell;
+import static eu.wdaqua.nell2rdf.utils.UriNell.*;
 
 public class OErdf extends ComponentRDF {
 	
@@ -25,18 +25,18 @@ public class OErdf extends ComponentRDF {
 	
 	void addTextUrlPairs() {
 		getTextUrlPairs().forEach((K,V) -> {
-			Property predicate_λ = componentExecution.getModel().getProperty(UriNell.PROPERTY_TEXT_URL);
-			RDFNode object_λ = componentExecution.getModel().createResource(UriNell.createSequentialUri(UriNell.RESOURCE_TEXT_URL + getCommonString()),componentExecution.getModel().getResource(UriNell.CLASS_TEXT_URL));
+			Property predicate_λ = componentExecution.getModel().getProperty(PROPERTY_TEXT_URL);
+			RDFNode object_λ = componentExecution.getModel().createResource(createSequentialUri(RESOURCE_TEXT_URL + getCommonString()),componentExecution.getModel().getResource(createUri(CLASS_TEXT_URL)));
 			componentExecution.addProperty(predicate_λ, object_λ);
 			
 			Resource resource = object_λ.asResource();
 			
-			predicate_λ = resource.getModel().getProperty(UriNell.PROPERTY_TEXT);
-			object_λ = resource.getModel().createTypedLiteral(ResourceFactory.createLangLiteral(K, UriNell.ENGLISH_TAG));
+			predicate_λ = resource.getModel().getProperty(PROPERTY_TEXT);
+			object_λ = resource.getModel().createTypedLiteral(ResourceFactory.createLangLiteral(K, ENGLISH_TAG));
 			resource.addProperty(predicate_λ, object_λ);
 			
 			if (V != null) {
-				predicate_λ = resource.getModel().getProperty(UriNell.PROPERTY_URL);
+				predicate_λ = resource.getModel().getProperty(PROPERTY_URL);
 				object_λ = resource.getModel().createTypedLiteral(V.toString(),XSDDatatype.XSDanyURI);
 				resource.addProperty(predicate_λ, object_λ);
 			}
@@ -44,11 +44,11 @@ public class OErdf extends ComponentRDF {
 	}
 	
 	String getComponentName() {
-		return UriNell.RESOURCE_OE;
+		return RESOURCE_OE;
 	}
 	
 	String getExecutionType() {
-		return UriNell.CLASS_OE_EXECUTION;
+		return CLASS_OE_EXECUTION;
 	}
 	
 	Map<String, URL>getTextUrlPairs() {

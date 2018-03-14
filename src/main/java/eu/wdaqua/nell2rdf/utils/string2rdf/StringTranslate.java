@@ -29,9 +29,10 @@ import eu.wdaqua.nell2rdf.NellOntologyConverter;
 import eu.wdaqua.nell2rdf.extract.metadata.models.Header;
 import eu.wdaqua.nell2rdf.extract.metadata.models.LineInstanceJOIN;
 import eu.wdaqua.nell2rdf.extract.metadata.util.Utility;
-import eu.wdaqua.nell2rdf.utils.UriNell;
 import eu.wdaqua.nell2rdf.utils.string2rdf.components.ComponentRDF;
 import eu.wdaqua.nell2rdf.utils.string2rdf.components.ComponentRDFBuilder;
+
+import static eu.wdaqua.nell2rdf.utils.UriNell.*;
 
 /**
  * 
@@ -97,34 +98,34 @@ public class StringTranslate {
 		this.model = ModelFactory.createDefaultModel();
 		switch (metadata) {
 		case NellOntologyConverter.NONE:
-			this.base = UriNell.NAMESPACE_PREFIX;
+			this.base = NAMESPACE_PREFIX;
             break;
         case NellOntologyConverter.REIFICATION:
-        	this.base = UriNell.NAMESPACE_PREFIX + UriNell.NAMESPACE_MIDDLE_REIFICATION;
+        	this.base = NAMESPACE_PREFIX + NAMESPACE_MIDDLE_REIFICATION;
             break;
         case NellOntologyConverter.N_ARY:
-        	this.base = UriNell.NAMESPACE_PREFIX + UriNell.NAMESPACE_MIDDLE_NARY_RELATIONS;
+        	this.base = NAMESPACE_PREFIX + NAMESPACE_MIDDLE_NARY_RELATIONS;
             break;
         case NellOntologyConverter.QUADS:
-        	this.base = UriNell.NAMESPACE_PREFIX + UriNell.NAMESPACE_MIDDLE_NAMED_GRAPHS;
+        	this.base = NAMESPACE_PREFIX + NAMESPACE_MIDDLE_NAMED_GRAPHS;
             break;
         case NellOntologyConverter.SINGLETON_PROPERTY:
-        	this.base = UriNell.NAMESPACE_PREFIX + UriNell.NAMESPACE_MIDDLE_SINGLETON_PROPERTY;
+        	this.base = NAMESPACE_PREFIX + NAMESPACE_MIDDLE_SINGLETON_PROPERTY;
             break;
         case NellOntologyConverter.NDFLUENTS:
-        	this.base = UriNell.NAMESPACE_PREFIX + UriNell.NAMESPACE_MIDDLE_NDFLUENTS;
+        	this.base = NAMESPACE_PREFIX + NAMESPACE_MIDDLE_NDFLUENTS;
             break;
         default:
             log.warn("Metadata model not recognized. Converting string to RDF without metadata");
-            this.base = UriNell.NAMESPACE_PREFIX;
+            this.base = NAMESPACE_PREFIX;
             break;
 		}
 		
 		this.metadata = metadata;
 		this.deleteOriginalTriples = deleteOriginalTriples;
 		this.lang = lang;
-		this.resourceBase = this.base + UriNell.NAMESPACE_END_RESOURCE;
-		this.ontologyBase = this.base + UriNell.NAMESPACE_END_ONTOLOGY;
+		this.resourceBase = this.base + NAMESPACE_END_RESOURCE;
+		this.ontologyBase = this.base + NAMESPACE_END_ONTOLOGY;
 		this.skos = "http://www.w3.org/2004/02/skos/core#";
 		this.rdfs = "http://www.w3.org/2000/01/rdf-schema#";
 		this.xsd = "http://www.w3.org/2001/XMLSchema#";
@@ -203,17 +204,17 @@ public class StringTranslate {
         // Create NdFluents triples
         Property property;
         Resource resource;
-        property = model.getProperty(UriNell.PROPERTY_PROVENANCE_PART_OF);
-        resource =  model.createResource(UriNell.createSequentialUri(triple.getSubject().getURI()), model.getResource(UriNell.CLASS_PROVENANCE_PART));
+        property = model.getProperty(PROPERTY_PROVENANCE_PART_OF);
+        resource =  model.createResource(createSequentialUri(triple.getSubject().getURI()), model.getResource(createUri(CLASS_PROVENANCE_PART)));
         resource.addProperty(property, triple.getSubject());
         if (triple.getObject().isResource()) {
-            resource = model.createResource(UriNell.createSequentialUri(triple.getObject().asResource().getURI()), model.getResource(UriNell.CLASS_PROVENANCE_PART));
+            resource = model.createResource(createSequentialUri(triple.getObject().asResource().getURI()), model.getResource(createUri(CLASS_PROVENANCE_PART)));
             resource.addProperty(property, triple.getObject());
         }
 
-        property = model.getProperty(UriNell.PROPERTY_PROVENANCE_EXTENT);
+        property = model.getProperty(PROPERTY_PROVENANCE_EXTENT);
         // resource = model.createResource(UriNell.createAnchorUri(UriNell.RESOURCE_BELIEF, belief.isCandidate()), model.getResource(UriNell.CLASS_BELIEF));
-        resource = model.createResource(UriNell.createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()));
+        resource = model.createResource(createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()));
         triple.getSubject().addProperty(property, resource);
         if (triple.getObject().isResource()) {
             triple.getObject().asResource().addProperty(property, resource);
@@ -236,9 +237,9 @@ public class StringTranslate {
         // Create the Singleton Property
 //        Property singletonProperty = createSingletonPropertyOf(triple.getPredicate());
         // final Property singletonProperty = model.getProperty(UriNell.createAnchorUri(triple.getPredicate().getURI(), belief.isCandidate()));
-        final Property singletonProperty = model.getProperty(UriNell.createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()));
-        singletonProperty.addProperty(model.getProperty(UriNell.SINGLETON_PROPERTY_OF), triple.getPredicate());
-        singletonProperty.addProperty(RDF.type, model.getResource(UriNell.TYPE_SINGLETON_PROPERTY));
+        final Property singletonProperty = model.getProperty(createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()));
+        singletonProperty.addProperty(model.getProperty(SINGLETON_PROPERTY_OF), triple.getPredicate());
+        singletonProperty.addProperty(RDF.type, model.getResource(createUri(TYPE_SINGLETON_PROPERTY)));
         triple.getSubject().addProperty(singletonProperty, triple.getObject());
         // Attach metadata to reification statement
         attachMetadata(singletonProperty, belief);
@@ -254,7 +255,7 @@ public class StringTranslate {
 
 		// Create Named Graph
         //final Resource tripleId = model.createResource(UriNell.createAnchorUri(UriNell.RESOURCE_BELIEF, belief.isCandidate()), model.getResource(UriNell.CLASS_BELIEF));
-        final Resource tripleId = model.createResource(UriNell.createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()));
+        final Resource tripleId = model.createResource(createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()));
         Model model = ModelFactory.createDefaultModel();
         
         DatasetGraph dataset = TDBFactory.createDatasetGraph();
@@ -289,11 +290,11 @@ public class StringTranslate {
         Property predicate = this.model.getProperty(triple.getPredicate().toString());
         Property predicate1 = this.model.getProperty(triple.getPredicate().toString() + "_statement");
         Property predicate2 = this.model.getProperty(triple.getPredicate().toString() + "_value");
-        predicate.addProperty(this.model.getProperty(UriNell.PROPERTY_SUBJECT_PROPERTY), predicate1);
-        predicate.addProperty(this.model.getProperty(UriNell.PROPERTY_OBJECT_PROPERTY), predicate2);
+        predicate.addProperty(this.model.getProperty(PROPERTY_SUBJECT_PROPERTY), predicate1);
+        predicate.addProperty(this.model.getProperty(PROPERTY_OBJECT_PROPERTY), predicate2);
         
 //        RDFNode statement = model.createResource(UriNell.createAnchorUri(UriNell.RESOURCE_BELIEF, belief.isCandidate()), model.getResource(UriNell.CLASS_BELIEF));
-        RDFNode statement = model.createResource(UriNell.createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()));
+        RDFNode statement = model.createResource(createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()));
         
         triple.getSubject().addProperty(predicate1,statement);
         statement.asResource().addProperty(predicate2,triple.getObject());
@@ -315,7 +316,7 @@ public class StringTranslate {
 
 		// Create reification
 //		ReifiedStatement statement = triple.createReifiedStatement(UriNell.createAnchorUri(UriNell.RESOURCE_BELIEF, belief.isCandidate()));
-		ReifiedStatement statement = triple.createReifiedStatement(UriNell.createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()));
+		ReifiedStatement statement = triple.createReifiedStatement(createAnchorUri(belief.getEntity(), belief.getRelation(), belief.getValue()));
 //        ReifiedStatement statement = triple.createReifiedStatement(createSequentialProvenanceResourceUri(UriNell.RESOURCE_BELIEF,belief.isCandidate()));
 
 		// Attach metadata to reification statement
@@ -382,20 +383,20 @@ public class StringTranslate {
 		
 		// createProvenanceOntology();
 		if (belief.isCandidate() == true) {
-			resource.addProperty(RDF.type, model.getResource(UriNell.CLASS_CANDIDATE_BELIEF));
+			resource.addProperty(RDF.type, model.getResource(createUri(CLASS_CANDIDATE_BELIEF)));
 		} else {
-			resource.addProperty(RDF.type, model.getResource(UriNell.CLASS_PROMOTED_BELIEF));
+			resource.addProperty(RDF.type, model.getResource(createUri(CLASS_PROMOTED_BELIEF)));
 		}
         
 
         // Add iteration of promotion
-        predicate = this.model.getProperty(UriNell.PROPERTY_ITERATION_OF_PROMOTION);
+        predicate = this.model.getProperty(PROPERTY_ITERATION_OF_PROMOTION);
         object = this.model.createTypedLiteral(belief.getNrIterationsInt(),XSDDatatype.XSDnonNegativeInteger);
         resource.addProperty(predicate, object);
 
         if (belief.getProbabilityDouble() != null) {
             // Add probability
-            predicate = this.model.getProperty(UriNell.PROPERTY_PROBABILITY_OF_BELIEF);
+            predicate = this.model.getProperty(PROPERTY_PROBABILITY_OF_BELIEF);
             object = this.model.createTypedLiteral(belief.getProbabilityDouble(), XSDDatatype.XSDdecimal);
             resource.addProperty(predicate, object);
         }
@@ -416,7 +417,7 @@ public class StringTranslate {
 		/* Traitement du sujet. */
 		String[] nellDataSplit = belief.getEntity().split(":", 2);
 		nellDataSplit[1] = nellDataSplit[1].replaceAll(":", "_");
-		final Resource subject = getOrCreateRessource(nellDataSplit[1]);
+		final Resource subject = model.getResource(createUri(nellDataSplit[1]));
 		if (!nellData[6].equals(" ")) {
 			findLabel(subject, nellData[6]);
 		}
@@ -441,9 +442,9 @@ public class StringTranslate {
 			Resource object_resource;
 			nellDataSplit[1] = nellDataSplit[1].replaceAll(":", "_");
 			if (nellData[1].equals("generalizations")) {
-				object_resource = getOrCreateRessourceClass(nellDataSplit[1]);
+				object_resource = model.getResource(createUri(nellDataSplit[1]));
 			} else {
-				object_resource = getOrCreateRessource(nellDataSplit[1]);
+				object_resource = model.getResource(createUri(nellDataSplit[1]));
 
 //				if (!nellData[11].equals("")) {
 //					findType(nellData[11], object_resource);
@@ -502,25 +503,25 @@ public class StringTranslate {
 	 * Prend une chaine de caractere et verifie s'il existe deje une resource associee e cette chaene, si oui
 	 * la renvoie, sinon, la cree.
 	 */
-	private Resource getOrCreateRessource(String string)
-	{
-		Resource resource;
-		if((resource=model.getResource(this.resourceBase + string))==null)
-		{
-			resource=model.createResource(this.resourceBase + string);
-		}
-		return resource;
-	}
-	
-	private Resource getOrCreateRessourceClass(String string)
-	{
-		Resource resource;
-		if((resource=model.getResource(this.ontologyBase +string))==null)
-		{
-			resource=model.createResource(this.ontologyBase +string);
-		}
-		return resource;
-	}
+//	private Resource getOrCreateRessource(String string)
+//	{
+//		Resource resource;
+//		if((resource=model.getResource(createUri(this.resourceBase + string))==null))
+//		{
+//			resource=model.createResource(this.resourceBase + string);
+//		}
+//		return resource;
+//	}
+//	
+//	private Resource getOrCreateRessourceClass(String string)
+//	{
+//		Resource resource;
+//		if((resource=model.getResource(createUri(this.ontologyBase +string))==null))
+//		{
+//			resource=model.createResource(this.ontologyBase +string);
+//		}
+//		return resource;
+//	}
 
 	/**
 	 * Renvoi la propriete associee e une chaene de caracteres.
@@ -579,7 +580,7 @@ public class StringTranslate {
 			{
 				trueType[1]=trueType[1].replaceAll(":", "_");
 				trueType[1]=trueType[1].replaceAll("\"", "");
-				Resource classe=this.getOrCreateRessourceClass(trueType[1]);
+				Resource classe=model.getResource(trueType[1]);
 				subject.addProperty(RDF.type,classe);
 			}
 		}

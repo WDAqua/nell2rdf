@@ -8,7 +8,7 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 
 import eu.wdaqua.nell2rdf.extract.metadata.models.SEAL;
-import eu.wdaqua.nell2rdf.utils.UriNell;
+import static eu.wdaqua.nell2rdf.utils.UriNell.*;
 
 public class SEALrdf extends ComponentRDF {
 	
@@ -23,18 +23,18 @@ public class SEALrdf extends ComponentRDF {
 	
 	void addURLs() {
 		getURLs().forEach(url -> {
-			Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_URL);
+			Property predicate = componentExecution.getModel().getProperty(PROPERTY_URL);
 			RDFNode object = componentExecution.getModel().createTypedLiteral(url, XSDDatatype.XSDanyURI);
 			componentExecution.addProperty(predicate, object);
 		});
 	}
 	
 	String getComponentName() {
-		return UriNell.RESOURCE_SEAL;
+		return RESOURCE_SEAL;
 	}
 	
 	String getExecutionType() {
-		return UriNell.CLASS_SEAL_EXECUTION;
+		return CLASS_SEAL_EXECUTION;
 	}
 	
 	List<String> getURLs() {

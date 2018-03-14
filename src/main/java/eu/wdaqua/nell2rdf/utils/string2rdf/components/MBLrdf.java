@@ -6,7 +6,7 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 
 import eu.wdaqua.nell2rdf.extract.metadata.models.MBL;
-import eu.wdaqua.nell2rdf.utils.UriNell;
+import static eu.wdaqua.nell2rdf.utils.UriNell.*;
 
 public class MBLrdf extends ComponentRDF {
 
@@ -22,39 +22,39 @@ public class MBLrdf extends ComponentRDF {
 	}
 	
 	void addEntity() {
-		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_PROMOTED_ENTITY);
+		Property predicate = componentExecution.getModel().getProperty(PROPERTY_PROMOTED_ENTITY);
 		RDFNode object = componentExecution.getModel().createTypedLiteral(getEntity(),XSDDatatype.XSDstring);
 		componentExecution.addProperty(predicate, object);
 		
-		predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_PROMOTED_ENTITY_CATEGORY);
+		predicate = componentExecution.getModel().getProperty(PROPERTY_PROMOTED_ENTITY_CATEGORY);
 		object = componentExecution.getModel().createTypedLiteral(getEntityCategory(),XSDDatatype.XSDstring);
 		componentExecution.addProperty(predicate, object);
 	}
 	
 	void addRelation() {
-		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_PROMOTED_RELATION);
+		Property predicate = componentExecution.getModel().getProperty(PROPERTY_PROMOTED_RELATION);
 		RDFNode object = componentExecution.getModel().createTypedLiteral(getRelation(),XSDDatatype.XSDstring);
 		componentExecution.addProperty(predicate, object);
 	}
 	
 	void addValue() {
-		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_PROMOTED_VALUE);
+		Property predicate = componentExecution.getModel().getProperty(PROPERTY_PROMOTED_VALUE);
 		RDFNode object = componentExecution.getModel().createTypedLiteral(getValue(),XSDDatatype.XSDstring);
 		componentExecution.addProperty(predicate, object);
 		
 		if (getValueCategory() != null) {
-			predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_PROMOTED_VALUE_CATEGORIE);
+			predicate = componentExecution.getModel().getProperty(PROPERTY_PROMOTED_VALUE_CATEGORIE);
 			object = componentExecution.getModel().createTypedLiteral(getValueCategory(),XSDDatatype.XSDstring);
 			componentExecution.addProperty(predicate, object);
 		}
 	}
 	
 	String getComponentName() {
-		return UriNell.RESOURCE_MBL;
+		return RESOURCE_MBL;
 	}
 	
 	String getExecutionType() {
-		return UriNell.CLASS_MBL_EXECUTION;
+		return CLASS_MBL_EXECUTION;
 	}
 	
 	String getEntity() {

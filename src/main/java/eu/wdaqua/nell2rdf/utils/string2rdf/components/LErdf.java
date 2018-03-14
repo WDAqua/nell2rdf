@@ -3,7 +3,7 @@ package eu.wdaqua.nell2rdf.utils.string2rdf.components;
 import org.apache.jena.rdf.model.Resource;
 
 import eu.wdaqua.nell2rdf.extract.metadata.models.LE;
-import eu.wdaqua.nell2rdf.utils.UriNell;
+import static eu.wdaqua.nell2rdf.utils.UriNell.*;
 
 public class LErdf extends ComponentRDF {
 
@@ -16,11 +16,11 @@ public class LErdf extends ComponentRDF {
 	}
 	
 	String getComponentName() {
-		return UriNell.RESOURCE_LE;
+		return RESOURCE_LE;
 	}
 	
 	String getExecutionType() {
-		return UriNell.CLASS_LE_EXECUTION;
+		return CLASS_LE_EXECUTION;
 	}
 
 }

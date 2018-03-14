@@ -6,7 +6,7 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 
 import eu.wdaqua.nell2rdf.extract.metadata.models.AliasMatcher;
-import eu.wdaqua.nell2rdf.utils.UriNell;
+import static eu.wdaqua.nell2rdf.utils.UriNell.*;
 
 public class AliasMatcherRDF extends ComponentRDF {
 	
@@ -20,17 +20,17 @@ public class AliasMatcherRDF extends ComponentRDF {
 	}
 	
 	void addFreebaseDate() {
-		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_FREEBASE_DATE);
+		Property predicate = componentExecution.getModel().getProperty(PROPERTY_FREEBASE_DATE);
 		RDFNode object = componentExecution.getModel().createTypedLiteral(getFreeBaseDate(), XSDDatatype.XSDdate);
 		componentExecution.addProperty(predicate, object);
 	}
 	
 	String getComponentName() {
-		return UriNell.RESOURCE_ALIAS_MATCHER;
+		return RESOURCE_ALIAS_MATCHER;
 	}
 	
 	String getExecutionType() {
-		return UriNell.CLASS_ALIAS_MATCHER_EXECUTION;
+		return CLASS_ALIAS_MATCHER_EXECUTION;
 	}
 	
 	String getFreeBaseDate() {

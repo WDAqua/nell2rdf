@@ -6,7 +6,7 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 
 import eu.wdaqua.nell2rdf.extract.metadata.models.KbManipulation;
-import eu.wdaqua.nell2rdf.utils.UriNell;
+import static eu.wdaqua.nell2rdf.utils.UriNell.*;
 
 public class KbManipulationRDF extends ComponentRDF {
 
@@ -20,17 +20,17 @@ public class KbManipulationRDF extends ComponentRDF {
 	}
 	
 	void addOldBug() {
-		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_OLD_BUG);
+		Property predicate = componentExecution.getModel().getProperty(PROPERTY_OLD_BUG);
 		RDFNode object = componentExecution.getModel().createTypedLiteral(getOldBug(),XSDDatatype.XSDstring);
 		componentExecution.addProperty(predicate, object);
 	}
 	
 	String getComponentName() {
-		return UriNell.RESOURCE_KB_MANIPULATION;
+		return RESOURCE_KB_MANIPULATION;
 	}
 	
 	String getExecutionType() {
-		return UriNell.CLASS_KB_MANIPULATION_EXECUTION;
+		return CLASS_KB_MANIPULATION_EXECUTION;
 	}
 	
 	String getOldBug() {

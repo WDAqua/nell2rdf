@@ -164,15 +164,18 @@ public class UriNell {
 	
 	public static final String ENGLISH_TAG = "en";
 
+	public static final String createUri(final String name) {
+		return name.replaceAll("\\s","").replaceAll(":", "_");
+	}
+	
 	public static String createSequentialUri(final String name) {
-        return name + "_" + numberSequences.compute(name, (K,V) -> V == null ? 1 : ++V);
+        return name + "_" + numberSequences.compute(createUri(name), (K,V) -> V == null ? 1 : ++V);
     }
 	
 	public static String createAnchorUri(final String subject, final String predicate, final String object) {
-		String subjectString = subject.split(":", 2)[1].replaceAll(":", "_").replaceAll(" ", "_");
-		String predicateString = predicate.replaceAll(":", "_").replaceAll(" ", "_");
-		String objectString = object.split(":", 2)[0].equals("concept") ? object.split(":", 2)[1].replaceAll(":", "_").replaceAll(" ", "_") : String.valueOf(object.hashCode());
-		return NAMESPACE_PREFIX + NAMESPACE_END_METADATA + subjectString	+ "_" + predicate + "_" + objectString;
+		String subjectString = subject.split(":", 2)[1];
+		String objectString = object.split(":", 2)[0].equals("concept") ? object.split(":", 2)[1] : String.valueOf(object.hashCode());
+		return createUri(NAMESPACE_PREFIX + NAMESPACE_END_METADATA + subjectString	+ "_" + predicate + "_" + objectString);
 	}
 	
 //	public static String createAnchorUri(final String name, final boolean candidate) {

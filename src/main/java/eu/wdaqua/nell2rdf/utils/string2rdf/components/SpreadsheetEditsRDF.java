@@ -6,7 +6,7 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 
 import eu.wdaqua.nell2rdf.extract.metadata.models.SpreadsheetEdits;
-import eu.wdaqua.nell2rdf.utils.UriNell;
+import static eu.wdaqua.nell2rdf.utils.UriNell.*;
 
 public class SpreadsheetEditsRDF extends ComponentRDF {
 	
@@ -26,48 +26,48 @@ public class SpreadsheetEditsRDF extends ComponentRDF {
 	
 	void addUser() {
 		if (getUser() != null) {
-			Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_USER);
-			RDFNode object = componentExecution.getModel().getResource(UriNell.NAMESPACE_PREFIX + UriNell.NAMESPACE_END_METADATA + getUser());
+			Property predicate = componentExecution.getModel().getProperty(PROPERTY_USER);
+			RDFNode object = componentExecution.getModel().getResource(createUri(NAMESPACE_PREFIX + NAMESPACE_END_METADATA + getUser()));
 			componentExecution.addProperty(predicate, object);
 		}
 	}
 	
 	void addEntity() {
-		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_ENTITY);
+		Property predicate = componentExecution.getModel().getProperty(PROPERTY_ENTITY);
 		RDFNode object = componentExecution.getModel().createTypedLiteral(getEntity(),XSDDatatype.XSDstring);
 		componentExecution.addProperty(predicate, object);
 	}
 	
 	void addRelation() {
-		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_RELATION);
+		Property predicate = componentExecution.getModel().getProperty(PROPERTY_RELATION);
 		RDFNode object = componentExecution.getModel().createTypedLiteral(getRelation(),XSDDatatype.XSDstring);
 		componentExecution.addProperty(predicate, object);
 	}
 	
 	void addValue() {
-		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_VALUE);
+		Property predicate = componentExecution.getModel().getProperty(PROPERTY_VALUE);
 		RDFNode object = componentExecution.getModel().createTypedLiteral(getValue(),XSDDatatype.XSDstring);
 		componentExecution.addProperty(predicate, object);
 	}
 	
 	void addAction() {
-		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_ACTION);
+		Property predicate = componentExecution.getModel().getProperty(PROPERTY_ACTION);
 		RDFNode object = componentExecution.getModel().createTypedLiteral(getAction(),XSDDatatype.XSDstring);
 		componentExecution.addProperty(predicate, object);
 	}
 	
 	void addFromIteration () {
-		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_FILE);
+		Property predicate = componentExecution.getModel().getProperty(PROPERTY_FILE);
 		RDFNode object = componentExecution.getModel().createTypedLiteral(getFromIteration(),XSDDatatype.XSDstring);
 		componentExecution.addProperty(predicate, object);
 	}
 	
 	String getComponentName() {
-		return UriNell.RESOURCE_SPREADSHEETEDITS;
+		return RESOURCE_SPREADSHEETEDITS;
 	}
 	
 	String getExecutionType() {
-		return UriNell.CLASS_SPREADSHEETEDITS_EXECUTION;
+		return CLASS_SPREADSHEETEDITS_EXECUTION;
 	}
 	
 	String getUser() {

@@ -9,7 +9,7 @@ import org.apache.jena.rdf.model.Resource;
 
 import eu.wdaqua.nell2rdf.extract.metadata.models.CMC;
 import eu.wdaqua.nell2rdf.extract.metadata.models.CMC.CMCObjects;
-import eu.wdaqua.nell2rdf.utils.UriNell;
+import static eu.wdaqua.nell2rdf.utils.UriNell.*;
 
 public class CMCrdf extends ComponentRDF {
 
@@ -24,21 +24,21 @@ public class CMCrdf extends ComponentRDF {
 	
 	void addMorphologicalPatterns() {
 		getMorphologicalPatterns().forEach(pattern -> {
-			Property predicate_λ = componentExecution.getModel().getProperty(UriNell.PROPERTY_MORPHOLOGICAL_PATTERN);
-			RDFNode object_λ = componentExecution.getModel().createResource(UriNell.createSequentialUri(UriNell.RESOURCE_MORPHOLOGICAL_PATTERN + getCommonString()),componentExecution.getModel().getResource(UriNell.CLASS_MORPHOLOGICAL_PATTERN));
+			Property predicate_λ = componentExecution.getModel().getProperty(PROPERTY_MORPHOLOGICAL_PATTERN);
+			RDFNode object_λ = componentExecution.getModel().createResource(createSequentialUri(RESOURCE_MORPHOLOGICAL_PATTERN + getCommonString()),componentExecution.getModel().getResource(CLASS_MORPHOLOGICAL_PATTERN));
 			componentExecution.addProperty(predicate_λ, object_λ);
 			
 			Resource patternResource = object_λ.asResource();
 			
-			predicate_λ = patternResource.getModel().getProperty(UriNell.PROPERTY_MORPHOLOGICAL_PATTERN_NAME);
+			predicate_λ = patternResource.getModel().getProperty(PROPERTY_MORPHOLOGICAL_PATTERN_NAME);
 			object_λ = patternResource.getModel().createTypedLiteral(pattern.getFieldName(),XSDDatatype.XSDstring);
 			patternResource.addProperty(predicate_λ, object_λ);
 			
-			predicate_λ = patternResource.getModel().getProperty(UriNell.PROPERTY_MORPHOLOGICAL_PATTERN_VALUE);
+			predicate_λ = patternResource.getModel().getProperty(PROPERTY_MORPHOLOGICAL_PATTERN_VALUE);
 			object_λ = patternResource.getModel().createTypedLiteral(pattern.getFieldValue(),XSDDatatype.XSDstring);
 			patternResource.addProperty(predicate_λ, object_λ);
 			
-			predicate_λ = patternResource.getModel().getProperty(UriNell.PROPERTY_MORPHOLOGICAL_PATTERN_SCORE);
+			predicate_λ = patternResource.getModel().getProperty(PROPERTY_MORPHOLOGICAL_PATTERN_SCORE);
 			object_λ = patternResource.getModel().createTypedLiteral(pattern.getScore(), XSDDatatype.XSDdecimal);
 			patternResource.addProperty(predicate_λ, object_λ);
 		});
@@ -46,11 +46,11 @@ public class CMCrdf extends ComponentRDF {
 		
 
 	String getComponentName() {
-		return UriNell.RESOURCE_CMC;
+		return RESOURCE_CMC;
 	}
 	
 	String getExecutionType() {
-		return UriNell.CLASS_CMC_EXECUTION;
+		return CLASS_CMC_EXECUTION;
 	}
 	
 	List<CMCObjects> getMorphologicalPatterns() {

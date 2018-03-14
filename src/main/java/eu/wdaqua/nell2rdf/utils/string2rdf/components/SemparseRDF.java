@@ -6,7 +6,7 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 
 import eu.wdaqua.nell2rdf.extract.metadata.models.Semparse;
-import eu.wdaqua.nell2rdf.utils.UriNell;
+import static eu.wdaqua.nell2rdf.utils.UriNell.*;
 
 public class SemparseRDF extends ComponentRDF {
 	
@@ -20,17 +20,17 @@ public class SemparseRDF extends ComponentRDF {
 	}
 	
 	void addSentence() {
-		Property predicate = componentExecution.getModel().getProperty(UriNell.PROPERTY_SENTENCE);
-		RDFNode object = componentExecution.getModel().createTypedLiteral(ResourceFactory.createLangLiteral(getSentence(), UriNell.ENGLISH_TAG));
+		Property predicate = componentExecution.getModel().getProperty(PROPERTY_SENTENCE);
+		RDFNode object = componentExecution.getModel().createTypedLiteral(ResourceFactory.createLangLiteral(getSentence(), ENGLISH_TAG));
 		componentExecution.addProperty(predicate, object);
 	}
 	
 	String getComponentName() {
-		return UriNell.RESOURCE_SEMPARSE;
+		return RESOURCE_SEMPARSE;
 	}
 	
 	String getExecutionType() {
-		return UriNell.CLASS_SEMPARSE_EXECUTION;
+		return CLASS_SEMPARSE_EXECUTION;
 	}
 
 	String getSentence() {
