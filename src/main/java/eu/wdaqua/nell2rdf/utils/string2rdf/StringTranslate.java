@@ -1,26 +1,6 @@
 package eu.wdaqua.nell2rdf.utils.string2rdf;
 
-import static eu.wdaqua.nell2rdf.utils.UriNell.CLASS_CANDIDATE_BELIEF;
-import static eu.wdaqua.nell2rdf.utils.UriNell.CLASS_PROMOTED_BELIEF;
-import static eu.wdaqua.nell2rdf.utils.UriNell.CLASS_PROVENANCE_PART;
-import static eu.wdaqua.nell2rdf.utils.UriNell.NAMESPACE_END_ONTOLOGY;
-import static eu.wdaqua.nell2rdf.utils.UriNell.NAMESPACE_MIDDLE_NAMED_GRAPHS;
-import static eu.wdaqua.nell2rdf.utils.UriNell.NAMESPACE_MIDDLE_NARY_RELATIONS;
-import static eu.wdaqua.nell2rdf.utils.UriNell.NAMESPACE_MIDDLE_NDFLUENTS;
-import static eu.wdaqua.nell2rdf.utils.UriNell.NAMESPACE_MIDDLE_REIFICATION;
-import static eu.wdaqua.nell2rdf.utils.UriNell.NAMESPACE_MIDDLE_SINGLETON_PROPERTY;
-import static eu.wdaqua.nell2rdf.utils.UriNell.NAMESPACE_PREFIX;
-import static eu.wdaqua.nell2rdf.utils.UriNell.PROPERTY_ITERATION_OF_PROMOTION;
-import static eu.wdaqua.nell2rdf.utils.UriNell.PROPERTY_OBJECT_PROPERTY;
-import static eu.wdaqua.nell2rdf.utils.UriNell.PROPERTY_PROBABILITY_OF_BELIEF;
-import static eu.wdaqua.nell2rdf.utils.UriNell.PROPERTY_PROVENANCE_EXTENT;
-import static eu.wdaqua.nell2rdf.utils.UriNell.PROPERTY_PROVENANCE_PART_OF;
-import static eu.wdaqua.nell2rdf.utils.UriNell.PROPERTY_SUBJECT_PROPERTY;
-import static eu.wdaqua.nell2rdf.utils.UriNell.SINGLETON_PROPERTY_OF;
-import static eu.wdaqua.nell2rdf.utils.UriNell.TYPE_SINGLETON_PROPERTY;
-import static eu.wdaqua.nell2rdf.utils.UriNell.createAnchorUri;
-import static eu.wdaqua.nell2rdf.utils.UriNell.createSequentialUri;
-import static eu.wdaqua.nell2rdf.utils.UriNell.createUri;
+import static eu.wdaqua.nell2rdf.utils.UriNell.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -43,6 +23,7 @@ import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.tdb.TDBFactory;
+import org.apache.jena.vocabulary.OWL2;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.log4j.Logger;
@@ -63,11 +44,11 @@ import eu.wdaqua.nell2rdf.utils.string2rdf.components.ComponentRDFBuilder;
  */
 public class StringTranslate {
 
-    private final Logger     log	  = Logger.getLogger(StringTranslate.class);
+    private final Logger     log	     = Logger.getLogger(StringTranslate.class);
 
     private final String     metadata;
     private final boolean    deleteOriginalTriples;
-    private OutputStream     outputStream = null;
+    private OutputStream     outputStream    = null;
 
     private LineInstanceJOIN belief;
 
@@ -97,6 +78,8 @@ public class StringTranslate {
 
     public List<String>	     fail;
     public List<String>	     good;
+
+    private final boolean    addDBpediaLinks = true;				       // TODO: accept as parameter
 
     /**
      * Constructeur, initialise le model et les prefixes.
@@ -194,11 +177,9 @@ public class StringTranslate {
 	}
 
 	// workaround to reduce memory consumption
-
 	if (graph != null) {
 	    RDFDataMgr.write(this.outputStream, graph, Lang.NQUADS);
 	}
-
 	this.model.write(this.outputStream, this.lang);
 	this.model.removeAll();
     }
@@ -385,7 +366,7 @@ public class StringTranslate {
 
     private boolean excludeTripleFromReification(final Statement triple) {
 	final boolean excludeTripleFromReification = false;
-	// For now all the triples are reified
+	// TODO accept as parameter / configuration file
 	// if (triple.getPredicate().getNameSpace() == RDF.getURI()) {
 	// excludeTripleFromReification = true;
 	// }
@@ -420,6 +401,18 @@ public class StringTranslate {
 	    // System.out.println(component.getClass());
 	    component.addTriples();
 	});
+    }
+
+    private void addAdditionalTriples(final Statement statement) {
+	if (this.addDBpediaLinks) {
+	    if (statement.getPredicate().getURI().equals(PROPERTY_HAS_WIKIPEDIA_PAGE)) {
+		final Resource newSubject = statement.getSubject();
+		final Property newProperty = OWL2.sameAs;
+		final String dbpediaResource = statement.getObject().asResource().getURI().replaceFirst(NAMESPACE_WIKIPEDIA, NAMESPACE_DBPEDIA);
+		final Resource newObject = this.model.createResource(createUri(dbpediaResource));
+		this.model.createStatement(newSubject, newProperty, newObject);
+	    }
+	}
     }
 
     private Statement stringToRDFWithoutMetadata(final LineInstanceJOIN belief) {
@@ -506,7 +499,10 @@ public class StringTranslate {
 	    }
 	}
 
-	return model.createStatement(subject, relation, object_node);
+	final Statement statement = model.createStatement(subject, relation, object_node);
+	this.addAdditionalTriples(statement);
+
+	return statement;
 	// return ResourceFactory.createStatement(subject, relation, object_node);
     }
 
