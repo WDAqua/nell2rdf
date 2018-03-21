@@ -33,6 +33,7 @@ function decompress {
 		"lzo") lzop -df "$1" ;;
 		"bz2") bzip2 -dfk "$1" ;;
 	esac
+	echo "File $1 decompressed"
 }
 
 function compress {
@@ -40,12 +41,14 @@ function compress {
 			"gzip") gzip -f9 "$1" ;;
 			"bzip") bzip2 -f9 "$3" ;;
 			"lzop") lzop -Uf9 "$3" ;;
-	esac	
+	esac
+	echo "File $1 compressed"	
 }
 
-function n2r { # jarFile serializationFormat annotationFormat ontologyFile dataFile javaArguments
-                java "$6" -jar "$1" "$2" $3 "$4" "$4".ttl "$5" "$5".${annotationextensions[${i}]}
-                LC_ALL=C sort -u -o "$5".${annotationextensions[${i}]} "$5".${annotationextensions[${i}]}                
+function n2r { # jarFile serializationFormat annotationFormat annotationExtension ontologyFile dataFile javaArguments
+	java "$7" -jar "$1" "$2" $3 "$5" "$5".ttl "$6" "$6".$4
+	LC_ALL=C sort -u -o "$6".$4 "$6".$4
+	echo "Generation of $6.$4 successful"
 }
 
 
@@ -113,12 +116,16 @@ for i in ${!annotationformats[@]}; do
 	n2r "$jarFile" ${serializationFormat[$i] "$annotationFormat" ${ontologyFile%.*} ${candidatesFile%.*} "$javaArguments" &
 	candidates[$i]=$!
 	wait ${promoted[$i]} ${candidates[$i]}
-	LC_ALL=C sort -u -o ${promotedFile%.*}${candidatesFile%.*}.annotationextensions[i] "$promotedFile".annotationextensions[i] "$candidatesFile".annotationextensions[i]
-	compress "$promotedFile".annotationextensions[i] &
-	compress "$candidatesFile".annotationextensions[i] &
-	compress ${promotedFile%.*}${candidatesFile%.*}.annotationextensions[i] &
+	LC_ALL=C sort -u -o ${promotedFile%.*}${candidatesFile%.*}."$annotationextensions[$i]" "$promotedFile"."$annotationextensions[$i]" "$candidatesFile"."$annotationextensions[$i]"
+	echo "Generation of ${promotedFile%.*}${candidatesFile%.*}.$annotationextensions[$i] successful"
+	compress "$promotedFile"."$annotationextensions[$i]" &
+	compress "$candidatesFile"."$annotationextensions[$i]" &
+	compress ${promotedFile%.*}${candidatesFile%.*}."$annotationextensions[$i]" &
 done
 
+echo "Deleting NELL decompressed files"
 rm -f ${ontologyFile%.*}
 rm -f ${promotedFile%.*}
 rm -f ${candidatesFile%.*}
+
+echo "--- PROCESS FINISHED. NELL2RDF FILES GENERATED ---"
