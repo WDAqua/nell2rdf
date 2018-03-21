@@ -9,32 +9,35 @@ import eu.wdaqua.nell2rdf.extract.metadata.models.AliasMatcher;
 import static eu.wdaqua.nell2rdf.utils.UriNell.*;
 
 public class AliasMatcherRDF extends ComponentRDF {
-	
-	public AliasMatcherRDF(final AliasMatcher aliasMatcher, Resource belief) {
+
+	public AliasMatcherRDF(final AliasMatcher aliasMatcher, final Resource belief) {
 		super(aliasMatcher, belief);
 	}
 
-	public void addTriples () {
+	@Override
+	public void addTriples() {
 		super.addTriples();
 		addFreebaseDate();
 	}
-	
+
 	void addFreebaseDate() {
-		Property predicate = componentExecution.getModel().getProperty(PROPERTY_FREEBASE_DATE);
-		RDFNode object = componentExecution.getModel().createTypedLiteral(getFreeBaseDate(), XSDDatatype.XSDdate);
-		componentExecution.addProperty(predicate, object);
+		final Property predicate = this.componentExecution.getModel().getProperty(getMetadataUri(PROPERTY_FREEBASE_DATE));
+		final RDFNode object = this.componentExecution.getModel().createTypedLiteral(getFreeBaseDate(), XSDDatatype.XSDdate);
+		this.componentExecution.addProperty(predicate, object);
 	}
-	
+
+	@Override
 	String getComponentName() {
-		return RESOURCE_ALIAS_MATCHER;
+		return getMetadataUri(RESOURCE_ALIAS_MATCHER);
 	}
-	
+
+	@Override
 	String getExecutionType() {
-		return CLASS_ALIAS_MATCHER_EXECUTION;
+		return getMetadataUri(CLASS_ALIAS_MATCHER_EXECUTION);
 	}
-	
+
 	String getFreeBaseDate() {
-		return ((AliasMatcher) componentNell).getMetadata_FreebaseDate().toString();
+		return ((AliasMatcher) this.componentNell).getMetadata_FreebaseDate().toString();
 	}
 
 }

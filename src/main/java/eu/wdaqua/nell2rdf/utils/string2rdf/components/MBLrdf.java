@@ -10,68 +10,74 @@ import static eu.wdaqua.nell2rdf.utils.UriNell.*;
 
 public class MBLrdf extends ComponentRDF {
 
-	public MBLrdf(final MBL mbl, Resource belief) {
+	public MBLrdf(final MBL mbl, final Resource belief) {
 		super(mbl, belief);
 	}
 
-	public void addTriples () {
+	@Override
+	public void addTriples() {
 		super.addTriples();
 		addEntity();
 		addRelation();
 		addValue();
 	}
-	
+
 	void addEntity() {
-		Property predicate = componentExecution.getModel().getProperty(PROPERTY_PROMOTED_ENTITY);
-		RDFNode object = componentExecution.getModel().createTypedLiteral(getEntity(),XSDDatatype.XSDstring);
-		componentExecution.addProperty(predicate, object);
-		
-		predicate = componentExecution.getModel().getProperty(PROPERTY_PROMOTED_ENTITY_CATEGORY);
-		object = componentExecution.getModel().createTypedLiteral(getEntityCategory(),XSDDatatype.XSDstring);
-		componentExecution.addProperty(predicate, object);
+		Property predicate = this.componentExecution.getModel().getProperty(getMetadataUri(PROPERTY_PROMOTED_ENTITY));
+		RDFNode object = this.componentExecution.getModel().createTypedLiteral(getEntity(), XSDDatatype.XSDstring);
+		this.componentExecution.addProperty(predicate, object);
+
+		predicate = this.componentExecution.getModel().getProperty(getMetadataUri(PROPERTY_PROMOTED_ENTITY_CATEGORY));
+		object = this.componentExecution.getModel().createTypedLiteral(getEntityCategory(), XSDDatatype.XSDstring);
+		this.componentExecution.addProperty(predicate, object);
 	}
-	
+
 	void addRelation() {
-		Property predicate = componentExecution.getModel().getProperty(PROPERTY_PROMOTED_RELATION);
-		RDFNode object = componentExecution.getModel().createTypedLiteral(getRelation(),XSDDatatype.XSDstring);
-		componentExecution.addProperty(predicate, object);
+		final Property predicate = this.componentExecution.getModel().getProperty(getMetadataUri(PROPERTY_PROMOTED_RELATION));
+		final RDFNode object = this.componentExecution.getModel().createTypedLiteral(getRelation(), XSDDatatype.XSDstring);
+		this.componentExecution.addProperty(predicate, object);
 	}
-	
+
 	void addValue() {
-		Property predicate = componentExecution.getModel().getProperty(PROPERTY_PROMOTED_VALUE);
-		RDFNode object = componentExecution.getModel().createTypedLiteral(getValue(),XSDDatatype.XSDstring);
-		componentExecution.addProperty(predicate, object);
-		
+		Property predicate = this.componentExecution.getModel().getProperty(getMetadataUri(PROPERTY_PROMOTED_VALUE));
+		RDFNode object = this.componentExecution.getModel().createTypedLiteral(getValue(), XSDDatatype.XSDstring);
+		this.componentExecution.addProperty(predicate, object);
+
 		if (getValueCategory() != null) {
-			predicate = componentExecution.getModel().getProperty(PROPERTY_PROMOTED_VALUE_CATEGORIE);
-			object = componentExecution.getModel().createTypedLiteral(getValueCategory(),XSDDatatype.XSDstring);
-			componentExecution.addProperty(predicate, object);
+			predicate = this.componentExecution.getModel().getProperty(getMetadataUri(PROPERTY_PROMOTED_VALUE_CATEGORIE));
+			object = this.componentExecution.getModel().createTypedLiteral(getValueCategory(), XSDDatatype.XSDstring);
+			this.componentExecution.addProperty(predicate, object);
 		}
 	}
-	
+
+	@Override
 	String getComponentName() {
-		return RESOURCE_MBL;
+		return getMetadataUri(RESOURCE_MBL);
 	}
-	
+
+	@Override
 	String getExecutionType() {
-		return CLASS_MBL_EXECUTION;
+		return getMetadataUri(CLASS_MBL_EXECUTION);
 	}
-	
+
 	String getEntity() {
-		return ((MBL) componentNell).getMetadata_Entity();
+		return ((MBL) this.componentNell).getMetadata_Entity();
 	}
-	
+
 	String getEntityCategory() {
-		return ((MBL) componentNell).getMetadata_EntityCategory();
+		return ((MBL) this.componentNell).getMetadata_EntityCategory();
 	}
+
 	String getRelation() {
-		return ((MBL) componentNell).getMetadata_Relation();
+		return ((MBL) this.componentNell).getMetadata_Relation();
 	}
+
 	String getValue() {
-		return ((MBL) componentNell).getMetadata_Value();
+		return ((MBL) this.componentNell).getMetadata_Value();
 	}
+
 	String getValueCategory() {
-		return ((MBL) componentNell).getMetadata_ValueCategory();
+		return ((MBL) this.componentNell).getMetadata_ValueCategory();
 	}
-	
+
 }

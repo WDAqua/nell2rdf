@@ -9,31 +9,34 @@ import eu.wdaqua.nell2rdf.extract.metadata.models.Semparse;
 import static eu.wdaqua.nell2rdf.utils.UriNell.*;
 
 public class SemparseRDF extends ComponentRDF {
-	
-	public SemparseRDF(final Semparse semparse, Resource belief) {
+
+	public SemparseRDF(final Semparse semparse, final Resource belief) {
 		super(semparse, belief);
 	}
 
-	public void addTriples () {
+	@Override
+	public void addTriples() {
 		super.addTriples();
 		addSentence();
 	}
-	
+
 	void addSentence() {
-		Property predicate = componentExecution.getModel().getProperty(PROPERTY_SENTENCE);
-		RDFNode object = componentExecution.getModel().createTypedLiteral(ResourceFactory.createLangLiteral(getSentence(), ENGLISH_TAG));
-		componentExecution.addProperty(predicate, object);
+		final Property predicate = this.componentExecution.getModel().getProperty(getMetadataUri(PROPERTY_SENTENCE));
+		final RDFNode object = this.componentExecution.getModel().createTypedLiteral(ResourceFactory.createLangLiteral(getSentence(), ENGLISH_TAG));
+		this.componentExecution.addProperty(predicate, object);
 	}
-	
+
+	@Override
 	String getComponentName() {
-		return RESOURCE_SEMPARSE;
+		return getMetadataUri(RESOURCE_SEMPARSE);
 	}
-	
+
+	@Override
 	String getExecutionType() {
-		return CLASS_SEMPARSE_EXECUTION;
+		return getMetadataUri(CLASS_SEMPARSE_EXECUTION);
 	}
 
 	String getSentence() {
-		return ((Semparse) componentNell).getMetadata_SentenceList();
+		return ((Semparse) this.componentNell).getMetadata_SentenceList();
 	}
 }

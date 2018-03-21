@@ -14,37 +14,42 @@ import com.google.common.collect.Multimap;
 
 /**
  * POJO for Nell in-memory model that contains triples as in the csv Nell ontology file.
+ * 
  * @author Christophe Gravier
  */
 public class NellModel {
 
-	public static Logger log = Logger.getLogger(NellModel.class);
+	public static Logger					log			= Logger.getLogger(NellModel.class);
 
 	/**
 	 * The Nell ontology is stored in memory as (P, {(S,O)}), since we want to browse it predicate per predicate.
 	 */
-	private Multimap<String, PredicatePair> ontology = HashMultimap.create();
+	private Multimap<String, PredicatePair>	ontology	= HashMultimap.create();
 
 	/**
 	 * Number of line in the Nell ontology CSV file.
 	 */
-	private int nbLines = 0;
+	private int								nbLines		= 0;
 
 	/**
 	 * Add a new triple to the Nell in-memory model
-	 * @param s subject in the triple
-	 * @param p predicate in the triple
-	 * @param o object in the triple
+	 * 
+	 * @param s
+	 *            subject in the triple
+	 * @param p
+	 *            predicate in the triple
+	 * @param o
+	 *            object in the triple
 	 */
-	private void addTriple(String s, String p, String o) {
-		ontology.put(p, new PredicatePair(s, o));
+	private void addTriple(final String s, final String p, final String o) {
+		this.ontology.put(p, new PredicatePair(s, o));
 	}
 
 	public Multimap<String, PredicatePair> getOntology() {
-		return ontology;
+		return this.ontology;
 	}
 
-	public void setOntology(Multimap<String, PredicatePair> ontology) {
+	public void setOntology(final Multimap<String, PredicatePair> ontology) {
 		this.ontology = ontology;
 	}
 
@@ -52,33 +57,33 @@ public class NellModel {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((ontology == null) ? 0 : ontology.hashCode());
+		result = prime * result + ((this.ontology == null) ? 0 : this.ontology.hashCode());
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		NellModel other = (NellModel) obj;
-		if (ontology == null) {
+		final NellModel other = (NellModel) obj;
+		if (this.ontology == null) {
 			if (other.ontology != null)
 				return false;
-		} else if (!ontology.equals(other.ontology))
+		} else if (!this.ontology.equals(other.ontology))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		StringBuffer output = new StringBuffer();
-		for (String predicate : this.ontology.keySet()) {
+		final StringBuffer output = new StringBuffer();
+		for (final String predicate : this.ontology.keySet()) {
 			output.append("\"").append(predicate).append("\"").append(" : \n");
-			for (PredicatePair subobj : ontology.get(predicate)) {
+			for (final PredicatePair subobj : this.ontology.get(predicate)) {
 				output.append("\t\t(\"").append(subobj.getSubject()).append("\", \"").append(subobj.getObject()).append("\")\n");
 			}
 		}
@@ -87,36 +92,38 @@ public class NellModel {
 
 	/**
 	 * Parses the NELL ontology file and populates the {@link #ontology}
-	 * @param ontologyFile location of NELL ontology file on the filesystem.
+	 * 
+	 * @param ontologyFile
+	 *            location of NELL ontology file on the filesystem.
 	 */
-	public void createModel(String ontologyFile) {
+	public void createModel(final String ontologyFile) {
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new FileReader(ontologyFile));
-		} catch (FileNotFoundException e) {
+		} catch (final FileNotFoundException e) {
 			log.info("Cannot open NELL ontology file !" + e.getMessage());
 		}
 		String fullLine;
-		nbLines = 0;
+		this.nbLines = 0;
 		// int nbDisjonction = 0;
 		try {
 			while ((fullLine = br.readLine()) != null) {
-				String[] lineArray = fullLine.split("\t");
+				final String[] lineArray = fullLine.split("\t");
 				if (lineArray.length != 3) {
 					log.info("Skipped line that was not forming a triple : " + fullLine);
 				} else if (lineArray[1].toLowerCase().equals("relation")) {
 					log.warn("Ignoring line : \"" + fullLine + "\" since it is most likely a header in the tab-separated value file.");
 				} else {
-					String subject = clean(lineArray[0]);
-					String predicate = clean(lineArray[1]);
-					String object = clean(lineArray[2]);
-					
-					this.addTriple(subject, predicate, object);
-					nbLines++;
+					final String subject = clean(lineArray[0]);
+					final String predicate = clean(lineArray[1]);
+					final String object = clean(lineArray[2]);
+
+					addTriple(subject, predicate, object);
+					this.nbLines++;
 				}
 			}
 			br.close();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			log.error("Cannot read file " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -124,7 +131,9 @@ public class NellModel {
 
 	/**
 	 * Clean string that starts with "concept:"
-	 * @param entity String that should be stripped of prefix "concept:", if any.
+	 * 
+	 * @param entity
+	 *            String that should be stripped of prefix "concept:", if any.
 	 */
 	private String clean(String entity) {
 		entity = entity.trim();
@@ -140,36 +149,39 @@ public class NellModel {
 	 * </ol>
 	 * In between the two steps, the method calls for <code>NellRdfUtils.countNoneUniqueName()</code> for checking if all class and properties have unique names. If not, a warning message is sent to
 	 * log.warn().
-	 * @param prefix Prefix to use when creating new Linked Data IRI.
+	 * 
+	 * @param prefix
+	 *            Prefix to use when creating new Linked Data IRI.
 	 * @return a Jena model representing NELL ontology.
 	 */
-	public Model mapToRDFModel(String prefix) {
+	public Model mapToRDFModel(final String prefix) {
 
 		// create an empty model
-		Model nellRdf = NellMapper.createEmptyModel(prefix);
+		final Model nellRdf = NellMapper.createEmptyModel(prefix);
 
 		// create classes and properties
-		NellMapper.lookupClassesAndProperties(this, nellRdf, prefix);
+		NellMapper.lookupClassesAndProperties(this, nellRdf);
 
 		// safety checking if all classes and properties have unique names.
 		NellMapper.countNoneUniqueName(this);
 
 		// work on all other relations than classes and properties
-		NellMapper.parseAllPredicates(this, nellRdf, prefix);
+		NellMapper.parseAllPredicates(this, nellRdf);
 
 		// TODO : deal with instances. Add a fourth program parameter for the full KB file and launch the process here.
-//		NellMapper.processNellKB();
-		
+		// NellMapper.processNellKB();
+
 		return nellRdf;
 	}
 
 	/**
 	 * Count the number of triples in the nell in-memory ontology, as read in the CSV file.
+	 * 
 	 * @return the number of triples.
 	 */
 	public int getNbTriples() {
 		int somme = 0;
-		for (String predicate : this.ontology.keySet()) {
+		for (final String predicate : this.ontology.keySet()) {
 			somme += this.ontology.get(predicate).size();
 		}
 		return somme;
@@ -177,6 +189,7 @@ public class NellModel {
 
 	/**
 	 * yes, getter. Well, you know.
+	 * 
 	 * @return number of line of th CSV file.
 	 */
 	public int getNbLines() {

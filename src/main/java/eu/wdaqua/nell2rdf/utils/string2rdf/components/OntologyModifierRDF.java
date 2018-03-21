@@ -9,31 +9,34 @@ import static eu.wdaqua.nell2rdf.utils.UriNell.*;
 
 public class OntologyModifierRDF extends ComponentRDF {
 
-	public OntologyModifierRDF(final OntologyModifier ontologyModifier, Resource belief) {
+	public OntologyModifierRDF(final OntologyModifier ontologyModifier, final Resource belief) {
 		super(ontologyModifier, belief);
 	}
 
-	public void addTriples () {
+	@Override
+	public void addTriples() {
 		super.addTriples();
 		addOntologyModification();
 	}
-	
+
 	void addOntologyModification() {
-		Property predicate = componentExecution.getModel().getProperty(PROPERTY_ONTOLOGY_MODIFICATION);
-		RDFNode object = componentExecution.getModel().getResource(createUri(NAMESPACE_PREFIX + NAMESPACE_END_METADATA + getOntologyModification()));
-		componentExecution.addProperty(predicate, object);
+		final Property predicate = this.componentExecution.getModel().getProperty(getMetadataUri(PROPERTY_ONTOLOGY_MODIFICATION));
+		final RDFNode object = this.componentExecution.getModel().getResource(getMetadataUri(getOntologyModification()));
+		this.componentExecution.addProperty(predicate, object);
 	}
-	
+
+	@Override
 	String getComponentName() {
-		return RESOURCE_ONTOLOGY_MODIFIER;
+		return getMetadataUri(RESOURCE_ONTOLOGY_MODIFIER);
 	}
-	
+
+	@Override
 	String getExecutionType() {
-		return CLASS_ONTOLOGY_MODIFIER_EXECUTION;
+		return getMetadataUri(CLASS_ONTOLOGY_MODIFIER_EXECUTION);
 	}
-	
+
 	String getOntologyModification() {
-		String string = ((OntologyModifier) componentNell).getMetadata_From();
+		String string = ((OntologyModifier) this.componentNell).getMetadata_From();
 		if (string.length() > 0) {
 			string = string.substring(1);
 		}

@@ -10,30 +10,33 @@ import static eu.wdaqua.nell2rdf.utils.UriNell.*;
 
 public class KbManipulationRDF extends ComponentRDF {
 
-	public KbManipulationRDF(final KbManipulation kbManipulation, Resource belief) {
+	public KbManipulationRDF(final KbManipulation kbManipulation, final Resource belief) {
 		super(kbManipulation, belief);
 	}
 
-	public void addTriples () {
+	@Override
+	public void addTriples() {
 		super.addTriples();
 		addOldBug();
 	}
-	
+
 	void addOldBug() {
-		Property predicate = componentExecution.getModel().getProperty(PROPERTY_OLD_BUG);
-		RDFNode object = componentExecution.getModel().createTypedLiteral(getOldBug(),XSDDatatype.XSDstring);
-		componentExecution.addProperty(predicate, object);
+		final Property predicate = this.componentExecution.getModel().getProperty(getMetadataUri(PROPERTY_OLD_BUG));
+		final RDFNode object = this.componentExecution.getModel().createTypedLiteral(getOldBug(), XSDDatatype.XSDstring);
+		this.componentExecution.addProperty(predicate, object);
 	}
-	
+
+	@Override
 	String getComponentName() {
-		return RESOURCE_KB_MANIPULATION;
+		return getMetadataUri(RESOURCE_KB_MANIPULATION);
 	}
-	
+
+	@Override
 	String getExecutionType() {
-		return CLASS_KB_MANIPULATION_EXECUTION;
+		return getMetadataUri(CLASS_KB_MANIPULATION_EXECUTION);
 	}
-	
+
 	String getOldBug() {
-		return ((KbManipulation) componentNell).getMetadata_oldBug();
+		return ((KbManipulation) this.componentNell).getMetadata_oldBug();
 	}
 }

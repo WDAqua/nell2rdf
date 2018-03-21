@@ -14,55 +14,59 @@ import static eu.wdaqua.nell2rdf.utils.UriNell.*;
 
 public class PRArdf extends ComponentRDF {
 
-	public PRArdf(final PRA pra, Resource belief) {
+	public PRArdf(final PRA pra, final Resource belief) {
 		super(pra, belief);
 	}
 
-	public void addTriples () {
+	@Override
+	public void addTriples() {
 		super.addTriples();
 		addPaths();
 	}
-	
+
 	void addPaths() {
 		getPaths().forEach(walk -> {
-			Property predicate = componentExecution.getModel().getProperty(PROPERTY_RELATION_PATH);
-			RDFNode object = componentExecution.getModel().createResource(createSequentialUri(RESOURCE_RELATION_PATH + getCommonString()), componentExecution.getModel().getResource(CLASS_RELATION_PATH));
-			componentExecution.addProperty(predicate, object);
-			
-			Resource path = object.asResource();
-			
-			predicate = path.getModel().getProperty(PROPERTY_DIRECTION_OF_PATH);
-			object = path.getModel().createResource(NAMESPACE_PREFIX + NAMESPACE_END_METADATA + walk.getsPathDirection());
+			Property predicate = this.componentExecution.getModel().getProperty(getMetadataUri(PROPERTY_RELATION_PATH));
+			RDFNode object = this.componentExecution.getModel().createResource(getMetadataUri(createSequentialName(RESOURCE_RELATION_PATH) + getCommonString()),
+					this.componentExecution.getModel().getResource(getMetadataUri(CLASS_RELATION_PATH)));
+			this.componentExecution.addProperty(predicate, object);
+
+			final Resource path = object.asResource();
+
+			predicate = path.getModel().getProperty(getMetadataUri(PROPERTY_DIRECTION_OF_PATH));
+			object = path.getModel().createResource(getMetadataUri(walk.getsPathDirection()));
 			path.addProperty(predicate, object);
-			
-			predicate = path.getModel().getProperty(PROPERTY_SCORE_OF_PATH);
+
+			predicate = path.getModel().getProperty(getMetadataUri(PROPERTY_SCORE_OF_PATH));
 			object = path.getModel().createTypedLiteral(walk.getdScore(), XSDDatatype.XSDdecimal);
 			path.addProperty(predicate, object);
-			
-			RDFList list = path.getModel().createList();
+
+			final RDFList list = path.getModel().createList();
 			walk.getlPath().forEach(step -> {
-				RDFNode element = list.getModel().createTypedLiteral(step);
+				final RDFNode element = list.getModel().createTypedLiteral(step);
 				if (list.isEmpty()) {
 					list.cons(element);
 				} else {
 					list.add(element);
 				}
 			});
-			predicate = path.getModel().getProperty(PROPERTY_LIST_OF_RELATIONS);
+			predicate = path.getModel().getProperty(getMetadataUri(PROPERTY_LIST_OF_RELATIONS));
 			path.addProperty(predicate, list);
 		});
 	}
-	
+
+	@Override
 	String getComponentName() {
-		return RESOURCE_PRA;
+		return getMetadataUri(RESOURCE_PRA);
 	}
-	
+
+	@Override
 	String getExecutionType() {
-		return CLASS_PRA_EXECUTION;
+		return getMetadataUri(CLASS_PRA_EXECUTION);
 	}
-	
+
 	List<Rule> getPaths() {
-		return ((PRA) componentNell).getLRules();
+		return ((PRA) this.componentNell).getLRules();
 	}
-	
+
 }

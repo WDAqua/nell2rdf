@@ -7,20 +7,23 @@ import static eu.wdaqua.nell2rdf.utils.UriNell.*;
 
 public class LErdf extends ComponentRDF {
 
-	public LErdf(final LE le, Resource belief) {
+	public LErdf(final LE le, final Resource belief) {
 		super(le, belief);
 	}
 
-	public void addTriples () {
+	@Override
+	public void addTriples() {
 		super.addTriples();
 	}
-	
+
+	@Override
 	String getComponentName() {
-		return RESOURCE_LE;
+		return getMetadataUri(RESOURCE_LE);
 	}
-	
+
+	@Override
 	String getExecutionType() {
-		return CLASS_LE_EXECUTION;
+		return getMetadataUri(CLASS_LE_EXECUTION);
 	}
 
 }

@@ -13,85 +13,92 @@ import eu.wdaqua.nell2rdf.extract.metadata.models.LatLong.Rule;
 import static eu.wdaqua.nell2rdf.utils.UriNell.*;
 
 public class LatLongRDF extends ComponentRDF {
-	
-	public LatLongRDF(final LatLong latLong, Resource belief) {
+
+	public LatLongRDF(final LatLong latLong, final Resource belief) {
 		super(latLong, belief);
 	}
 
-	public void addTriples () {
+	@Override
+	public void addTriples() {
 		super.addTriples();
 		addNameLatLongTriples();
 	}
-	
+
+	@Override
 	void addToken() {
-			RDFNode token = componentExecution.getModel().createResource(getTokenName(), componentExecution.getModel().getResource(createUri(getTokenClass())));
-			
-			Property predicate = token.getModel().getProperty(PROPERTY_TOKE_ENTITY);
-	        RDFNode object = token.getModel().createTypedLiteral(getTokenEntity(), XSDDatatype.XSDstring);
-	        token.asResource().addProperty(predicate, object);
-	        
-	        predicate = token.getModel().getProperty(PROPERTY_LATITUDE_VALUE);
-	        object = token.getModel().createTypedLiteral(getLatitudeValue(), XSDDatatype.XSDdecimal);
-	        token.asResource().addProperty(predicate, object);
-	        
-	        predicate = token.getModel().getProperty(PROPERTY_LONGITUDE_VALUE);
-	        object = token.getModel().createTypedLiteral(getLongitudeValue(), XSDDatatype.XSDdecimal);
-	        token.asResource().addProperty(predicate, object);
-	        
-	        predicate = componentExecution.getModel().getProperty(PROPERTY_TOKEN);
-	        componentExecution.addProperty(predicate, token);
-    }
-	
+		final RDFNode token = this.componentExecution.getModel().createResource(getTokenName(), this.componentExecution.getModel().getResource(getMetadataUri(getMetadataUri(getTokenClass()))));
+
+		Property predicate = token.getModel().getProperty(getMetadataUri(PROPERTY_TOKE_ENTITY));
+		RDFNode object = token.getModel().createTypedLiteral(getTokenEntity(), XSDDatatype.XSDstring);
+		token.asResource().addProperty(predicate, object);
+
+		predicate = token.getModel().getProperty(getMetadataUri(PROPERTY_LATITUDE_VALUE));
+		object = token.getModel().createTypedLiteral(getLatitudeValue(), XSDDatatype.XSDdecimal);
+		token.asResource().addProperty(predicate, object);
+
+		predicate = token.getModel().getProperty(getMetadataUri(PROPERTY_LONGITUDE_VALUE));
+		object = token.getModel().createTypedLiteral(getLongitudeValue(), XSDDatatype.XSDdecimal);
+		token.asResource().addProperty(predicate, object);
+
+		predicate = this.componentExecution.getModel().getProperty(getMetadataUri(PROPERTY_TOKEN));
+		this.componentExecution.addProperty(predicate, token);
+	}
+
 	void addNameLatLongTriples() {
 		getRules().forEach(rule -> {
-			RDFNode nameLatLongTriple = componentExecution.getModel().createResource(createSequentialUri(RESOURCE_NAMELATLONG_TRIPLE + getCommonString()), componentExecution.getModel().getResource(createUri(CLASS_NAMELATLONG_TRIPLE))); 
+			final RDFNode nameLatLongTriple = this.componentExecution.getModel().createResource(createSequentialName(RESOURCE_NAMELATLONG_TRIPLE + getCommonString()));
+			this.componentExecution.getModel().getResource(getMetadataUri(getMetadataUri(CLASS_NAMELATLONG_TRIPLE)));
 
-			Property predicate_λ = nameLatLongTriple.getModel().getProperty(PROPERTY_PLACE_NAME);
+			Property predicate_λ = nameLatLongTriple.getModel().getProperty(getMetadataUri(PROPERTY_PLACE_NAME));
 			RDFNode object_λ = nameLatLongTriple.getModel().createTypedLiteral(ResourceFactory.createLangLiteral(rule.getsPhrase(), ENGLISH_TAG));
 			nameLatLongTriple.asResource().addProperty(predicate_λ, object_λ);
-			
-			predicate_λ = nameLatLongTriple.getModel().getProperty(PROPERTY_LATITUDE_VALUE);
+
+			predicate_λ = nameLatLongTriple.getModel().getProperty(getMetadataUri(PROPERTY_LATITUDE_VALUE));
 			object_λ = nameLatLongTriple.getModel().createTypedLiteral(rule.getValue1(), XSDDatatype.XSDdecimal);
 			nameLatLongTriple.asResource().addProperty(predicate_λ, object_λ);
-			
-			predicate_λ = nameLatLongTriple.getModel().getProperty(PROPERTY_LONGITUDE_VALUE);
+
+			predicate_λ = nameLatLongTriple.getModel().getProperty(getMetadataUri(PROPERTY_LONGITUDE_VALUE));
 			object_λ = nameLatLongTriple.getModel().createTypedLiteral(rule.getValue2(), XSDDatatype.XSDdecimal);
 			nameLatLongTriple.asResource().addProperty(predicate_λ, object_λ);
-			
-			predicate_λ = componentExecution.getModel().getProperty(PROPERTY_LOCATION);
-			componentExecution.addProperty(predicate_λ, nameLatLongTriple);
+
+			predicate_λ = this.componentExecution.getModel().getProperty(getMetadataUri(PROPERTY_LOCATION));
+			this.componentExecution.addProperty(predicate_λ, nameLatLongTriple);
 		});
 	}
-	
+
+	@Override
 	String getComponentName() {
-		return RESOURCE_LATLONG;
+		return getMetadataUri(RESOURCE_LATLONG);
 	}
-	
+
+	@Override
 	String getExecutionType() {
-		return CLASS_LATLONG_EXECUTION;
+		return getMetadataUri(CLASS_LATLONG_EXECUTION);
 	}
-	
+
+	@Override
 	String getTokenName() {
-		if (tokenName == null) {
-			tokenName = RESOURCE_TOKEN_GEO + getCommonString();
+		if (this.tokenName == null) {
+			this.tokenName = getMetadataUri(RESOURCE_TOKEN_GEO + getCommonString());
 		}
-		return tokenName;
+		return this.tokenName;
 	}
-	
+
+	@Override
 	String getTokenClass() {
-		return CLASS_TOKEN_GEO;
+		return getMetadataUri(CLASS_TOKEN_GEO);
 	}
-	
+
 	double getLatitudeValue() {
-		return componentNell.getFormatHeader().getTokenElement2LatLong()[0];
+		return this.componentNell.getFormatHeader().getTokenElement2LatLong()[0];
 	}
-	
+
 	double getLongitudeValue() {
-		return componentNell.getFormatHeader().getTokenElement2LatLong()[1];
+		return this.componentNell.getFormatHeader().getTokenElement2LatLong()[1];
 	}
-	
+
 	List<Rule> getRules() {
-		return ((LatLong) componentNell).getMetadata_Lrules();
+		return ((LatLong) this.componentNell).getMetadata_Lrules();
 	}
 
 }

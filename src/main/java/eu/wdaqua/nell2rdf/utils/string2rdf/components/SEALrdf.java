@@ -11,34 +11,37 @@ import eu.wdaqua.nell2rdf.extract.metadata.models.SEAL;
 import static eu.wdaqua.nell2rdf.utils.UriNell.*;
 
 public class SEALrdf extends ComponentRDF {
-	
-	public SEALrdf(final SEAL seal, Resource belief) {
+
+	public SEALrdf(final SEAL seal, final Resource belief) {
 		super(seal, belief);
 	}
 
-	public void addTriples () {
+	@Override
+	public void addTriples() {
 		super.addTriples();
 		addURLs();
 	}
-	
+
 	void addURLs() {
 		getURLs().forEach(url -> {
-			Property predicate = componentExecution.getModel().getProperty(PROPERTY_URL);
-			RDFNode object = componentExecution.getModel().createTypedLiteral(url, XSDDatatype.XSDanyURI);
-			componentExecution.addProperty(predicate, object);
+			final Property predicate = this.componentExecution.getModel().getProperty(getMetadataUri(PROPERTY_URL));
+			final RDFNode object = this.componentExecution.getModel().createTypedLiteral(url, XSDDatatype.XSDanyURI);
+			this.componentExecution.addProperty(predicate, object);
 		});
 	}
-	
+
+	@Override
 	String getComponentName() {
-		return RESOURCE_SEAL;
+		return getMetadataUri(RESOURCE_SEAL);
 	}
-	
+
+	@Override
 	String getExecutionType() {
-		return CLASS_SEAL_EXECUTION;
+		return getMetadataUri(CLASS_SEAL_EXECUTION);
 	}
-	
+
 	List<String> getURLs() {
-		return ((SEAL) componentNell).getMedatadata_URLList();
+		return ((SEAL) this.componentNell).getMedatadata_URLList();
 	}
 
 }
