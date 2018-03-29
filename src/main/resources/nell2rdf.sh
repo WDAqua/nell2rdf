@@ -127,6 +127,8 @@ ontologyFile=${ontologyFile%.*}
 promotedFile=${promotedFile%.*}
 candidatesFile=${candidatesFile%.*}
 
+declare -a compression
+
 for i in ${!annotationformats[@]}; do
 	n2r "$jarFile" "$serializationFormat" ${annotationformats[$i]} ${annotationextensions[$i]} "$ontologyFile" "$promotedFile" "$javaArguments" &
 	promoted[$i]=$!
@@ -137,13 +139,21 @@ for i in ${!annotationformats[@]}; do
 	LC_ALL=C sort -u -o "$allFile" "$promotedFile".${annotationextensions[$i]} "$candidatesFile".${annotationextensions[$i]}
 	echo "Generation of "$allFile".${annotationextensions[$i]} successful"
 	compress "$promotedFile".${annotationextensions[$i]} &
+	compression+=($!)
 	compress "$candidatesFile".${annotationextensions[$i]} &
+	compression+=($!)
 	compress "$allFile" &
+	compression+=($!)
 done
 
 echo "Deleting NELL decompressed files"
 rm -f "$ontologyFile"
 rm -f "$promotedFile"
 rm -f "$candidatesFile"
+
+echo "Waiting for all processes in background to finish..."
+for i in ${compression[@]}; do
+	wait $i
+done
 
 echo "--- PROCESS FINISHED. NELL2RDF FILES GENERATED ---"
