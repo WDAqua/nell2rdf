@@ -115,7 +115,7 @@ public class ComponentRDF {
 	}
 
 	String getDateTime() {
-		return this.componentNell.getDateTime();
+		return this.componentNell.getDateTime().replace('/', '-').replace(' ', 'T');
 	}
 
 	int getIteration() {
