@@ -214,8 +214,8 @@ public class StringTranslate {
 			this.dataset.clear();
 		} else {
 			this.model.write(this.outputStream, this.lang);
-			this.model.removeAll();
 		}
+		this.model.removeAll();
 	}
 
 	private Resource toNdFluents(final Statement triple) {
