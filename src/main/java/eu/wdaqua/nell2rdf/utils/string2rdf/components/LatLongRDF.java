@@ -26,7 +26,7 @@ public class LatLongRDF extends ComponentRDF {
 
 	@Override
 	void addToken() {
-		final RDFNode token = this.componentExecution.getModel().createResource(getTokenName(), this.componentExecution.getModel().getResource(getMetadataUri(getMetadataUri(getTokenClass()))));
+		final RDFNode token = this.componentExecution.getModel().createResource(getTokenName(), this.componentExecution.getModel().getResource(getTokenClass()));
 
 		Property predicate = token.getModel().getProperty(getMetadataUri(PROPERTY_TOKE_ENTITY));
 		RDFNode object = token.getModel().createTypedLiteral(getTokenEntity(), XSDDatatype.XSDstring);
@@ -46,7 +46,7 @@ public class LatLongRDF extends ComponentRDF {
 
 	void addNameLatLongTriples() {
 		getRules().forEach(rule -> {
-			final RDFNode nameLatLongTriple = this.componentExecution.getModel().createResource(createSequentialName(RESOURCE_NAMELATLONG_TRIPLE + getCommonString()));
+			final RDFNode nameLatLongTriple = this.componentExecution.getModel().createResource(getMetadataUri(createSequentialName(RESOURCE_NAMELATLONG_TRIPLE + getCommonString())));
 			this.componentExecution.getModel().getResource(getMetadataUri(getMetadataUri(CLASS_NAMELATLONG_TRIPLE)));
 
 			Property predicate_λ = nameLatLongTriple.getModel().getProperty(getMetadataUri(PROPERTY_PLACE_NAME));

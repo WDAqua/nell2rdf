@@ -26,7 +26,7 @@ public class CMCrdf extends ComponentRDF {
 	void addMorphologicalPatterns() {
 		getMorphologicalPatterns().forEach(pattern -> {
 			Property predicate_λ = this.componentExecution.getModel().getProperty(getMetadataUri(PROPERTY_MORPHOLOGICAL_PATTERN));
-			RDFNode object_λ = this.componentExecution.getModel().createResource(createSequentialName(getMetadataUri(RESOURCE_MORPHOLOGICAL_PATTERN + getCommonString())),
+			RDFNode object_λ = this.componentExecution.getModel().createResource(getMetadataUri(createSequentialName(RESOURCE_MORPHOLOGICAL_PATTERN + getCommonString())),
 					this.componentExecution.getModel().getResource(getMetadataUri(CLASS_MORPHOLOGICAL_PATTERN)));
 			this.componentExecution.addProperty(predicate_λ, object_λ);
 

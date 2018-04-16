@@ -28,7 +28,7 @@ public class OErdf extends ComponentRDF {
 		getTextUrlPairs().forEach((K, V) -> {
 			Property predicate_λ = this.componentExecution.getModel().getProperty(getMetadataUri(PROPERTY_TEXT_URL));
 			RDFNode object_λ = this.componentExecution.getModel().createResource(getMetadataUri(createSequentialName(RESOURCE_TEXT_URL) + getCommonString()),
-					this.componentExecution.getModel().getResource(getMetadataUri(getMetadataUri(CLASS_TEXT_URL))));
+					this.componentExecution.getModel().getResource(getMetadataUri(CLASS_TEXT_URL)));
 			this.componentExecution.addProperty(predicate_λ, object_λ);
 
 			final Resource resource = object_λ.asResource();

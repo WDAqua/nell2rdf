@@ -37,7 +37,7 @@ public class ComponentRDF {
 
 	Resource createComponentExecution(final Resource resource) {
 		final Property predicate = resource.getModel().getProperty(getMetadataUri(PROPERTY_GENERATED_BY));
-		final RDFNode object = resource.getModel().createResource(getExecutionName(), resource.getModel().getResource(getMetadataUri(getExecutionType())));
+		final RDFNode object = resource.getModel().createResource(getExecutionName(), resource.getModel().getResource(getExecutionType()));
 		resource.addProperty(predicate, object);
 		return object.asResource();
 	}
@@ -45,7 +45,7 @@ public class ComponentRDF {
 	void addComponentName() {
 		if (getComponentName() != null) {
 			final Property predicate = this.componentExecution.getModel().getProperty(getMetadataUri(PROPERTY_ASSOCIATED_WITH));
-			final RDFNode object = this.componentExecution.getModel().getResource(getMetadataUri(getComponentName()));
+			final RDFNode object = this.componentExecution.getModel().getResource(getComponentName());
 			this.componentExecution.addProperty(predicate, object);
 		}
 	}
@@ -80,7 +80,7 @@ public class ComponentRDF {
 
 	void addToken() {
 		if (getTokenRelation() != null) {
-			final RDFNode token = this.componentExecution.getModel().createResource(getTokenName(), this.componentExecution.getModel().getResource(getMetadataUri(getTokenClass())));
+			final RDFNode token = this.componentExecution.getModel().createResource(getTokenName(), this.componentExecution.getModel().getResource(getTokenClass()));
 
 			Property predicate = token.getModel().getProperty(getMetadataUri(PROPERTY_TOKE_ENTITY));
 			RDFNode object = token.getModel().createTypedLiteral(getTokenEntity(), XSDDatatype.XSDstring);
@@ -115,7 +115,13 @@ public class ComponentRDF {
 	}
 
 	String getDateTime() {
-		return this.componentNell.getDateTime().replace('/', '-').replace(' ', 'T');
+		String dateTime = this.componentNell.getDateTime().replace('/', '-').replace(' ', 'T');
+		final String[] split = dateTime.split("T");
+		final String[] time = split[1].split(":");
+		if (time[0].length() == 1) {
+			dateTime = split[0] + "T" + "0" + split[1];
+		}
+		return dateTime;
 	}
 
 	int getIteration() {

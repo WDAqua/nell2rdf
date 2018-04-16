@@ -25,7 +25,7 @@ public class CPLrdf extends ComponentRDF {
 	void addPatternOccurrences() {
 		getPatternOccurrences().forEach((K, V) -> {
 			Property predicate_λ = this.componentExecution.getModel().getProperty(getMetadataUri(PROPERTY_PATTERN_OCCURRENCES));
-			RDFNode object_λ = this.componentExecution.getModel().createResource(createSequentialName(getMetadataUri(RESOURCE_PATTERN_OCCURRENCE) + getCommonString()),
+			RDFNode object_λ = this.componentExecution.getModel().createResource(getMetadataUri(createSequentialName(RESOURCE_PATTERN_OCCURRENCE) + getCommonString()),
 					this.componentExecution.getModel().getResource(getMetadataUri(CLASS_PATTERN_OCCURRENCE)));
 			this.componentExecution.addProperty(predicate_λ, object_λ);
 

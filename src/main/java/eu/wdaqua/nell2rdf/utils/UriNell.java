@@ -179,7 +179,7 @@ public class UriNell {
 	}
 
 	public static final String replaceCharacters(final String name) {
-		return name.replaceAll("\\s", "").replaceAll(":", "_").replaceAll("%20", "_");
+		return name.replaceAll("\\s", "").replaceAll(":", "_").replaceAll("%20", "_").replaceAll("\"", "");
 	}
 
 	public static final String createSequentialName(final String name) {

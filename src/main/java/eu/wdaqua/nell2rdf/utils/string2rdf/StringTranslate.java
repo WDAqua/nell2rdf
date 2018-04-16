@@ -420,7 +420,7 @@ public class StringTranslate {
 			/* Cas ou l'objet n'est pas un literal. */
 			Resource object_resource;
 			nellDataSplit[1] = nellDataSplit[1].replaceAll(":", "_");
-			if (nellData[1].equals("generalizations")) {
+			if (belief.getRelation().equals("generalizations")) {
 				object_resource = model.getResource(getOntologyUri(nellDataSplit[1]));
 			} else {
 				object_resource = model.getResource(getResourceUri(nellDataSplit[1]));
@@ -547,9 +547,7 @@ public class StringTranslate {
 		for (final String element : typeSplit) {
 			final String[] trueType = element.split(":", 2);
 			if (trueType[0].equals("concept")) {
-				trueType[1] = trueType[1].replaceAll(":", "_");
-				trueType[1] = trueType[1].replaceAll("\"", "");
-				final Resource classe = this.model.getResource(trueType[1]);
+				final Resource classe = this.model.getResource(getOntologyUri(trueType[1]));
 				subject.addProperty(RDF.type, classe);
 			}
 		}
