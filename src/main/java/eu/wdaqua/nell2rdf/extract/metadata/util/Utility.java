@@ -32,14 +32,14 @@ public class Utility {
 
     //private static final String REGEX_TOKEN = "(?<=(<token=))(([A-Za-z_0-9]*)(,){0,1}([A-Za-z_0-9]*))";
     //private static final String REGEX_TOKEN = "(?<=(<token=))(.?)*(?=>)"; Très recursive! Faire attention au java!
-    private static final String REGEX_TOKEN = "((?<=(<token=))(([A-Za-z_0-9'!\"#$%&\\'()*+,-\\.\\/@:;\\[\\]\\\\]*)(,){0,1})([A-Za-z_0-9'!\"#$%&\\'()*+,-\\.\\/@:;\\]\\[\\\\]*))";
+    private static final String REGEX_TOKEN = "((?<=(<token=))(([ A-Za-z_0-9'!\"#$%&\\'()*+,-\\.\\/@:;\\[\\]\\\\]*)(,){0,1})([A-Za-z_0-9'!\"#$%&\\'()*+,-\\.\\/@:;\\]\\[\\\\]*))";
     private static final String REGEX_TOKEN_LATLONG = "(?<=(<token=))((([a-z_0-9\\.\\-]*)(,)([a-z_0-9\\.\\-]*)(,)[a-z_0-9\\.\\-]*))";
     private static final String REGEX_LATLONG_VALUES = "(?<=(>-))(.*)";
     private static final String REGEX_LATLONGTT_GEONAMES = "((?<=(>-)|(-geonames:))(.*))";
     private static final String REGEX_LATLONG_ALL_ATRIBUTES = "([A-Za-z ])*(\\@)([0-9-\\.,])*";
     public static final String REGEX_LATLONG_RULES = "(([ A-Za-z])*(\\@)([\\-\\.0-9])*(,)([\\-\\.0-9])*)";
-    //private static final String REGEX_ONTOLOGYMODIFIER = "(?<=((\\d{2}\\:\\d{2}\\:\\d{2}))[-<])";
-    private static final String REGEX_ONTOLOGYMODIFIER = "(-tsv([A-Za-z_\\-\\.])*)";
+   // private static final String REGEX_ONTOLOGYMODIFIER = "(?<=((\\d{2}\\:\\d{2}\\:\\d{2}))[-<])";
+     private static final String REGEX_ONTOLOGYMODIFIER = "(-tsv([A-Za-z_\\-\\.])*)";
     private static final String REGEX_ITERATION_COMPONENT = "(?<=(Iter:))([0-9])*(?=-)";
 
     private static final String REGEX_FROM = "(From:)+([^ ])*";
@@ -68,7 +68,10 @@ public class Utility {
     public static final String REGEX_OE_SOURCE = "(?<=(OE-Iter:[\\/0-9-:]{24}))(.)*";
     public static final String REGEX_CMC_SOURCE_FLOAT = "((([A-Z\\_=]+)([A-Za-z\\_])+)(\\t)([0-9.\\-])+)";
     public static final String REGEX_CMC_SOURCE_STRING = "(([A-Z=]+)([a-z])+)";
-    public static final String REGEX_MBL = "(?<=(-<token=>-))(.)*";
+    //public static final String REGEX_MBL = "(?<=(-<token=>-))(.)*";
+    public static final String REGEX_MBL = "(?<=(-<token=>-))(.*){1}(?=((\\+([A-Z])*(-Iter))*))";
+    //public static final String REGEX_MBL = "(?<=(-<token=))(.*){1}(?=((\\+([A-Z])*(-Iter))*))";
+     public static final String REGEX_MBL01 = "(?<=(>-))(.*){1}(?=((\\+([A-Z])*(-Iter))*))";
     private static final String REGEX_HEADER_ALL_COMPONENTS = "(?<=(:))(.)([ 0-9-\\/:])+";
 
     private static final String REGEX_RULES_1 = "(\\{\\{\\{prolog, \\{\\{\\{)((\\{([a-z_\\? \\}\\{,])*)(\\} \\}))";
@@ -290,6 +293,10 @@ public class Utility {
     public static String getMBLCandidateSource(String str) {
         return extract(str, REGEX_MBL);
     }
+    
+    public static String getMBLCandidateSourceUpdat0418(String str) {
+        return extract(str, REGEX_MBL01);
+    }
 
     public static String getToken(String str) {
         return extract(str, REGEX_TOKEN);
@@ -401,8 +408,8 @@ public class Utility {
             //close the stream
         }
     }
-/*
-    public static void writeJsonFile(JSONObject jObject, String path, boolean next) throws IOException {
+
+  /*  public static void writeJsonFile(JSONObject jObject, String path, boolean next) throws IOException {
         //write contents of StringBuffer to a file
         try (BufferedWriter bwr = new BufferedWriter(new FileWriter(new File(path), next))) {
             //write contents of StringBuffer to a file

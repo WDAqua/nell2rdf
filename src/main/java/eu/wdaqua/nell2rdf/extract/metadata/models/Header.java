@@ -5,6 +5,7 @@
  */
 package eu.wdaqua.nell2rdf.extract.metadata.models;
 
+import static eu.wdaqua.nell2rdf.extract.metadata.util.ConstantList.MBL;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,6 +45,7 @@ public abstract class Header {
     }
 
     private void headerTreatment(String str, String ComponentName) {
+       
         this.mapToken = new HashMap<>();
         this.componentName = ComponentName;
         this.source = str;
@@ -92,18 +94,21 @@ public abstract class Header {
     }
 
     public void setToken(String str) {
-        // str = "SpreadsheetEdits-Iter:924-2015/05/13-13:58:04-<token=angelina_county_airport,//en.wikipedia.org/wiki/angelina%20county%20airport>-bkisiel: \"angelina_county_airport haswikipediaurl //en.wikipedia.org/wiki/angelina%20county%20airport\", Action=(+haswikipediaurl) (from NELL.08m.924.SSFeedback.csv)";
         String temp = Utility.getToken(str);
         if (!temp.isEmpty()) {
+            if (temp.contains(":") && this.componentName.equals(MBL)) {
+                temp = temp.substring(temp.lastIndexOf(":") + 1);
+                //System.out.println(temp);
+            }
             String tempSlip[] = temp.split(",");
             if (tempSlip.length == 2) {
                 try {
-                    mapToken.put("token", new String[]{tempSlip[0], tempSlip[1]});
+                    mapToken.put("token", new String[]{tempSlip[0].trim(), tempSlip[1].trim()});
                 } catch (ArrayIndexOutOfBoundsException e) {
                     System.out.println("Pera " + e + "\n" + str + "\nCompleteLine: " + LineInstanceJOIN.completeLine);
                 }
             } else {
-                mapToken.put("token", new String[]{tempSlip[0], ""});
+                mapToken.put("token", new String[]{tempSlip[0].trim(), ""});
             }
         } else {
             mapToken.put("token", new String[]{"", ""});

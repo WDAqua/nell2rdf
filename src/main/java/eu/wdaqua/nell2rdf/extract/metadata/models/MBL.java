@@ -52,8 +52,10 @@ public class MBL extends Header {
     @Override
     public void processStringText(String str) {
         this.promotionOfConcept = Utility.getMBLCandidateSource(str);
+        if (this.promotionOfConcept.isEmpty()) {
+            this.promotionOfConcept = Utility.getMBLCandidateSourceUpdat0418(str);
+        }
         String temp[];
-
         try {
             if (this.promotionOfConcept.split("concept:").length == 4) {
                 temp = this.promotionOfConcept.substring(this.promotionOfConcept.indexOf(":") + 1)
@@ -68,7 +70,7 @@ public class MBL extends Header {
             } else if (this.promotionOfConcept.split("concept:").length == 3) {
                 temp = this.promotionOfConcept.substring(this.promotionOfConcept.indexOf(":") + 1)
                         .replace(" concept", "").replace("\"", "").replace(" ", ":").trim().split(":");
-               
+
                 this.entityCategory = temp[0];
                 this.entity = temp[1];
                 this.relation = temp[2];
