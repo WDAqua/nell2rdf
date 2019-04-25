@@ -212,31 +212,34 @@ public class StringTranslate {
 		if (this.dataset != null) {
 			RDFDataMgr.write(this.outputStream, this.dataset, Lang.NQUADS);
 			this.dataset.clear();
-		} else {
-			this.model.write(this.outputStream, this.lang);
 		}
+		this.model.write(this.outputStream, this.lang);
 		this.model.removeAll();
 	}
 
 	private Resource toNdFluents(final Statement triple) {
 
-		// Create NdFluents triples
-		Property property;
-		Resource resource;
+		// Create Provenance Parts
+		Property property = null;
+		Resource subject = null, object = null;
 		property = this.model.getProperty(getMetadataUri(PROPERTY_PROVENANCE_PART_OF));
-		resource = this.model.createResource(createSequentialName(triple.getSubject().getURI()), this.model.getResource(createUri(NAMESPACE_NDFLUENTS, CLASS_PROVENANCE_PART)));
-		resource.addProperty(property, triple.getSubject());
+		subject = this.model.createResource(createSequentialName(triple.getSubject().getURI()), this.model.getResource(createUri(NAMESPACE_NDFLUENTS, CLASS_PROVENANCE_PART)));
+		subject.addProperty(property, triple.getSubject());
 		if (triple.getObject().isResource()) {
-			resource = this.model.createResource(createSequentialName(triple.getObject().asResource().getURI()), this.model.getResource(createUri(NAMESPACE_NDFLUENTS, CLASS_PROVENANCE_PART)));
-			resource.addProperty(property, triple.getObject());
+			object = this.model.createResource(createSequentialName(triple.getObject().asResource().getURI()), this.model.getResource(createUri(NAMESPACE_NDFLUENTS, CLASS_PROVENANCE_PART)));
+			object.addProperty(property, triple.getObject());
 		}
 
+		// Create Provenance Extent, linking the Provenance Part(s)s, and creating the triple for the Provenance Part(s)
 		property = this.model.getProperty(getMetadataUri(PROPERTY_PROVENANCE_EXTENT));
 		// resource = model.createResource(UriNell.createAnchorUri(UriNell.RESOURCE_BELIEF, belief.isCandidate()), model.getResource(UriNell.CLASS_BELIEF));
-		resource = this.model.createResource(createAnchorUri(triple));
-		triple.getSubject().addProperty(property, resource);
-		if (triple.getObject().isResource()) {
-			triple.getObject().asResource().addProperty(property, resource);
+		final Resource resource = this.model.createResource(createAnchorUri(triple));
+		subject.addProperty(property, resource);
+		if (object != null) {
+			object.asResource().addProperty(property, resource);
+			subject.addProperty(triple.getPredicate(), object);
+		} else {
+			subject.addProperty(triple.getPredicate(), triple.getObject());
 		}
 
 		return resource;
