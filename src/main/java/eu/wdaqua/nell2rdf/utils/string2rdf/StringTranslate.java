@@ -223,10 +223,10 @@ public class StringTranslate {
 		Property property = null;
 		Resource subject = null, object = null;
 		property = this.model.getProperty(getMetadataUri(PROPERTY_PROVENANCE_PART_OF));
-		subject = this.model.createResource(createSequentialName(triple.getSubject().getURI()), this.model.getResource(createUri(NAMESPACE_NDFLUENTS, CLASS_PROVENANCE_PART)));
+		subject = this.model.createResource(createSequentialName(triple.getSubject().getURI()), this.model.getResource(getMetadataUri(CLASS_PROVENANCE_PART)));
 		subject.addProperty(property, triple.getSubject());
 		if (triple.getObject().isResource()) {
-			object = this.model.createResource(createSequentialName(triple.getObject().asResource().getURI()), this.model.getResource(createUri(NAMESPACE_NDFLUENTS, CLASS_PROVENANCE_PART)));
+			object = this.model.createResource(createSequentialName(triple.getObject().asResource().getURI()), this.model.getResource(getMetadataUri(CLASS_PROVENANCE_PART)));
 			object.addProperty(property, triple.getObject());
 		}
 

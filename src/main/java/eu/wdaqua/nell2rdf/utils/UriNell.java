@@ -163,8 +163,9 @@ public class UriNell {
 	public static final String			CLASS_LINK								= "ExternalLink";
 	public static final String			PROPERTY_GENERATED_AT_TIME				= "generatedAtTime";
 
-	public static final String			NAMESPACE_NDFLUENTS						= "http://www.emse.fr/~zimmermann/Ontologies/ndfluents.ttl#";
-	public static final String			CLASS_PROVENANCE_PART					= NAMESPACE_NDFLUENTS + "ContextualPart";
+	// Using own namespace for provenance class, the ontology should describe it as subclass od ndfluents:ContectualPart
+	//	public static final String		NAMESPACE_NDFLUENTS						= "http://www.emse.fr/~zimmermann/Ontologies/ndfluents.ttl#";
+	public static final String			CLASS_PROVENANCE_PART					= "ProvenancePart";
 
 	public static final String			NAMESPACE_SINGLETON_PROPERTY			= "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 	public static final String			SINGLETON_PROPERTY_OF					= NAMESPACE_SINGLETON_PROPERTY + "singletonPropertyOf";
